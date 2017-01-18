@@ -1,2 +1,2 @@
 # kernels
-CPE 309 Project
+CPE 309 Project: Scheduling software for department courses
