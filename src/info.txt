@@ -1,0 +1,5 @@
+This folder will store all code.
+
+Organization will follow the three-tier application development model.
+
+See the wikipedia page for more details: https://en.wikipedia.org/wiki/Multitier_architecture

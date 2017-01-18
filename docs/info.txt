@@ -1,0 +1,5 @@
+This folder is for storing non-code documents. 
+This includes milestones and reports.
+
+Organization mirrors our google drive.
+Google drive works better for editing.
