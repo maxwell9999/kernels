@@ -103,7 +103,7 @@ public class ClassPreferencesView extends Application {
     label.setFont(new Font("Arial", 20));
     Label noteSection = new Label("Notes:");
 
-    TextArea textArea = new TextArea();
+    final TextArea textArea = new TextArea();
     textArea.setPrefHeight(100);
 
     Button button = new Button();
