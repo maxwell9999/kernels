@@ -1,17 +1,15 @@
-import java.lang.*;
+package org.kernels.schedulr;
+
 import java.util.*;
-import javafx.application.Application;
-import javafx.beans.InvalidationListener;
+import javafx.application.*;
 import javafx.beans.Observable;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-import javafx.beans.value.*;
 import javafx.collections.*;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.*;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.*;
@@ -20,19 +18,21 @@ import javafx.scene.text.*;
 import javafx.stage.Stage;
 import javafx.util.*;
 
-
 /**
  * UI for allowing Faculty Member's to pick their preferences.
  * @author sarahpadlipsky
  * @version February 1, 2017
  */
-
-public class ClassPreferencesView extends Application {
+public class ClassPreferencesView extends Application{
 
   // TableView aka Spreadsheet for the view.
   private TableView<Course> tableView;
   // List of all the courses.
-  public ObservableList<Course> CourseData ;
+  public ObservableList<Course> CourseData;
+  
+//  public static void main(String[] args) {
+//	    launch(args);
+//  }	
   
   @Override
   public void start(Stage primaryStage) {
@@ -75,7 +75,6 @@ public class ClassPreferencesView extends Application {
     // Makes data observable.
     this.CourseData = FXCollections.observableArrayList(new Callback<Course, Observable[]>() {
 
-        @Override
         public Observable[] call(Course param) {
             return new Observable[] {param.ableToTeachProperty()};
         }
@@ -112,8 +111,8 @@ public class ClassPreferencesView extends Application {
     // Set listener for Save button.
     // TODO: Store this information in database.
     button.setOnAction(new EventHandler<ActionEvent>() {
-      @Override
-      public void handle(ActionEvent event) {
+
+    public void handle(ActionEvent event) {
         for (Course course : CourseData) {
           System.out.println(course.getCourse() + "- Able: " + course.isAbleToChecked() + " - Want: " + course.isWantToChecked());
         }
@@ -141,10 +140,6 @@ public class ClassPreferencesView extends Application {
     primaryStage.setScene(scene);
     primaryStage.show();
 
-  }
-
-  public static void main(String[] args) {
-    launch(args);
   }
 
   // TODO: This will interact with Course made by back-end folks.
