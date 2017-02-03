@@ -1,31 +1,27 @@
 package org.kernels.schedulr.accounts;
 
-import java.sql.DriverManager;
 import java.sql.ResultSet;
-
 import org.mindrot.jbcrypt.BCrypt;
-
-import com.mysql.jdbc.Connection;
-import com.mysql.jdbc.Statement;
+import Database.DatabaseCommunicator;
 
 public class UserAuthenticator {
 	
-	Statement stmt;
 	ResultSet rs;
 	
-	
-	public boolean checkPassword(String username, String pass)
+	public String checkPassword(String username, String pass)
 	{
 		String hashed = null;
-		
-		
-		
-		//get hashed password from database using username
-		
-		
-		
-		
-		return BCrypt.checkpw(pass, hashed);
+		rs = DatabaseCommunicator.queryDatabase("SELECT password FROM users WHERE username=" + username + ";");
+		try {
+			hashed = rs.getString(0);
+			if (BCrypt.checkpw(pass, hashed)) {
+				rs = DatabaseCommunicator.queryDatabase("SELECT role FROM users WHERE username=" + username + ";");
+				return rs.getString(0);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 }
