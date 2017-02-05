@@ -22,9 +22,6 @@ public class UserAuthenticator {
 		
 		//get hashed password from database using username
 		
-		
-		
-		
 		return BCrypt.checkpw(pass, hashed);
 	}
 
