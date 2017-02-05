@@ -4,6 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
+import org.kernels.schedulr.accounts.UserAuthenticator;
 import org.slf4j.*;
 
 /**
@@ -19,6 +20,13 @@ public class LoginViewController {
     @FXML private TextField passwordField;
     @FXML private Button facultyLoginButton;
     
+    private UserAuthenticator auth;
+    
+    
+    public LoginViewController()
+    {
+    	auth = new UserAuthenticator();
+    }
     /**
      * onAction button for faculty login.
      * @param event Necessary field for onAction events.
@@ -29,6 +37,7 @@ public class LoginViewController {
     	String userName = usernameField.getText();
     	String password = passwordField.getText();
         System.out.println("Username is " + userName + ", password is " + password);
+        System.out.println(auth.checkPassword(userName, password));
     }
     
     /**
