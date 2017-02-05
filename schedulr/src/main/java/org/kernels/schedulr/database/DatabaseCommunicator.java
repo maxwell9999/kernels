@@ -1,4 +1,5 @@
-package Database;
+package org.kernels.schedulr.database;
+
 import java.sql.DriverManager;
 import java.util.*;
 import java.sql.ResultSet;

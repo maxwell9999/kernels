@@ -1,10 +1,8 @@
 package org.kernels.schedulr.accounts;
 
 import java.util.*;
-
 import org.mindrot.jbcrypt.BCrypt;
-
-import Database.DatabaseCommunicator;
+import org.kernels.schedulr.database.*;
 
 public class UserAuthenticator {
 	
