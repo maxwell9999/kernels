@@ -1,27 +1,30 @@
 package org.kernels.schedulr.accounts;
 
-import java.sql.ResultSet;
+import java.util.*;
+
 import org.mindrot.jbcrypt.BCrypt;
+
 import Database.DatabaseCommunicator;
 
 public class UserAuthenticator {
 	
-	ResultSet rs;
+	List<HashMap<String, Object>> result;
 	
-	public String checkPassword(String username, String pass)
+	public Integer checkPassword(String username, String pass)
 	{
 		String hashed = null;
-		rs = DatabaseCommunicator.queryDatabase("SELECT password FROM users WHERE username=" + username + ";");
+		int role = -1;
+		result = DatabaseCommunicator.queryDatabase("SELECT pass_hash FROM users WHERE login='" + username + "';");
 		try {	
-			hashed = rs.getString(0);
+			hashed = (String) result.get(0).get("pass_hash");
 			if (BCrypt.checkpw(pass, hashed)) {
-				rs = DatabaseCommunicator.queryDatabase("SELECT role FROM users WHERE username=" + username + ";");
-				return rs.getString(0);
+				result = DatabaseCommunicator.queryDatabase("SELECT role FROM users WHERE login='" + username + "';");
+				role = (Integer) result.get(0).get("role");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return null;
+		return role;
 	}
 
 }
