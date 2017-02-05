@@ -50,5 +50,29 @@ public abstract class User {
 		
 		//Push hashedPW to database
 	}
+	
+	public void addUser(int EmplID, String name, String phoneNumber, String office)
+	{
+		
+	}
+	
+	public void editUser(String change)
+	{
+		
+	}
+	
+	public void removeUser(String EmplID)
+	{
+		
+	}
+	public void changeRole(String EmplID, String role)
+	{
+		
+	}
+	public void changeUserName(String name)
+	{
+		
+	}
 
+	
 }
