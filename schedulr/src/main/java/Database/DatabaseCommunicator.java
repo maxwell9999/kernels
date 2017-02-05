@@ -17,10 +17,10 @@ public class DatabaseCommunicator
 		if(connection != null)
 		{
 			try {
-			stmt = (Statement) connection.createStatement();
-			rs = stmt.executeQuery(query);
-			stmt.close();
-			connection.close();
+				stmt = (Statement) connection.createStatement();
+				rs = stmt.executeQuery(query);
+				stmt.close();
+				connection.close();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

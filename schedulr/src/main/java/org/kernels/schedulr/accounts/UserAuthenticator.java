@@ -12,7 +12,7 @@ public class UserAuthenticator {
 	{
 		String hashed = null;
 		rs = DatabaseCommunicator.queryDatabase("SELECT password FROM users WHERE username=" + username + ";");
-		try {
+		try {	
 			hashed = rs.getString(0);
 			if (BCrypt.checkpw(pass, hashed)) {
 				rs = DatabaseCommunicator.queryDatabase("SELECT role FROM users WHERE username=" + username + ";");
