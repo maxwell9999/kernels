@@ -16,16 +16,12 @@ public class App extends Application
         
        // To launch Login Page.
     	launch(args);
-    	
-    	
-   
-
     }
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		Parent root = FXMLLoader.load(getClass().getResource("LoginView.fxml"));
-        Scene scene = new Scene(root, 600, 600);
+		Parent root = FXMLLoader.load(getClass().getResource("AddAccountView.fxml"));
+        Scene scene = new Scene(root, 600, 400);
         primaryStage.setScene(scene);
         primaryStage.show();
 	}
