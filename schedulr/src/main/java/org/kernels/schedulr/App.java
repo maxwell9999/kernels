@@ -24,9 +24,8 @@ public class App extends Application
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		FXMLLoader loader = new FXMLLoader();
-        Parent parent = (Parent) loader.load(getClass().getResourceAsStream("LoginView.fxml"));
-        Scene scene = new Scene(parent, 600, 600);
+		Parent root = FXMLLoader.load(getClass().getResource("LoginView.fxml"));
+        Scene scene = new Scene(root, 600, 600);
         primaryStage.setScene(scene);
         primaryStage.show();
 	}
