@@ -5,6 +5,12 @@ import org.mindrot.jbcrypt.*;
 
 public class AccountManager
 {
+	/*
+	 *  am.addUser("test", 12345, "Craig", "Yeti", "cyeti@hotmail.com", "", 1);
+		am.editUser("test", "office_location", "10-412");
+		am.removeUser("test");
+	 */
+	
 	public void addUser(String username, int emplID, String first, String last, String email, String office, int role)
 	{
 		String hashed = BCrypt.hashpw(emplID + "", BCrypt.gensalt());

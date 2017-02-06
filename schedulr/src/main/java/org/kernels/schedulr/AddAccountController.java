@@ -7,6 +7,7 @@ import javafx.scene.control.*;
 
 import java.util.ArrayList;
 
+import org.kernels.schedulr.accounts.AccountManager;
 import org.slf4j.*;
 
 /**
@@ -26,6 +27,13 @@ public class AddAccountController {
     @FXML private TextField office;
     @FXML private CheckBox checkbox;
     @FXML private Label errorMessage;
+    
+    private AccountManager account;
+    
+    public AddAccountController()
+    {
+    	account = new AccountManager();
+    }
 
     /**
      * onAction button for saving new account.
@@ -43,20 +51,18 @@ public class AddAccountController {
     	String officeString = office.getText();
     	Boolean scheduler = checkbox.isSelected();
     	
-    	if (userNameString.equals("") || employeeIDString.equals("") || emailString.equals("") || firstNameString.equals("") || lastNameString.equals("")) {
+    	if (userNameString.equals("") || employeeIDString.equals("") || 
+    			emailString.equals("") || firstNameString.equals("") || lastNameString.equals("")) {
     		error = true;
     	}
     	
     	if (!error) {
     		// Do database saving of account.
     		errorMessage.setText("");
-    		System.out.println("Username is " + userNameString);
-            System.out.println("EmployeeID is " + employeeIDString); 
-            System.out.println("First Name" + firstNameString);
-            System.out.println("Last Name is " + lastNameString);
-            System.out.println("Email is " + emailString);
-            System.out.println("Office is " + officeString);
-            System.out.println("Department Scheduler? " + scheduler);
+            int role = scheduler ? 1 : 0;
+            
+            account.addUser(userNameString, Integer.parseInt(employeeIDString), 
+            		firstNameString, lastNameString, emailString, officeString, role);
     		
     	} else {
     		// There was an error.
