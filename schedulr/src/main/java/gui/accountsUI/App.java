@@ -1,4 +1,4 @@
-package org.kernels.schedulr;
+package gui.accountsUI;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -16,16 +16,14 @@ public class App extends Application
         
        // To launch Login Page.
     	launch(args);
-    	
-    	
-   
-
     }
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
+		System.out.println(getClass());
+		System.out.println(getClass().getResource("LoginView.fxml"));
 		Parent root = FXMLLoader.load(getClass().getResource("LoginView.fxml"));
-        Scene scene = new Scene(root, 600, 600);
+        Scene scene = new Scene(root, 600, 400);
         primaryStage.setScene(scene);
         primaryStage.show();
 	}

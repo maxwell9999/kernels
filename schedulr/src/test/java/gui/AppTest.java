@@ -1,4 +1,4 @@
-package org.kernels.schedulr;
+package gui;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
