@@ -1,6 +1,6 @@
-package org.kernels.schedulr.accounts;
+package core.accounts;
 
-import org.kernels.schedulr.database.*;
+import core.database.*;
 import org.mindrot.jbcrypt.*;
 
 public class AccountManager
@@ -28,5 +28,13 @@ public class AccountManager
 	public void editUser(String username, String column, String newValue)
 	{
 		DatabaseCommunicator.updateDatabase("users", column + "='" + newValue + "'", "login='" + username + "'");
+	}
+	
+	public void resetPassword(String username, String newPass)
+	{
+		String hashed = BCrypt.hashpw(newPass, BCrypt.gensalt());
+		editUser(username, "pass_hash", hashed);
+		DatabaseCommunicator.updateDatabase("users", "reset_password=0", "login='" + username + "'");
+
 	}
 }

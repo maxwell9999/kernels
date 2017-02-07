@@ -1,4 +1,4 @@
-package org.kernels.schedulr;
+package gui.accountsUI;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -7,7 +7,7 @@ import javafx.scene.control.*;
 
 import java.util.ArrayList;
 
-import org.kernels.schedulr.accounts.AccountManager;
+import core.accounts.AccountManager;
 import org.slf4j.*;
 
 /**

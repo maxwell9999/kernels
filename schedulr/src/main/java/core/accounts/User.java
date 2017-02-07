@@ -1,7 +1,7 @@
-package org.kernels.schedulr.accounts;
+package core.accounts;
 
 import org.mindrot.jbcrypt.BCrypt;
-import org.kernels.schedulr.database.*;
+import core.database.*;
 
 
 public abstract class User {

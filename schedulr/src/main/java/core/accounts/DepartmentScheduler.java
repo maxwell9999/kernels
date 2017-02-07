@@ -1,4 +1,4 @@
-package org.kernels.schedulr.accounts;
+package core.accounts;
 
 public class DepartmentScheduler {
 

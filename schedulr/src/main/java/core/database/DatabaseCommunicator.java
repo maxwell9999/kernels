@@ -1,4 +1,4 @@
-package org.kernels.schedulr.database;
+package core.database;
 
 import java.sql.DriverManager;
 import java.util.*;
