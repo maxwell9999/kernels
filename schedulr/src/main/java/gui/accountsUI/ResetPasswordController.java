@@ -12,7 +12,7 @@ import javafx.stage.Stage;
 /**
  * UI for password reset.
  * @author sarahpadlipsky
- * @version February 2, 2017
+ * @version February 8, 2017
  */
 public class ResetPasswordController {
 
@@ -21,6 +21,11 @@ public class ResetPasswordController {
     @FXML private Button saveButton;
     @FXML private Label errorLabel;
     
+    /**
+     * onAction button for saving new password.
+     * @param event Necessary field for onAction events.
+     * @throws IOException 
+     */
     @FXML
     private void saveButton(ActionEvent event) throws IOException
     {

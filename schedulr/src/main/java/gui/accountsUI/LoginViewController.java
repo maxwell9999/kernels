@@ -63,7 +63,6 @@ public class LoginViewController {
         	{
         		String fxmlFile = "ResetPasswordView.fxml";
         		Stage stage = new Stage();
-        		stage.setTitle("Shop Management");
         		Pane myPane = null;
         		myPane = FXMLLoader.load(getClass().getResource(fxmlFile));
         		Scene scene = new Scene(myPane);
