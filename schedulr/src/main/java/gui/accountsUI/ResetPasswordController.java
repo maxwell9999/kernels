@@ -4,7 +4,10 @@ import java.io.IOException;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
+import javafx.stage.Window;
 
 /**
  * UI for password reset.
@@ -15,6 +18,7 @@ public class ResetPasswordController {
 
 	@FXML private TextField passwordField;
     @FXML private TextField confirmField;
+    @FXML private Button saveButton;
     
     @FXML
     private void saveButton(ActionEvent event) throws IOException
@@ -24,5 +28,11 @@ public class ResetPasswordController {
     	String confirmed = confirmField.getText();
     	System.out.println("Password is " + password);
     	System.out.println("Confirmed is " + confirmed);
+    	
+    	Stage stage = (Stage) saveButton.getScene().getWindow();
+        // do what you have to do
+        stage.close();
+    	
+    	
     }
 }
