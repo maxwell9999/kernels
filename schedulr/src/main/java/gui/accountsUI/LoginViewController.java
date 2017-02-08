@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -27,6 +28,7 @@ public class LoginViewController {
     @FXML private TextField usernameField;
     @FXML private TextField passwordField;
     @FXML private Button facultyLoginButton;
+    @FXML private Label errorLabel;
     
     private UserAuthenticator auth;
     
@@ -51,7 +53,8 @@ public class LoginViewController {
         //FAILED
         if (login.get(0).get("login") == null)
         {
-        	
+        	errorLabel.setText("Username and Password do not match.");
+        	passwordField.setText("");
         }
         else
         {
@@ -67,6 +70,7 @@ public class LoginViewController {
         		stage.setScene(scene);
         		stage.show();
         	}
+        	errorLabel.setText("");
         	System.out.println("User: " + login.get(0).get("login"));
         	System.out.println("Reset: " + login.get(0).get("reset_password"));
         }
