@@ -49,4 +49,26 @@ public class AccountManagerTest extends TestCase{
 		list = DatabaseCommunicator.queryDatabase("SELECT empl_id FROM users WHERE login='Test_User';");
 		assertEquals("Testing User Removal", 0, list.size());
 	}
+	
+	@Test
+	public void testGetUserList()
+	{
+		AccountManager acctMan= new AccountManager();
+		List<HashMap<String, Object>> userList = acctMan.getUserList();
+		int numUsers = userList.size();
+		assertNotNull("Testing that list exists", userList);
+		
+		
+		acctMan.addUser("Test_User1", 99999, "Test", "AAAAA", "testUser@gmail.com", "", 1);
+		acctMan.addUser("Test_User2", 99999, "Test", "ZZZZZ", "testUser@gmail.com", "", 1);
+		userList = acctMan.getUserList();
+		assertEquals("Testing number of users", numUsers + 2, userList.size());
+		assertEquals("Testing first user sorted", "Test_User1", userList.get(0).get("login"));
+		assertEquals("Testing last user sorted", "Test_User2", userList.get(userList.size() - 1).get("login"));
+		
+		acctMan.removeUser("Test_User1");
+		acctMan.removeUser("Test_User2");
+		userList = acctMan.getUserList();
+		assertEquals("Testing number of users", numUsers, userList.size());
+	}
 }
