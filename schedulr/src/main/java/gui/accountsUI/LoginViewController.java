@@ -1,12 +1,16 @@
 package gui.accountsUI;
 
+import java.io.IOException;
 import java.util.*;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-
+import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 import core.accounts.UserAuthenticator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,9 +38,10 @@ public class LoginViewController {
     /**
      * onAction button for faculty login.
      * @param event Necessary field for onAction events.
+     * @throws IOException 
      */
     @FXML
-    private void facultyLoginAction(ActionEvent event)
+    private void facultyLoginAction(ActionEvent event) throws IOException
     {
     	String userName = usernameField.getText();
     	String password = passwordField.getText();
@@ -53,7 +58,14 @@ public class LoginViewController {
         	//RESET PASSWORD
         	if ((Integer) login.get(0).get("reset_password") == 1)
         	{
-        		
+        		String fxmlFile = "ResetPasswordView.fxml";
+        		Stage stage = new Stage();
+        		stage.setTitle("Shop Management");
+        		Pane myPane = null;
+        		myPane = FXMLLoader.load(getClass().getResource(fxmlFile));
+        		Scene scene = new Scene(myPane);
+        		stage.setScene(scene);
+        		stage.show();
         	}
         	System.out.println("User: " + login.get(0).get("login"));
         	System.out.println("Reset: " + login.get(0).get("reset_password"));
