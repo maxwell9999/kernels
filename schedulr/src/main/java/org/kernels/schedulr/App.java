@@ -11,17 +11,13 @@ public class App extends Application
 {
     public static void main( String[] args )
     {
-//    	// To launch ClassPreferencesView.
-//        Application.launch(ClassPreferencesView.class, args);
-        
-       // To launch Login Page.
     	launch(args);
     }
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		Parent root = FXMLLoader.load(getClass().getResource("AddAccountView.fxml"));
-        Scene scene = new Scene(root, 600, 400);
+		Parent root = FXMLLoader.load(getClass().getResource("resources.fxml"));
+        Scene scene = new Scene(root, 620, 525);
         primaryStage.setScene(scene);
         primaryStage.show();
 	}
