@@ -23,7 +23,7 @@ public class App extends Application
 		System.out.println(getClass());
 		System.out.println(getClass().getResource("LoginView.fxml"));
 		Parent root = FXMLLoader.load(getClass().getResource("LoginView.fxml"));
-        Scene scene = new Scene(root, 600, 400);
+        Scene scene = new Scene(root, 600, 500);
         primaryStage.setScene(scene);
         primaryStage.show();
 	}
