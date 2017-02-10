@@ -24,10 +24,11 @@ public class ResourceManager
 	/**
      * Query method to add new room to database
      */
-	public void addRoom(int building, int number, int capacity, String notes, String equipment)
+	public static void addRoom(int building, int number, int capacity, String type, String notes, String equipment)
 	{
-		String fieldString = "building, number, capacity, notes, equipment";
-		String valueString = building + ", " + number + ", " + capacity + ", '" + notes + "', '" + equipment + "'" ;
+		String fieldString = "building, number, capacity, type, notes, equipment";
+		String valueString = building + ", " + number + ", " + capacity + ", '" + type + "', '" + 
+				notes + "', '" + equipment + "'" ;
 		
 		DatabaseCommunicator.insertDatabase("rooms", fieldString, valueString);
 	}
@@ -35,15 +36,35 @@ public class ResourceManager
 	/**
      * Query method to remove room from database
      */
-	public void removeRoom(String resourceName, int building, int room)
+	public static void removeRoom(int building, int number)
 	{
-		DatabaseCommunicator.deleteDatabase("rooms", "building=" + building + " AND room=" + room + ";");
+		DatabaseCommunicator.deleteDatabase("rooms", "building=" + building + " AND number=" + number + ";");
+	}
+	
+	/**
+     * Query method to add new course to database
+     */
+	public static void addCourse(String department, int number, String name, int units, int hours, int includesLab, String notes)
+	{
+		String fieldString = "department, number, name, units, hours, include_lab, notes";
+		String valueString = "'" + department + "', " + number + ", '" + name + "', " + units + ", " + 
+				hours + ", " + includesLab + ", " + notes;
+		
+		DatabaseCommunicator.insertDatabase("courses", fieldString, valueString);
+	}
+	
+	/**
+     * Query method to remove course from database
+     */
+	public static void removeCourse(String department, int number)
+	{
+		DatabaseCommunicator.deleteDatabase("courses", "department='" + department + "' AND number=" + number + ";");
 	}
 	
 	/**
      * Query method to edit existing Resource information
      */
-	public void editResource(String table, String resourcename, String column, String newValue)
+	public static void editResource(String table, String resourcename, String column, String newValue)
 	{
 		DatabaseCommunicator.updateDatabase(table, column + "='" + newValue + "'", "login='" + resourcename + "'");
 	}

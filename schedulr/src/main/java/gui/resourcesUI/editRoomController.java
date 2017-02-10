@@ -10,6 +10,8 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextArea;
 
+import core.resources.ResourceManager;
+
 public class editRoomController {
 	@FXML private Button confirm;
 	@FXML private ChoiceBox roomType;
@@ -26,12 +28,17 @@ public class editRoomController {
 	@FXML
     private void handleButtonClick(ActionEvent event) {
         if (event.getSource() == confirm) {
-        	System.out.println("Building Number: " + buildingNumber.getText());
-        	System.out.println("Room Number: " + roomNumber.getText());
-        	System.out.println("Capacity: " + capacity.getText());
-        	System.out.println("Room Type: " + roomType.getValue().toString());
-        	System.out.println("Equipment: " + equipment.getText());
-        	System.out.println("Notes: " + notes.getText());
+        	int buildingInt = Integer.parseInt(buildingNumber.getText());
+        	int roomInt = Integer.parseInt(roomNumber.getText());
+        	int capacityInt = Integer.parseInt(capacity.getText());
+        	String roomTypeString = roomType.getValue().toString();
+        	String equipmentString = equipment.getText();
+        	String notesString = notes.getText();
+        	
+        	//TODO make sure that the room does not already exist 
+        	ResourceManager.addRoom(buildingInt, roomInt, capacityInt, roomTypeString,
+        			notesString, equipmentString);
+        	
         	Stage stage = (Stage)confirm.getScene().getWindow();
         	stage.close();
         }

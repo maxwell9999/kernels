@@ -2,6 +2,7 @@ package gui.resourcesUI;
 
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import core.resources.ResourceManager;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -27,13 +28,18 @@ public class editCourseController {
 	@FXML
     private void handleButtonClick(ActionEvent event) {
         if (event.getSource() == confirm) {
-        	System.out.println("Department: " + department.getValue().toString());
-        	System.out.println("Course Number: " + courseNumber.getText());
-        	System.out.println("Course Title: " + courseTitle.getText());
-        	System.out.println("Units: " + units.getText());
-        	System.out.println("Hours: " + hours.getText());
-        	System.out.println("Includes Lab?: " + includesLab.isSelected());
-        	System.out.println("Notes: " + notes.getText());
+        	String departmentString = department.getValue().toString();
+        	int courseNum = Integer.parseInt(courseNumber.getText());
+        	String courseName = courseTitle.getText();
+        	int unitsInt = Integer.parseInt(units.getText());
+        	int hoursInt = Integer.parseInt(hours.getText());
+        	boolean includeLab = includesLab.isSelected();
+        	String notesString = notes.getText();
+        	
+        	// TODO check that the course does not already exist
+        	ResourceManager.addCourse(departmentString, courseNum, courseName, unitsInt, hoursInt, 
+        			includeLab ? 1 : 0, (notesString.equals("")) ? "null" : notesString);
+        	
         	Stage stage = (Stage)confirm.getScene().getWindow();
         	stage.close();
         }

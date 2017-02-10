@@ -30,40 +30,48 @@ public class ResourceController {
 	@FXML
     private void handleButtonClick(ActionEvent event) {
         if (event.getSource() == addNewCourse) {
-        	// Edit courses popup
-        	FXMLLoader loader = new FXMLLoader(getClass().getResource("editcourse.fxml"));
-            Scene newScene;
-            try {
-                newScene = new Scene((Parent) loader.load());
-            } catch (IOException ex) {
-                System.out.println(ex);
-                ex.printStackTrace();
-                return;
-            }
-
-            Stage primaryStage = (Stage) addNewCourse.getScene().getWindow();
-            Stage inputStage = new Stage();
-            inputStage.initOwner(primaryStage);
-            inputStage.setScene(newScene);
-            inputStage.showAndWait();
+        	addNewCourse(); 
         }
         else if (event.getSource() == addNewRoom) {
-        	// Edit room popup
-        	FXMLLoader loader = new FXMLLoader(getClass().getResource("editroom.fxml"));
-            Scene newScene;
-            try {
-                newScene = new Scene((Parent)loader.load());
-            } catch (IOException ex) {
-            	System.out.println(ex);
-            	ex.printStackTrace();
-                return;
-            }
-
-            Stage primaryStage = (Stage) addNewCourse.getScene().getWindow();
-            Stage inputStage = new Stage();
-            inputStage.initOwner(primaryStage);
-            inputStage.setScene(newScene);
-            inputStage.showAndWait();
+        	addNewRoom(); 
         }
     }
+	
+	private void addNewCourse() {
+		// Edit courses popup
+    	FXMLLoader loader = new FXMLLoader(getClass().getResource("editcourse.fxml"));
+        Scene newScene;
+        try {
+            newScene = new Scene((Parent) loader.load());
+        } catch (IOException ex) {
+            System.out.println(ex);
+            ex.printStackTrace();
+            return;
+        }
+
+        Stage primaryStage = (Stage) addNewCourse.getScene().getWindow();
+        Stage inputStage = new Stage();
+        inputStage.initOwner(primaryStage);
+        inputStage.setScene(newScene);
+        inputStage.showAndWait();
+	}
+	
+	private void addNewRoom() {
+		// Edit room popup
+    	FXMLLoader loader = new FXMLLoader(getClass().getResource("editroom.fxml"));
+        Scene newScene;
+        try {
+            newScene = new Scene((Parent)loader.load());
+        } catch (IOException ex) {
+        	System.out.println(ex);
+        	ex.printStackTrace();
+            return;
+        }
+
+        Stage primaryStage = (Stage) addNewCourse.getScene().getWindow();
+        Stage inputStage = new Stage();
+        inputStage.initOwner(primaryStage);
+        inputStage.setScene(newScene);
+        inputStage.showAndWait();
+	}
 }
