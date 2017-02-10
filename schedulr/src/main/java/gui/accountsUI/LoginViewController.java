@@ -45,13 +45,14 @@ public class LoginViewController {
     @FXML
     private void facultyLoginAction(ActionEvent event) throws IOException
     {
-    	String userName = usernameField.getText();
-    	String password = passwordField.getText();
-        System.out.println("Username is " + userName + ", password is " + password);
-        List<HashMap<String, Object>> login = auth.checkPassword(userName, password);
-        
+		String userName = usernameField.getText();
+		String password = passwordField.getText();
+		System.out.println("Username is " + userName + ", password is " + password);
+
+    	List<HashMap<String, Object>> login = auth.checkPassword(userName, password);
+    
         //FAILED
-        if (login.get(0).get("login") == null)
+        if (login == null || login.get(0).get("login") == null)
         {
         	errorLabel.setText("Username and Password do not match.");
         	passwordField.setText("");
@@ -73,8 +74,9 @@ public class LoginViewController {
         	System.out.println("User: " + login.get(0).get("login"));
         	System.out.println("Reset: " + login.get(0).get("reset_password"));
         }
-        
     }
+        
+    
     
     /**
      * Continue button for student login.
