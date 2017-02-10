@@ -1,10 +1,15 @@
-package org.kernels.schedulr;
+package gui.accountsUI;
+
+import java.util.*;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 
-import org.slf4j.*;
+import core.accounts.UserAuthenticator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * UI for login.
@@ -19,6 +24,13 @@ public class LoginViewController {
     @FXML private TextField passwordField;
     @FXML private Button facultyLoginButton;
     
+    private UserAuthenticator auth;
+    
+    
+    public LoginViewController()
+    {
+    	auth = new UserAuthenticator();
+    }
     /**
      * onAction button for faculty login.
      * @param event Necessary field for onAction events.
@@ -29,6 +41,24 @@ public class LoginViewController {
     	String userName = usernameField.getText();
     	String password = passwordField.getText();
         System.out.println("Username is " + userName + ", password is " + password);
+        List<HashMap<String, Object>> login = auth.checkPassword(userName, password);
+        
+        //FAILED
+        if (login.get(0).get("login") == null)
+        {
+        	
+        }
+        else
+        {
+        	//RESET PASSWORD
+        	if ((Integer) login.get(0).get("reset_password") == 1)
+        	{
+        		
+        	}
+        	System.out.println("User: " + login.get(0).get("login"));
+        	System.out.println("Reset: " + login.get(0).get("reset_password"));
+        }
+        
     }
     
     /**

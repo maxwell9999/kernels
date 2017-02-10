@@ -1,4 +1,4 @@
-package org.kernels.schedulr;
+package gui.accountsUI;
 
 import java.util.*;
 import javafx.application.*;
