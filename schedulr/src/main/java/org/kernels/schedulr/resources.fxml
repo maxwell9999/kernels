@@ -7,9 +7,7 @@
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<TitledPane animated="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="525.0" prefWidth="609.0" text="Resources" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.111" fx:controller="org.kernels.schedulr.ResourceController">
-  <content>
-    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="515.0" prefWidth="609.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.111" fx:controller="org.kernels.schedulr.ResourceController">
          <children>
             <TabPane prefHeight="498.0" prefWidth="609.0" tabClosingPolicy="UNAVAILABLE">
               <tabs>
@@ -35,6 +33,5 @@
                 </Tab>
               </tabs>
             </TabPane>
-         </children></AnchorPane>
-  </content>
-</TitledPane>
+         </children>
+</AnchorPane>
