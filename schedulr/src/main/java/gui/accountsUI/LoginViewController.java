@@ -28,6 +28,7 @@ public class LoginViewController {
     @FXML private TextField usernameField;
     @FXML private TextField passwordField;
     @FXML private Button facultyLoginButton;
+    @FXML private Button studentLoginButton;
     @FXML private Label errorLabel;
     
     private UserAuthenticator auth;
@@ -62,6 +63,8 @@ public class LoginViewController {
         	//RESET PASSWORD
         	if ((Integer) login.get(0).get("reset_password") == 1)
         	{
+        		Stage currentStage = (Stage) facultyLoginButton.getScene().getWindow();
+                currentStage.close();
         		String fxmlFile = "ResetPasswordView.fxml";
         		Stage stage = new Stage();
         		Pane myPane = null;
@@ -85,7 +88,8 @@ public class LoginViewController {
     @FXML
     public void studentLoginAction(ActionEvent event)
     {
-        System.out.println("Open to new page.");
+        Stage currentStage = (Stage) studentLoginButton.getScene().getWindow();
+        currentStage.close();
     }
     
 

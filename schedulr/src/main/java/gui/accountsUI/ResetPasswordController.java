@@ -34,8 +34,10 @@ public class ResetPasswordController {
     	System.out.println("Password is " + password);
     	System.out.println("Confirmed is " + confirmed);
         
-        if (password.equals(confirmed)) {
+        if (password.equals(confirmed) /*&& isValid(password)*/) {
         	// Put database code here. 
+	        	// NEED SOMEHOW TO FETCH USER THAT IS LOGGED IN
+	        	// resetPassword(username, password);
         	// To close current window.
         	Stage stage = (Stage) saveButton.getScene().getWindow();
             stage.close();
@@ -47,6 +49,8 @@ public class ResetPasswordController {
         }
 
         // TODO(Sarah): Will also have it open another application and not go back to login screen.
+        
+        // TODO(Courtney): Create method to verify password meets requirements per documentation
     	
     }
 }
