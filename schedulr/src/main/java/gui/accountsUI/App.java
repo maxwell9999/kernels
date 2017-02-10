@@ -16,15 +16,14 @@ public class App extends Application
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-<<<<<<< HEAD:schedulr/src/main/java/gui/accountsUI/App.java
 		System.out.println(getClass());
 		System.out.println(getClass().getResource("LoginView.fxml"));
 		Parent root = FXMLLoader.load(getClass().getResource("LoginView.fxml"));
         Scene scene = new Scene(root, 600, 500);
-=======
-		Parent root = FXMLLoader.load(getClass().getResource("resources.fxml"));
-        Scene scene = new Scene(root, 609, 515);
->>>>>>> origin/dave:schedulr/src/main/java/org/kernels/schedulr/App.java
+
+		/*Parent root = FXMLLoader.load(getClass().getResource("resources.fxml"));
+        Scene scene = new Scene(root, 609, 515);*/
+
         primaryStage.setScene(scene);
         primaryStage.show();
 	}

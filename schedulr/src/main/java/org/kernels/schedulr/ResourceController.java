@@ -1,13 +1,17 @@
 package org.kernels.schedulr;
 
-import javafx.scene.control.TextField;
 import java.io.IOException;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 public class ResourceController {
@@ -30,7 +34,7 @@ public class ResourceController {
         	FXMLLoader loader = new FXMLLoader(getClass().getResource("editcourse.fxml"));
             Scene newScene;
             try {
-                newScene = new Scene(loader.load());
+                newScene = new Scene((Parent) loader.load());
             } catch (IOException ex) {
                 System.out.println(ex);
                 ex.printStackTrace();
@@ -48,7 +52,7 @@ public class ResourceController {
         	FXMLLoader loader = new FXMLLoader(getClass().getResource("editroom.fxml"));
             Scene newScene;
             try {
-                newScene = new Scene(loader.load());
+                newScene = new Scene((Parent)loader.load());
             } catch (IOException ex) {
             	System.out.println(ex);
             	ex.printStackTrace();
