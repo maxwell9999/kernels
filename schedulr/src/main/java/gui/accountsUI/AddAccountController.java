@@ -17,6 +17,8 @@ import org.slf4j.*;
  */
 public class AddAccountController {
 
+	private static final int SCHEDULER = 1; 
+	private static final int FACULTY_MEMBER = 0; 
     private static final Logger log = LoggerFactory.getLogger(AddAccountController.class);
     private boolean error = false;
     @FXML private TextField username;
@@ -59,7 +61,7 @@ public class AddAccountController {
     	if (!error) {
     		// Do database saving of account.
     		errorMessage.setText("");
-            int role = scheduler ? 1 : 0;
+            int role = scheduler ? SCHEDULER : FACULTY_MEMBER;
             
             account.addUser(userNameString, Integer.parseInt(employeeIDString), 
             		firstNameString, lastNameString, emailString, officeString, role);
