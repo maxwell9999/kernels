@@ -1,4 +1,4 @@
-package org.kernels.schedulr;
+package gui.resourcesUI;
 
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
