@@ -83,9 +83,17 @@ public class AccountManager
 		Collections.sort(userMap, new UserComparator());
 		return userMap;
 	}
-	
+	/**
+	 * User Comparator is the comparator used to compare the user's last names to put in alphabetical order.
+	 * 
+	 * @author Simko
+	 *
+	 */
     class UserComparator implements Comparator<Map<String, Object>>
     {
+    	/**
+    	 * Compares the last names, returning a negative number if the first name comes before the second.
+    	 */
     	public int compare(Map<String, Object> user1, Map<String, Object> user2) 
     	{
     		return user1.get("last_name").toString().compareTo(user2.get("last_name").toString());
