@@ -34,13 +34,21 @@ public class ResetPasswordController {
     	System.out.println("Password is " + password);
     	System.out.println("Confirmed is " + confirmed);
         
-        if (password.equals(confirmed) /*&& isValid(password)*/) {
-        	// Put database code here. 
-	        	// NEED SOMEHOW TO FETCH USER THAT IS LOGGED IN
-	        	// resetPassword(username, password);
-        	// To close current window.
-        	Stage stage = (Stage) saveButton.getScene().getWindow();
-            stage.close();
+        if (password.equals(confirmed)) {
+        	if (!isValid(password)) {
+        		errorLabel.setText("Password must be 8-16 characters and contain one uppercase character, one lowercase character, and one digit");
+        		passwordField.setText("");
+        		confirmField.setText("");
+        	}
+        	
+        	else {
+        		// Put database code here. 
+		        	// NEED SOMEHOW TO FETCH USER THAT IS LOGGED IN
+		        	// resetPassword(username, password);
+        		// To close current window.
+	        	Stage stage = (Stage) saveButton.getScene().getWindow();
+	            stage.close();
+        	}
         
         } else {
         	errorLabel.setText("Passwords do not match.");
@@ -52,5 +60,10 @@ public class ResetPasswordController {
         
         // TODO(Courtney): Create method to verify password meets requirements per documentation
     	
+    }
+    
+    public static boolean isValid(String password) {
+    	return (password.length() >= 8 && password.length() <= 16 && password.matches(".*\\d.*")
+    			&& password.matches(".*[A-Z].*") && password.matches(".*[a-z].*")); 
     }
 }

@@ -50,7 +50,6 @@ public class DatabaseCommunicator
 	public static void insertDatabase(String tableName, String fieldString, String valueString)
 	{
 		String insert = "INSERT INTO " + tableName + "(" + fieldString + ") VALUES (" + valueString + ");";
-		System.out.println(insert);
 		databaseAction(insert);
 	}
 	

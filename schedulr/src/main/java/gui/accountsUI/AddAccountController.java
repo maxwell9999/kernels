@@ -63,6 +63,7 @@ public class AddAccountController {
     		errorMessage.setText("");
             int role = scheduler ? SCHEDULER : FACULTY_MEMBER;
             
+            //TODO make sure user does not already exist
             account.addUser(userNameString, Integer.parseInt(employeeIDString), 
             		firstNameString, lastNameString, emailString, officeString, role);
     		

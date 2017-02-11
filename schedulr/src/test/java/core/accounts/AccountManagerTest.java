@@ -3,11 +3,12 @@ package core.accounts;
 import java.util.HashMap;
 import java.util.List;
 
-import junit.framework.TestCase;
-
 import org.junit.Test;
-import core.database.DatabaseCommunicator;
 import org.mindrot.jbcrypt.BCrypt;
+
+import core.database.DatabaseCommunicator;
+import gui.accountsUI.ResetPasswordController;
+import junit.framework.TestCase;
 
 public class AccountManagerTest extends TestCase{
 
@@ -70,5 +71,13 @@ public class AccountManagerTest extends TestCase{
 		acctMan.removeUser("Test_User2");
 		userList = acctMan.getUserList();
 		assertEquals("Testing number of users", numUsers, userList.size());
+	}
+	
+	public void testValidPassword() {
+		assertFalse("Testing valid password (cow)...", ResetPasswordController.isValid("cow")); 
+		assertTrue("Testing valid password (TestPassword1)...", ResetPasswordController.isValid("TestPassword1")); 
+		assertFalse("Testing valid password (testpassword1)...", ResetPasswordController.isValid("testpassword1")); 
+		assertFalse("Testing valid password (TESTPASSWORD123)...", ResetPasswordController.isValid("TESTPASSWORD123"));  
+		assertFalse("Testing valid password (aReaLLyLongPassword1234567890)...", ResetPasswordController.isValid("aReaLLyLongPassword1234567890")); 
 	}
 }
