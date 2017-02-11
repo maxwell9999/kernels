@@ -22,7 +22,7 @@ public class AccountManager
      * @param office office location of user (building-room)
      * @param role denotes user privileges (1 = Department Scheduler, 0 = Faculty Member)
      */
-	public void addUser(String username, int emplID, String first, String last, String email, String office, int role)
+	public static void addUser(String username, int emplID, String first, String last, String email, String office, int role)
 	{
 		String hashed = BCrypt.hashpw(emplID + "", BCrypt.gensalt());
 		String fieldString = "login, empl_id, last_name, first_name, email, office_location, pass_hash, role";
@@ -35,7 +35,7 @@ public class AccountManager
      * Query method to remove user from database
      * @param username field to be used for user login 
      */
-	public void removeUser(String username)
+	public static void removeUser(String username)
 	{
 		DatabaseCommunicator.deleteDatabase("users", "login='" + username + "'");
 	}
@@ -46,7 +46,7 @@ public class AccountManager
      * @param column database attribute being edited 
      * @param newValue value to replace current value in database
      */
-	public void editUser(String username, String column, String newValue)
+	public static void editUser(String username, String column, String newValue)
 	{
 		DatabaseCommunicator.updateDatabase("users", column + "='" + newValue + "'", "login='" + username + "'");
 	}
@@ -56,7 +56,7 @@ public class AccountManager
      * @param username field to be used for user login 
      * @param newPass new password
      */
-	public void resetPassword(String username, String newPass)
+	public static void resetPassword(String username, String newPass)
 	{
 		String hashed = BCrypt.hashpw(newPass, BCrypt.gensalt());
 		editUser(username, "pass_hash", hashed);
@@ -68,7 +68,7 @@ public class AccountManager
      * @param username field to be used for user login 
      * @param role denotes user privileges 
      */
-	public void changeRole(String username, int role)
+	public static void changeRole(String username, int role)
 	{
 		DatabaseCommunicator.updateDatabase("users", "role=" + role, "login='" + username + "'");
 	}
@@ -77,7 +77,7 @@ public class AccountManager
 	 * Returns a sorted user list, sorted by last name
 	 * @return sorted List of users
 	 */
-	public List<HashMap<String, Object>> getUserList()
+	public static List<HashMap<String, Object>> getUserList()
 	{
 		List<HashMap<String, Object>> userMap = DatabaseCommunicator.queryDatabase("SELECT login,last_name,first_name FROM users;");
 		Collections.sort(userMap, new UserComparator());
@@ -89,7 +89,7 @@ public class AccountManager
 	 * @author Simko
 	 *
 	 */
-    class UserComparator implements Comparator<Map<String, Object>>
+    static class UserComparator implements Comparator<Map<String, Object>>
     {
     	/**
     	 * Compares the last names, returning a negative number if the first name comes before the second.

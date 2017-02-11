@@ -9,7 +9,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextArea;
-
+import core.database.DatabaseCommunicator;
 import core.resources.ResourceManager;
 
 public class editRoomController {
@@ -35,12 +35,16 @@ public class editRoomController {
         	String equipmentString = equipment.getText();
         	String notesString = notes.getText();
         	
-        	//TODO make sure that the room does not already exist 
-        	ResourceManager.addRoom(buildingInt, roomInt, capacityInt, roomTypeString,
-        			notesString, equipmentString);
-        	
-        	Stage stage = (Stage)confirm.getScene().getWindow();
-        	stage.close();
+        	if (DatabaseCommunicator.resourceExists("rooms", "building=" + buildingInt + " AND room=" + roomInt)) {
+        		//TODO make error message
+        	}
+        	else {
+	        	ResourceManager.addRoom(buildingInt, roomInt, capacityInt, roomTypeString,
+	        			notesString, equipmentString);
+	        	
+	        	Stage stage = (Stage)confirm.getScene().getWindow();
+	        	stage.close();
+        	}
         }
 	}
 }

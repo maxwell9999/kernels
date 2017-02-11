@@ -1,14 +1,16 @@
 package gui.accountsUI;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import core.accounts.AccountManager;
+import core.database.DatabaseCommunicator;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
-import javafx.scene.control.*;
-
-import java.util.ArrayList;
-
-import core.accounts.AccountManager;
-import org.slf4j.*;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 
 /**
  * UI for adding account.
@@ -63,10 +65,14 @@ public class AddAccountController {
     		errorMessage.setText("");
             int role = scheduler ? SCHEDULER : FACULTY_MEMBER;
             
-            //TODO make sure user does not already exist
-            account.addUser(userNameString, Integer.parseInt(employeeIDString), 
-            		firstNameString, lastNameString, emailString, officeString, role);
-    		
+            if (DatabaseCommunicator.resourceExists("users", "login='" + userNameString + "'")) {
+            	errorMessage.setText("Login already exists");
+            	errorMessage.setAlignment(Pos.CENTER);
+            }
+            else {
+	            AccountManager.addUser(userNameString, Integer.parseInt(employeeIDString), 
+	            		firstNameString, lastNameString, emailString, officeString, role);
+    		}
     	} else {
     		// There was an error.
     		String errorString = "* Fields required.";

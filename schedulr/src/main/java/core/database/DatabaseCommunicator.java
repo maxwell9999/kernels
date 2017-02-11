@@ -65,6 +65,11 @@ public class DatabaseCommunicator
 		databaseAction(update);
 	}
 	
+	public static boolean resourceExists(String tableName, String uniqueIdentifier) {
+		List<HashMap<String, Object>> list = queryDatabase("SELECT count(*) FROM " + tableName + " WHERE " + uniqueIdentifier + ";");
+		return Integer.parseInt(list.get(0).get("count(*)").toString()) == 1; 
+	}
+	
 	
 	private static void databaseAction(String action)
 	{

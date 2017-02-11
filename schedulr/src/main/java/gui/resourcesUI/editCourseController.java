@@ -2,6 +2,7 @@ package gui.resourcesUI;
 
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import core.database.DatabaseCommunicator;
 import core.resources.ResourceManager;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -36,12 +37,15 @@ public class editCourseController {
         	boolean includeLab = includesLab.isSelected();
         	String notesString = notes.getText();
         	
-        	// TODO check that the course does not already exist
-        	ResourceManager.addCourse(departmentString, courseNum, courseName, unitsInt, hoursInt, 
-        			includeLab ? 1 : 0, (notesString.equals("")) ? "null" : notesString);
-        	
-        	Stage stage = (Stage)confirm.getScene().getWindow();
-        	stage.close();
+        	if (DatabaseCommunicator.resourceExists("courses", "department='" + departmentString + "' AND number=" + courseNum)) {
+        		//TODO add error box
+        	}
+        	else {
+	        	ResourceManager.addCourse(departmentString, courseNum, courseName, unitsInt, hoursInt, 
+	        			includeLab ? 1 : 0, (notesString.equals("")) ? "null" : notesString); 
+	        	Stage stage = (Stage)confirm.getScene().getWindow();
+	        	stage.close();
+        	}
         }
 	}
 }
