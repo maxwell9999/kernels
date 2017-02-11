@@ -1,5 +1,5 @@
 package core.accounts;
 
-public class FacultyMember {
+public class FacultyMember {  
 
 }
