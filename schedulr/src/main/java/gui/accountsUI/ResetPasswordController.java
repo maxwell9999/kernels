@@ -37,6 +37,7 @@ public class ResetPasswordController {
         if (password.equals(confirmed)) {
         	if (!isValid(password)) {
         		errorLabel.setText("Password must be 8-16 characters and contain one uppercase character, one lowercase character, and one digit");
+        		errorLabel.setStyle("-fx-font: 12 optima; -fx-alignment: center");
         		passwordField.setText("");
         		confirmField.setText("");
         	}
