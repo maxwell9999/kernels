@@ -60,25 +60,29 @@ public class ResourceManager
 	{
 		DatabaseCommunicator.deleteDatabase("courses", "department='" + department + "' AND number=" + number + ";");
 	}
-	
-	/**
-     * Query method to edit existing Resource information
-     */
-	public static void editResource(String table, String resourcename, String column, String newValue)
-	{
-		DatabaseCommunicator.updateDatabase(table, column + "='" + newValue + "'", "login='" + resourcename + "'");
-	}
 
 	/**
-	 * Returns a sorted Resource list, sorted by last name
-	 * @return sorted List of Resources
+	 * Returns a sorted course list, sorted by name and number
+	 * @return sorted List of courses
 	 */
-	public List<HashMap<String, Object>> getClassList()
+	public List<HashMap<String, Object>> getCourseList()
 	{
-		List<HashMap<String, Object>> classMap = DatabaseCommunicator.queryDatabase("SELECT login,last_name,first_name FROM Resources;");
+		List<HashMap<String, Object>> courseMap = DatabaseCommunicator.queryDatabase("SELECT department,number FROM courses;");
+		Collections.sort(courseMap, new CourseComparator());
+		return courseMap;
+	}
+	
+	/**
+	 * Returns a sorted room list, sorted by building and number
+	 * @return sorted List of rooms
+	 */
+	public List<HashMap<String, Object>> getRoomList()
+	{
+		List<HashMap<String, Object>> classMap = DatabaseCommunicator.queryDatabase("SELECT building,number FROM rooms;");
 		Collections.sort(classMap, new RoomComparator());
 		return classMap;
 	}
+	
 	/**
 	 * Resource Comparator is the comparator used to compare the Resource's last names to put in alphabetical order.
 	 * 
@@ -88,11 +92,38 @@ public class ResourceManager
     class RoomComparator implements Comparator<Map<String, Object>>
     {
     	/**
+    	 * Compares the buildings first then room number, putting them in order.
+    	 */
+    	public int compare(Map<String, Object> Resource1, Map<String, Object> Resource2) 
+    	{
+    		if (((Integer) Resource1.get("building")) == ((Integer) Resource2.get("building")))
+    		{
+    			return (Integer) Resource1.get("number") - (Integer) Resource2.get("number");
+    		}
+    		return (Integer) Resource1.get("building") - (Integer) Resource2.get("building");
+    	}
+	}
+    
+	/**
+	 * Resource Comparator is the comparator used to compare the Resource's last names to put in alphabetical order.
+	 * 
+	 * @author Simko
+	 *
+	 */
+    class CourseComparator implements Comparator<Map<String, Object>>
+    {
+    	/**
     	 * Compares the last names, returning a negative number if the first name comes before the second.
     	 */
     	public int compare(Map<String, Object> Resource1, Map<String, Object> Resource2) 
     	{
-    		return Resource1.get("last_name").toString().compareTo(Resource2.get("last_name").toString());
+    		if (Resource1.get("department").toString().equals(Resource2.get("department").toString()))
+    		{
+    			return (Integer) Resource1.get("number") - (Integer) Resource2.get("number");
+    		}
+    		return Resource1.get("department").toString().compareTo(Resource2.get("department").toString());
     	}
 	}
+    
+    
 }

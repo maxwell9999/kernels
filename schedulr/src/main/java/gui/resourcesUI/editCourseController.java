@@ -39,6 +39,7 @@ public class editCourseController {
         	
         	if (DatabaseCommunicator.resourceExists("courses", "department='" + departmentString + "' AND number=" + courseNum)) {
         		//TODO add error box
+        		System.err.println("Already in Database");
         	}
         	else {
 	        	ResourceManager.addCourse(departmentString, courseNum, courseName, unitsInt, hoursInt, 

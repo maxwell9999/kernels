@@ -29,6 +29,7 @@ public class ResourceController {
 	
 	@FXML
     private void handleButtonClick(ActionEvent event) {
+		System.out.println(event.getSource());
         if (event.getSource() == addNewCourse) {
         	addNewCourse(); 
         }
