@@ -1,4 +1,4 @@
-package gui.accountsUI;
+package gui.feedback;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
