@@ -22,6 +22,27 @@ public class ResourceController {
 	@FXML private TextField hours;
 	@FXML private TextArea notes;
 	@FXML private CheckBox includesLab;
+	@FXML private VBox courseContainer;
+	@FXML private VBox roomContainer;
+	
+	@FXML
+	public void populateCourses() {
+		courseContainer.clear();
+		for(int i = 0; i < courseList.size(); i++) {
+			Pane newPane = (Pane) FXMLLoader.load(getClass().getResource("resource.fxml"));
+            courseContainer.getChildren().add(newPane);
+		}
+	}
+	
+	@FXML
+	public void populateRooms() {
+		roomContainer.clear();
+		for(int i = 0; i < roomList.size(); i++) {
+			Pane newPane = (Pane) FXMLLoader.load(getClass().getResource("resource.fxml"));
+            roomContainer.getChildren().add(newPane);
+            
+		}
+	}
 	
 	@FXML
     private void handleButtonClick(ActionEvent event) {
