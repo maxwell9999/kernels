@@ -77,4 +77,8 @@ public class AccountManagerTest extends TestCase{
 		assertFalse("Testing valid password (TESTPASSWORD123)...", ResetPasswordController.isValid("TESTPASSWORD123"));  
 		assertFalse("Testing valid password (aReaLLyLongPassword1234567890)...", ResetPasswordController.isValid("aReaLLyLongPassword1234567890")); 
 	}
+	
+	public void testGetUser() {
+		//TODO write tests
+	}
 }
