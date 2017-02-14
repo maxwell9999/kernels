@@ -48,11 +48,11 @@ public class ResourceManager
 	/**
      * Query method to add new course to database
      */
-	public static void addCourse(String department, int number, String name, int units, int hours, int includesLab, String notes)
+	public static void addCourse(String department, int number, String name, int wtu, int lect_hours, String notes, int lab_hours)
 	{
-		String fieldString = "department, number, name, units, hours, include_lab, notes";
-		String valueString = "'" + department + "', " + number + ", '" + name + "', " + units + ", " + 
-				hours + ", " + includesLab + ", " + notes;
+		String fieldString = "department, number, name, wtu, lect_hours, notes, lab_hours";
+		String valueString = "'" + department + "', " + number + ", '" + name + "', " + wtu + ", " + 
+				lect_hours + ", " + notes + ", " + lab_hours;
 		
 		DatabaseCommunicator.insertDatabase("courses", fieldString, valueString);
 	}
@@ -67,7 +67,7 @@ public class ResourceManager
 	
 	public static void importCourses(File courseFile) throws FileNotFoundException
 	{
-		Map<String, Object> course = new HashMap<String, Object>();
+		/*Map<String, Object> course = new HashMap<String, Object>();
 		Scanner fileScan = new Scanner(courseFile);
 		Scanner lineScan;
 		String temp;
@@ -107,7 +107,7 @@ public class ResourceManager
 			lineScan.close();
 			
 		}
-		fileScan.close();
+		fileScan.close();*/
 		
 	}
 

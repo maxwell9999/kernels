@@ -34,7 +34,7 @@ public class editCourseController {
         	String courseName = courseTitle.getText();
         	int unitsInt = Integer.parseInt(units.getText());
         	int hoursInt = Integer.parseInt(hours.getText());
-        	boolean includeLab = includesLab.isSelected();
+        	int labHours = 0;
         	String notesString = notes.getText();
         	
         	if (DatabaseCommunicator.resourceExists("courses", "department='" + departmentString + "' AND number=" + courseNum)) {
@@ -43,7 +43,7 @@ public class editCourseController {
         	}
         	else {
 	        	ResourceManager.addCourse(departmentString, courseNum, courseName, unitsInt, hoursInt, 
-	        			includeLab ? 1 : 0, (notesString.equals("")) ? "null" : notesString); 
+	        			(notesString.equals("")) ? "null" : notesString, labHours); 
 	        	Stage stage = (Stage)confirm.getScene().getWindow();
 	        	stage.close();
         	}
