@@ -46,8 +46,7 @@ public class EditAccountController {
     // Access to AccountManager.
     private AccountManager account;
     
-    public EditAccountController()
-    {
+    public EditAccountController() {
     	account = new AccountManager();
     	list.addListener(new ListChangeListener<String>() {
 
@@ -91,7 +90,6 @@ public class EditAccountController {
     	} else if (removeButton.getText().equals("Save")) {
     		// TODO(Sarah): What if we remove the user, and then add a new one completely? Hard to save ONLY new info - but what if info is incorrect? Then info has been deleted.
     	}
-  
     }
     
     /**
@@ -128,7 +126,6 @@ public class EditAccountController {
      */
     public void setCurrentUser(User currentUser) {
 		this.currentUser = currentUser;
-		
 	}
     
     /**
@@ -137,7 +134,6 @@ public class EditAccountController {
      */
     public void setList(String string) {
 		list.add(string);
-		
 	}
 
 }
