@@ -21,7 +21,7 @@ public class AccountManagerTest extends TestCase{
 		list = DatabaseCommunicator.queryDatabase("SELECT empl_id FROM users WHERE login='Test_User';");
 		assertEquals("Testing User Add", 99999, Integer.parseInt(list.get(0).get("empl_id").toString()));
 		
-		AccountManager.editUser("Test_User", "email", "newEmail@hotmail.com");
+		AccountManager.editUser("Test_User", "email='newEmail@hotmail.com'");
 		list = DatabaseCommunicator.queryDatabase("SELECT email FROM users WHERE login='Test_User';");
 		assertEquals("Testing User Editing", "newEmail@hotmail.com", list.get(0).get("email"));
 				

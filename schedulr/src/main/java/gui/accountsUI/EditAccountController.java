@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 
 import core.accounts.AccountManager;
 import core.accounts.User;
+import core.database.DatabaseCommunicator;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -44,10 +45,8 @@ public class EditAccountController {
     // Observable list so it is known when all items have been loaded.
     private ObservableList<String> list = FXCollections.observableArrayList();
     // Access to AccountManager.
-    private AccountManager account;
     
     public EditAccountController() {
-    	account = new AccountManager();
     	list.addListener(new ListChangeListener<String>() {
 
     		// Sets fields with information from current user.
@@ -89,6 +88,10 @@ public class EditAccountController {
     		
     	} else if (removeButton.getText().equals("Save")) {
     		// TODO(Sarah): What if we remove the user, and then add a new one completely? Hard to save ONLY new info - but what if info is incorrect? Then info has been deleted.
+    		String newValues = "first_name='" + firstName.getText() + "', last_name='" + lastName.getText() + "', email='" + 
+    				email.getText() + "', office_location='" + office.getText() + "', role=" + (checkbox.isSelected() ? SCHEDULER : FACULTY_MEMBER);
+    		AccountManager.editUser(currentUser.getLogin(), newValues);
+    		facultyController.updateList();
     	}
     }
     
@@ -99,8 +102,6 @@ public class EditAccountController {
     @FXML
     private void editAccount(ActionEvent event) {
   
-    	username.setEditable(true);
-        employeeID.setEditable(true);
         firstName.setEditable(true);
         lastName.setEditable(true);
         email.setEditable(true);
