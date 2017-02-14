@@ -16,9 +16,9 @@ public class App extends Application
 	public void start(Stage primaryStage) throws Exception {
 		System.out.println(getClass());
 		System.out.println(getClass().getResource("gui/accountsUI/LoginView.fxml"));
-		//Parent root = FXMLLoader.load(getClass().getResource("gui/accountsUI/LoginView.fxml"));
+		Parent root = FXMLLoader.load(getClass().getResource("gui/accountsUI/LoginView.fxml"));
 		
-		Parent root = FXMLLoader.load(getClass().getResource("gui/resourcesUI/resources.fxml"));
+		//Parent root = FXMLLoader.load(getClass().getResource("gui/resourcesUI/resources.fxml"));
         Scene scene = new Scene(root, 600, 500);
 
 		/*Parent root = FXMLLoader.load(getClass().getResource("resources.fxml"));

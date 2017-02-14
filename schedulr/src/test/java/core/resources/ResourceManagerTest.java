@@ -30,7 +30,7 @@ public class ResourceManagerTest extends TestCase{
 	
 	public void testCourseAddEditRemove()
 	{
-		ResourceManager.addCourse("ABC", 123, "Test Course", 4, 6, 1, null);
+		ResourceManager.addCourse("ABC", 123, "Test Course", 4, 6, null, 0);
 		List<HashMap<String, Object>> list;
 
 		list = DatabaseCommunicator.queryDatabase("SELECT name FROM courses WHERE department='ABC' AND number=123;");
@@ -78,9 +78,9 @@ public class ResourceManagerTest extends TestCase{
 		int numCourse = list.size();
 		assertNotNull("Testing that list exists", list);
 		
-		ResourceManager.addCourse("AAA", 123, "Test Course", 4, 6, 1, null);
-		ResourceManager.addCourse("AAA", 124, "Test Course", 4, 6, 1, null);
-		ResourceManager.addCourse("ZZZ", 123, "Test Course", 4, 6, 1, null);
+		ResourceManager.addCourse("AAA", 123, "Test Course", 4, 6, null, 0);
+		ResourceManager.addCourse("AAA", 124, "Test Course", 4, 6, null, 1);
+		ResourceManager.addCourse("ZZZ", 123, "Test Course", 4, 6, null, 0);
 		list = man.getCourseList();
 		assertEquals("Testing number of courses", numCourse + 3, list.size());
 		assertEquals("Testing first course dept...", "AAA", list.get(0).get("department"));
