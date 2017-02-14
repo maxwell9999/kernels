@@ -56,11 +56,11 @@ public class AccountManager
 		List<HashMap<String, Object>> userList = DatabaseCommunicator.queryDatabase("SELECT * FROM users WHERE login='" + login + "';");
 		HashMap<String, Object> userMap = userList.get(0); 
 		user.setLogin(userMap.get("login").toString());
-		user.setEmplId(Integer.parseInt(userMap.get("emplId").toString()));
-		user.setFirstName((userMap.get("firstName").toString()));
-		user.setLastName((userMap.get("lastName").toString()));
+		user.setEmplId(Integer.parseInt(userMap.get("empl_id").toString()));
+		user.setFirstName((userMap.get("first_name").toString()));
+		user.setLastName((userMap.get("last_name").toString()));
 		user.setEmail((userMap.get("email").toString()));
-		user.setOfficeLocation((userMap.get("officeLocation").toString()));
+		user.setOfficeLocation((userMap.get("office_location").toString()));
 		return user; 
 	}
 	
