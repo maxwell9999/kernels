@@ -11,6 +11,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
 /**
  * UI for adding account.
@@ -32,13 +33,16 @@ public class AddAccountController {
     @FXML private CheckBox checkbox;
     @FXML private Label errorMessage;
     
+    private FacultyDirectoryController facultyController;
+    
     private AccountManager account;
     
     public AddAccountController()
     {
     	account = new AccountManager();
     }
-
+    
+    
     /**
      * onAction button for saving new account.
      * @param event Necessary field for onAction events.
@@ -72,7 +76,12 @@ public class AddAccountController {
             else {
 	            AccountManager.addUser(userNameString, Integer.parseInt(employeeIDString), 
 	            		firstNameString, lastNameString, emailString, officeString, role);
+	            facultyController.updateList();
+	            Stage currentStage = (Stage) checkbox.getScene().getWindow();
+                currentStage.close();
     		}
+            
+            
     	} else {
     		// There was an error.
     		String errorString = "* Fields required.";
@@ -80,7 +89,14 @@ public class AddAccountController {
     		errorMessage.setAlignment(Pos.CENTER);
     	}
     }
-  
     
+    /**
+     * Sets the FacultyDirectoryController.
+     * @param controller controller to set the FacultyDirectoryController to.
+     */
+    public void setFacultyController(FacultyDirectoryController controller) {
+		facultyController = controller;
+		
+	}
 
 }
