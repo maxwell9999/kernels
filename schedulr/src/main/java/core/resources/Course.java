@@ -1,9 +1,8 @@
 package core.resources;
 
-import core.database.DatabaseCommunicator;
+import core.database.DatabaseObject;
 
 public class Course implements DatabaseObject{
-	//| department | number | name                    | wtu  | lect_hours | notes | lab_hours |
 	
 	private String department;
 	private int number;
@@ -103,12 +102,6 @@ public class Course implements DatabaseObject{
 
 	public void setAct_hours(int act_hours) {
 		this.act_hours = act_hours;
-	}
-	
-	public String toString()
-	{
-		return "{lab_hours=" + lab_hours + ", number=" + number + ", notes=" + notes + ", lect_hours=" 
-				+ lect_hours + ", name=" + name + ", wtu=" + wtu + ", department=" + department + ", activity hours=" + act_hours + "}";
 	}
 
 	public String getKeys() {

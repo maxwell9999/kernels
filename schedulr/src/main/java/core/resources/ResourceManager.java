@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.Scanner;
 
 import core.database.DatabaseCommunicator;
+import core.database.DatabaseObject;
 
 /**
  * building
@@ -82,7 +83,7 @@ public class ResourceManager
 			course.setDepartment(lineScan.next());
 			lineScan.useDelimiter(",");
 			course.setNumber(Integer.parseInt(lineScan.next().trim()));
-			course.setName(lineScan.next());
+			course.setName(lineScan.next().trim());
 			while (lineScan.hasNext())
 			{
 				parsedString = lineScan.next().trim().split(" ");

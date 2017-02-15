@@ -1,4 +1,4 @@
-package core.resources;
+package core.database;
 
 public interface DatabaseObject {
 	public String getKeys();

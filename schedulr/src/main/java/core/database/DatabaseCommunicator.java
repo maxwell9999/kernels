@@ -8,8 +8,6 @@ import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.ResultSetMetaData;
 import com.mysql.jdbc.Statement;
 
-import core.resources.DatabaseObject;
-
 public class DatabaseCommunicator 
 {
 	public static List<HashMap<String, Object>> queryDatabase(String query)
@@ -134,8 +132,6 @@ public class DatabaseCommunicator
 			
 			for (DatabaseObject object: objectList)
 			{
-				System.out.println("REPLACE INTO " + object.getTable() + " (" + object.getKeys() + ") "
-						+ "VALUES (" + object.getValues() + ");");
 				stmt.executeUpdate("REPLACE INTO " + object.getTable() + " (" + object.getKeys() + ") "
 						+ "VALUES (" + object.getValues() + ");");
 			}
