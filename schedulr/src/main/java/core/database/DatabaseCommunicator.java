@@ -108,4 +108,14 @@ public class DatabaseCommunicator
 		
 		return connection;
 	}
+	
+	public static String convertQueryToString(String query)
+	{
+		List<HashMap<String, Object>> list = queryDatabase(query);
+		if (list.size() == 1)
+		{
+			return list.get(0).toString();
+		}
+		return null;
+	}
 }
