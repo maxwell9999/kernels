@@ -1,14 +1,17 @@
 package gui.accountsUI;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import core.accounts.AccountManager;
+import core.database.DatabaseCommunicator;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
-import javafx.scene.control.*;
-
-import java.util.ArrayList;
-
-import core.accounts.AccountManager;
-import org.slf4j.*;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
 /**
  * UI for adding account.
@@ -17,6 +20,8 @@ import org.slf4j.*;
  */
 public class AddAccountController {
 
+	private static final int SCHEDULER = 1; 
+	private static final int FACULTY_MEMBER = 0; 
     private static final Logger log = LoggerFactory.getLogger(AddAccountController.class);
     private boolean error = false;
     @FXML private TextField username;
@@ -28,13 +33,16 @@ public class AddAccountController {
     @FXML private CheckBox checkbox;
     @FXML private Label errorMessage;
     
+    private FacultyDirectoryController facultyController;
+    
     private AccountManager account;
     
     public AddAccountController()
     {
     	account = new AccountManager();
     }
-
+    
+    
     /**
      * onAction button for saving new account.
      * @param event Necessary field for onAction events.
@@ -59,11 +67,21 @@ public class AddAccountController {
     	if (!error) {
     		// Do database saving of account.
     		errorMessage.setText("");
-            int role = scheduler ? 1 : 0;
+            int role = scheduler ? SCHEDULER : FACULTY_MEMBER;
             
-            account.addUser(userNameString, Integer.parseInt(employeeIDString), 
-            		firstNameString, lastNameString, emailString, officeString, role);
-    		
+            if (DatabaseCommunicator.resourceExists("users", "login='" + userNameString + "'")) {
+            	errorMessage.setText("Login already exists");
+            	errorMessage.setAlignment(Pos.CENTER);
+            }
+            else {
+	            AccountManager.addUser(userNameString, Integer.parseInt(employeeIDString), 
+	            		firstNameString, lastNameString, emailString, officeString, role);
+	            facultyController.updateList();
+	            Stage currentStage = (Stage) checkbox.getScene().getWindow();
+                currentStage.close();
+    		}
+            
+            
     	} else {
     		// There was an error.
     		String errorString = "* Fields required.";
@@ -71,7 +89,14 @@ public class AddAccountController {
     		errorMessage.setAlignment(Pos.CENTER);
     	}
     }
-  
     
+    /**
+     * Sets the FacultyDirectoryController.
+     * @param controller controller to set the FacultyDirectoryController to.
+     */
+    public void setFacultyController(FacultyDirectoryController controller) {
+		facultyController = controller;
+		
+	}
 
 }

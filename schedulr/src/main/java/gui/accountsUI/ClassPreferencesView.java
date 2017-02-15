@@ -28,11 +28,7 @@ public class ClassPreferencesView extends Application{
   // TableView aka Spreadsheet for the view.
   private TableView<Course> tableView;
   // List of all the courses.
-  public ObservableList<Course> CourseData;
-  
-//  public static void main(String[] args) {
-//	    launch(args);
-//  }	
+  public ObservableList<Course> CourseData;	
   
   @Override
   public void start(Stage primaryStage) {

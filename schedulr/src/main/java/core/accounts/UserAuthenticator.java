@@ -13,6 +13,10 @@ public class UserAuthenticator {
 		result = null;
 		String hashed = null;
 		result = DatabaseCommunicator.queryDatabase("SELECT pass_hash FROM users WHERE login='" + username + "';");
+		if(result.isEmpty())
+		{
+			return null;
+		}
 		hashed = (String) result.get(0).get("pass_hash");
 		if (BCrypt.checkpw(pass, hashed))
 			result = DatabaseCommunicator.queryDatabase("SELECT login,role,reset_password FROM users WHERE login='" + username + "';");
