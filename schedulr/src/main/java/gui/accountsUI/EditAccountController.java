@@ -107,8 +107,7 @@ public class EditAccountController {
         office.setEditable(true);
         checkbox.setDisable(false);
         
-        removeButton.setText("Save");
-        
+        removeButton.setText("Save");   
     }
     
     /**

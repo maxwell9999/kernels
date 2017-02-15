@@ -182,7 +182,6 @@ public class FacultyDirectoryController extends Application {
     		String firstName = (String) faculty.get("first_name");
     		data.add(new FacultyMember(login, firstName,lastName));
     	}
-    	
 	}
 	
 	/**
@@ -219,6 +218,5 @@ public class FacultyDirectoryController extends Application {
 	    public void setLogin(String login) {
 	    	this.login.set(login);
 	    }      
-	}
-		
+	}		
 }
