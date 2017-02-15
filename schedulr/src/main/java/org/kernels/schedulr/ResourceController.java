@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
@@ -89,7 +90,7 @@ public class ResourceController {
         	FXMLLoader loader = new FXMLLoader(getClass().getResource("editcourse.fxml"));
             Scene newScene;
             try {
-                newScene = new Scene(loader.load());
+                newScene = new Scene((Parent) loader.load());
             } catch (IOException ex) {
                 System.out.println(ex);
                 ex.printStackTrace();
@@ -107,7 +108,7 @@ public class ResourceController {
         	FXMLLoader loader = new FXMLLoader(getClass().getResource("editroom.fxml"));
             Scene newScene;
             try {
-                newScene = new Scene(loader.load());
+                newScene = new Scene((Parent)loader.load());
             } catch (IOException ex) {
             	System.out.println(ex);
             	ex.printStackTrace();
