@@ -68,6 +68,7 @@ public class ResourceManager
 	public static void importCourses(File courseFile) throws FileNotFoundException
 	{
 		File file = new File("/Users/Simko/Downloads/Courseimportfile.txt");
+		ArrayList<DatabaseObject> courseList= new ArrayList<DatabaseObject>();
 		Course course;
 		Scanner fileScan = new Scanner(file);
 		Scanner lineScan;
@@ -98,20 +99,17 @@ public class ResourceManager
 				{
 					course.setAct_hours((int) value);
 				}
-				else if (parsedString[1].contains("supv"))
-				{
-					course.setSupv_hours((int) value);
-				}
 				else if (parsedString[1].contains("unit"))
 				{
 					course.addWtu(value);
 				}
 			}
 			lineScan.close();
-			course.addToDatabase();
+			courseList.add(course);
 			
 		}
 		fileScan.close();
+		DatabaseCommunicator.addAllToDatabase(courseList);
 		
 	}
 
@@ -137,7 +135,7 @@ public class ResourceManager
 			lab_hours = 0;//(Integer) map.get("lab_hours");
 			act_hours = 0;//(Integer) map.get("act_hours");
 			wtu = (Double) map.get("wtu");
-			courseList.add(new Course(dept, num, name, wtu, lect_hours, notes, lab_hours, act_hours, 0));
+			courseList.add(new Course(dept, num, name, wtu, lect_hours, notes, lab_hours, act_hours));
 		}
 		Collections.sort(courseList, new CourseComparator());
 		return courseList;

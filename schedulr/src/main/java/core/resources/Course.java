@@ -2,7 +2,7 @@ package core.resources;
 
 import core.database.DatabaseCommunicator;
 
-public class Course {
+public class Course implements DatabaseObject{
 	//| department | number | name                    | wtu  | lect_hours | notes | lab_hours |
 	
 	private String department;
@@ -13,10 +13,8 @@ public class Course {
 	private String notes;
 	private int lab_hours;
 	private int act_hours;
-	private int supv_hours;
 	
-	public Course(String dept, int num, String name, double wtu, int lect_hours, String notes, int lab_hours, int act_hours,
-	int supv_hours)
+	public Course(String dept, int num, String name, double wtu, int lect_hours, String notes, int lab_hours, int act_hours)
 	{
 		this.department = dept;
 		this.number = num;
@@ -26,7 +24,6 @@ public class Course {
 		this.notes = notes;
 		this.lab_hours = lab_hours;
 		this.act_hours = act_hours;
-		this.supv_hours = supv_hours;
 	}
 	
 	public Course()
@@ -39,7 +36,6 @@ public class Course {
 		this.notes = null;
 		this.lab_hours = 0;
 		this.act_hours = 0;
-		this.supv_hours = 0;
 	}
 
 	public String getDepartment() {
@@ -108,38 +104,24 @@ public class Course {
 	public void setAct_hours(int act_hours) {
 		this.act_hours = act_hours;
 	}
-
-	public int getSupv_hours() {
-		return supv_hours;
-	}
-
-	public void setSupv_hours(int supv_hours) {
-		this.supv_hours = supv_hours;
-	}
-
-	public void addToDatabase()
-	{
-		String fieldString;
-		String valueString;
-		
-		if (!DatabaseCommunicator.resourceExists("courses", "department='" + department + "' AND number=" + number))
-		{
-			fieldString = "department, number, name, wtu, lect_hours, notes, lab_hours, act_hours";
-			valueString = "'" + department + "', " + number + ", '" + name + "', " + wtu + ", " + 
-				lect_hours + ", " + notes + ", " + lab_hours + ", " + act_hours;
-			DatabaseCommunicator.insertDatabase("courses", fieldString, valueString);
-		}
-		else if(!DatabaseCommunicator.convertQueryToString("SELECT * FROM courses WHERE department='" + department + "' AND number=" + number + ";").equals(this.toString()))
-		{
-			valueString = "name='" + name + "', wtu=" + wtu + ", lect_hours=" + 
-				lect_hours + ", notes=" + notes + ", lab_hours=" + lab_hours + ", act_hours=" + act_hours + " ";
-			DatabaseCommunicator.updateDatabase("courses", valueString, "department='" + department + "' AND number=" + number);
-		}
-	}
 	
 	public String toString()
 	{
 		return "{lab_hours=" + lab_hours + ", number=" + number + ", notes=" + notes + ", lect_hours=" 
 				+ lect_hours + ", name=" + name + ", wtu=" + wtu + ", department=" + department + ", activity hours=" + act_hours + "}";
+	}
+
+	public String getKeys() {
+		return "department, number, name, wtu, lect_hours, notes, lab_hours, act_hours";
+	}
+
+	public String getValues() {
+		return "'" + department + "', " + number + ", '" + name + "', " + wtu + ", " + 
+				lect_hours + ", " + notes + ", " + lab_hours + ", " + act_hours;
+	}
+	
+	public String getTable()
+	{
+		return "courses";
 	}
 }

@@ -8,6 +8,8 @@ import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.ResultSetMetaData;
 import com.mysql.jdbc.Statement;
 
+import core.resources.DatabaseObject;
+
 public class DatabaseCommunicator 
 {
 	public static List<HashMap<String, Object>> queryDatabase(String query)
@@ -117,5 +119,31 @@ public class DatabaseCommunicator
 			return list.get(0).toString();
 		}
 		return null;
+	}
+	
+	public static void addAllToDatabase(List<DatabaseObject> objectList)
+	{
+		Connection connection = null;
+		Statement stmt = null;
+		
+		connection = connect();
+		if(connection != null)
+		{
+			try {
+			stmt = (Statement) connection.createStatement();
+			
+			for (DatabaseObject object: objectList)
+			{
+				System.out.println("REPLACE INTO " + object.getTable() + " (" + object.getKeys() + ") "
+						+ "VALUES (" + object.getValues() + ");");
+				stmt.executeUpdate("REPLACE INTO " + object.getTable() + " (" + object.getKeys() + ") "
+						+ "VALUES (" + object.getValues() + ");");
+			}
+			stmt.close();
+			connection.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 	}
 }
