@@ -2,6 +2,8 @@ package gui.feedback;
 
 import java.io.IOException;
 
+import core.database.DatabaseCommunicator;
+import core.feedback.Feedback;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -72,6 +74,8 @@ public class StudentFeedbackController {
 		// Note: button selected is in buttonToggled field above.
 		String username = usernameField.getText();
 		String note = noteField.getText();
+		Feedback feedback = new Feedback(username, note, buttonToggled);
+		feedback.addToDatabase();
 		System.out.println(username + " rated it a " + buttonToggled + " and said " + note);
     }
 
