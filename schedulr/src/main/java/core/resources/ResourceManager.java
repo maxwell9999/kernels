@@ -83,6 +83,7 @@ public class ResourceManager
 			
 			while (fileScan.hasNextLine())
 			{
+<<<<<<< HEAD
 				course = new Course();
 				lineScan = new Scanner(fileScan.nextLine());
 				course.setDepartment(lineScan.next());
@@ -109,6 +110,25 @@ public class ResourceManager
 					{
 						course.addWtu(value);
 					}
+=======
+				parsedString = lineScan.next().trim().split(" ");
+				value = Double.parseDouble(parsedString[0]);
+				if (parsedString[1].contains("lect"))
+				{
+					course.setLectHours((int) value);
+				}
+				else if (parsedString[1].contains("lab"))
+				{
+					course.setLabHours((int) value);
+				}
+				else if (parsedString[1].contains("activity"))
+				{
+					course.setActHours((int) value);
+				}
+				else if (parsedString[1].contains("unit"))
+				{
+					course.addWtu(value);
+>>>>>>> origin/courtney
 				}
 				lineScan.close();
 				courseList.add(course);

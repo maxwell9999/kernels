@@ -43,12 +43,11 @@ public class AccountManager
 	/**
      * Query method to edit existing user information
      * @param username field to be used for user login 
-     * @param column database attribute being edited 
-     * @param newValue value to replace current value in database
+     * @param setValues column=value pairs separated by commas
      */
-	public static void editUser(String username, String column, String newValue)
+	public static void editUser(String username, String setValues)
 	{
-		DatabaseCommunicator.updateDatabase("users", column + "='" + newValue + "'", "login='" + username + "'");
+		DatabaseCommunicator.updateDatabase("users", setValues, "login='" + username + "'");
 	}
 	
 	public static User getUser(String login) {
@@ -56,11 +55,11 @@ public class AccountManager
 		List<HashMap<String, Object>> userList = DatabaseCommunicator.queryDatabase("SELECT * FROM users WHERE login='" + login + "';");
 		HashMap<String, Object> userMap = userList.get(0); 
 		user.setLogin(userMap.get("login").toString());
-		user.setEmplId(Integer.parseInt(userMap.get("emplId").toString()));
-		user.setFirstName((userMap.get("firstName").toString()));
-		user.setLastName((userMap.get("lastName").toString()));
+		user.setEmplId(Integer.parseInt(userMap.get("empl_id").toString()));
+		user.setFirstName((userMap.get("first_name").toString()));
+		user.setLastName((userMap.get("last_name").toString()));
 		user.setEmail((userMap.get("email").toString()));
-		user.setOfficeLocation((userMap.get("officeLocation").toString()));
+		user.setOfficeLocation((userMap.get("office_location").toString()));
 		return user; 
 	}
 	
@@ -72,7 +71,7 @@ public class AccountManager
 	public static void resetPassword(String username, String newPass)
 	{
 		String hashed = BCrypt.hashpw(newPass, BCrypt.gensalt());
-		editUser(username, "pass_hash", hashed);
+		editUser(username, "pass_hash='" + hashed + "'");
 		DatabaseCommunicator.updateDatabase("users", "reset_password=0", "login='" + username + "'");
 	}
 	
