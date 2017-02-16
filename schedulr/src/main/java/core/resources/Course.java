@@ -102,7 +102,7 @@ public class Course implements DatabaseObject{
 	}
 
 	public String getKeys() {
-		return "department, number, name, wtu, lectHours, notes, labHours, actHours";
+		return "department, number, name, wtu, lect_hours, notes, lab_hours, act_hours";
 	}
 
 	public String getValues() {

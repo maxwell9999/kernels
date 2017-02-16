@@ -1,5 +1,9 @@
 package core.resources;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
@@ -7,8 +11,8 @@ import junit.framework.TestCase;
 
 import org.junit.Test;
 
-import core.accounts.AccountManager;
 import core.database.DatabaseCommunicator;
+
 
 public class ResourceManagerTest extends TestCase{
 
@@ -96,6 +100,33 @@ public class ResourceManagerTest extends TestCase{
 		ResourceManager.removeCourse("ZZZ", 123);
 		list = man.getCourseList();
 		assertEquals("Testing number of courses...", numCourse, list.size());
+	}
+	
+	@Test
+	public void testImportList() throws IOException
+	{
+		File temp = File.createTempFile("temp", ".txt");
+		temp.deleteOnExit();
+		BufferedWriter out = new BufferedWriter(new FileWriter(temp));
+		out.write("ZZZ 999, Computer Science for Dummies, 2 activity, 4 unit, 3 lect, 2 unit, 2 lab, 5 unit, banana");
+		out.close();
+		ResourceManager.importCourses(temp);
+		assertTrue("Testing proper import... ", DatabaseCommunicator.resourceExists("courses", "department='ZZZ' AND number=999"));
+		String name = DatabaseCommunicator.queryDatabase("SELECT name FROM courses WHERE department='ZZZ' AND number=999;").get(0).get("name").toString();
+		assertEquals("Testing proper name...", "Computer Science for Dummies", name);
+		
+		File temp2 = File.createTempFile("temp", ".txt");
+		temp2.deleteOnExit();
+		out = new BufferedWriter(new FileWriter(temp2));
+		out.write("ZZZ 999, Computer Science for Smarties, 2 activity, 4 unit, 3 lect, 2 unit, 2 lab, 5 unit, banana");
+		out.close();
+		ResourceManager.importCourses(temp2);
+		assertTrue(DatabaseCommunicator.resourceExists("courses", "department='ZZZ' AND number=999"));
+		name = DatabaseCommunicator.queryDatabase("SELECT name FROM courses WHERE department='ZZZ' AND number=999;").get(0).get("name").toString();
+		assertEquals("Testing name change...", "Computer Science for Smarties", name);
+		
+		ResourceManager.removeCourse("ZZZ", 999);
+		assertFalse(DatabaseCommunicator.resourceExists("courses", "department='ZZZ' AND number=999"));
 	}
 	
 	

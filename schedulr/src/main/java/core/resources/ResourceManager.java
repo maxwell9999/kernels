@@ -70,10 +70,10 @@ public class ResourceManager
 	 * Imports courses from a properly formatted course file
 	 * @param courseFile file to import contents from
 	 */
-	public static void importCourses(File courseFile)
+	public static void importCourses(File file)
 	{
 		try {
-			File file = new File("/Users/Simko/Downloads/Courseimportfile.txt");
+			//File file = new File("/Users/Simko/Downloads/Courseimportfile.txt");
 			ArrayList<DatabaseObject> courseList= new ArrayList<DatabaseObject>();
 			Course course;
 			Scanner fileScan = new Scanner(file);
@@ -92,26 +92,30 @@ public class ResourceManager
 				while (lineScan.hasNext())
 				{
 					parsedString = lineScan.next().trim().split(" ");
-					value = Double.parseDouble(parsedString[0]);
-					if (parsedString[1].contains("lect"))
-					{
-						course.setLectHours((int) value);
+					try {
+							value = Double.parseDouble(parsedString[0]);
+						if (parsedString[1].contains("lect"))
+						{
+							course.setLectHours((int) value);
+						}
+						else if (parsedString[1].contains("lab"))
+						{
+							course.setLabHours((int) value);
+						}
+						else if (parsedString[1].contains("activity"))
+						{
+							course.setActHours((int) value);
+						}
+						else if (parsedString[1].contains("unit"))
+						{
+							course.addWtu(value);
+						}
+					} catch (NumberFormatException num) {
+						//skip that parse, not formatted correctly
 					}
-					else if (parsedString[1].contains("lab"))
-					{
-						course.setLabHours((int) value);
-					}
-					else if (parsedString[1].contains("activity"))
-					{
-						course.setActHours((int) value);
-					}
-					else if (parsedString[1].contains("unit"))
-					{
-						course.addWtu(value);
-					}
-					lineScan.close();
-					courseList.add(course);
 				}
+				courseList.add(course);
+				lineScan.close();
 				
 			}
 			fileScan.close();
@@ -120,6 +124,7 @@ public class ResourceManager
 		catch (Exception ex)
 		{
 			System.err.println("Invalid File");
+			ex.printStackTrace();
 		}
 		
 	}
