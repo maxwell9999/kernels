@@ -3,7 +3,7 @@ package core.scheduling;
 import core.database.DatabaseCommunicator;
 
 public class Course {
-	//| department | number | name                    | wtu  | lect_hours | notes | lab_hours |
+	//| department | number | name | wtu  | lect_hours | notes | lab_hours |
 	
 	private String department;
 	private int number;

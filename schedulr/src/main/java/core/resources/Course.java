@@ -8,21 +8,21 @@ public class Course implements DatabaseObject{
 	private int number;
 	private String name;
 	private double wtu;
-	private int lect_hours;
+	private int lectHours;
 	private String notes;
-	private int lab_hours;
-	private int act_hours;
+	private int labHours;
+	private int actHours;
 	
-	public Course(String dept, int num, String name, double wtu, int lect_hours, String notes, int lab_hours, int act_hours)
+	public Course(String dept, int num, String name, double wtu, int lectHours, String notes, int labHours, int actHours)
 	{
 		this.department = dept;
 		this.number = num;
 		this.name = name;
 		this.wtu = wtu;
-		this.lect_hours = lect_hours;
+		this.lectHours = lectHours;
 		this.notes = notes;
-		this.lab_hours = lab_hours;
-		this.act_hours = act_hours;
+		this.labHours = labHours;
+		this.actHours = actHours;
 	}
 	
 	public Course()
@@ -31,10 +31,10 @@ public class Course implements DatabaseObject{
 		this.number = 0;
 		this.name = null;
 		this.wtu = 0;
-		this.lect_hours = 0;
+		this.lectHours = 0;
 		this.notes = null;
-		this.lab_hours = 0;
-		this.act_hours = 0;
+		this.labHours = 0;
+		this.actHours = 0;
 	}
 
 	public String getDepartment() {
@@ -73,12 +73,12 @@ public class Course implements DatabaseObject{
 		this.wtu += wtu;
 	}
 
-	public int getLect_hours() {
-		return lect_hours;
+	public int getLectHours() {
+		return lectHours;
 	}
 
-	public void setLect_hours(int lect_hours) {
-		this.lect_hours = lect_hours;
+	public void setLectHours(int lectHours) {
+		this.lectHours = lectHours;
 	}
 
 	public String getNotes() {
@@ -89,28 +89,28 @@ public class Course implements DatabaseObject{
 		this.notes = notes;
 	}
 
-	public int getLab_hours() {
-		return lab_hours;
+	public int getLabHours() {
+		return labHours;
 	}
 
-	public void setLab_hours(int lab_hours) {
-		this.lab_hours = lab_hours;
+	public void setLabHours(int labHours) {
+		this.labHours = labHours;
 	}
-	public int getAct_hours() {
-		return act_hours;
+	public int getActHours() {
+		return actHours;
 	}
 
-	public void setAct_hours(int act_hours) {
-		this.act_hours = act_hours;
+	public void setActHours(int actHours) {
+		this.actHours = actHours;
 	}
 
 	public String getKeys() {
-		return "department, number, name, wtu, lect_hours, notes, lab_hours, act_hours";
+		return "department, number, name, wtu, lectHours, notes, labHours, actHours";
 	}
 
 	public String getValues() {
 		return "'" + department + "', " + number + ", '" + name + "', " + wtu + ", " + 
-				lect_hours + ", " + notes + ", " + lab_hours + ", " + act_hours;
+				lectHours + ", " + notes + ", " + labHours + ", " + actHours;
 	}
 	
 	public String getTable()

@@ -90,15 +90,15 @@ public class ResourceManager
 				value = Double.parseDouble(parsedString[0]);
 				if (parsedString[1].contains("lect"))
 				{
-					course.setLect_hours((int) value);
+					course.setLectHours((int) value);
 				}
 				else if (parsedString[1].contains("lab"))
 				{
-					course.setLab_hours((int) value);
+					course.setLabHours((int) value);
 				}
 				else if (parsedString[1].contains("activity"))
 				{
-					course.setAct_hours((int) value);
+					course.setActHours((int) value);
 				}
 				else if (parsedString[1].contains("unit"))
 				{
