@@ -1,5 +1,10 @@
 package gui.resourcesUI;
 
+/**
+ * UI for editting a room.
+ * @author DavidMcIntyre
+ * @version February 14, 2017
+ */
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javafx.collections.FXCollections;

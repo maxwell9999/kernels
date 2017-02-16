@@ -12,8 +12,13 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextArea;
 
+/**
+ * UI for editting a course.
+ * @author DavidMcIntyre, sarahpadlipsky
+ * @version February 15, 2017
+ */
 public class editCourseController {
-	@FXML private Button confirm;
+	@FXML private Button save;
 	@FXML private ChoiceBox department;
 	@FXML private TextField courseNumber;
 	@FXML private TextField courseTitle;
@@ -28,7 +33,7 @@ public class editCourseController {
 	
 	@FXML
     private void handleButtonClick(ActionEvent event) {
-        if (event.getSource() == confirm) {
+        if (event.getSource() == save) {
         	String departmentString = department.getValue().toString();
         	int courseNum = Integer.parseInt(courseNumber.getText());
         	String courseName = courseTitle.getText();
@@ -37,16 +42,7 @@ public class editCourseController {
         	int labHours = 0;
         	String notesString = notes.getText();
         	
-        	if (DatabaseCommunicator.resourceExists("courses", "department='" + departmentString + "' AND number=" + courseNum)) {
-        		//TODO add error box
-        		System.err.println("Already in Database");
-        	}
-        	else {
-	        	ResourceManager.addCourse(departmentString, courseNum, courseName, unitsInt, hoursInt, 
-	        			(notesString.equals("")) ? "null" : notesString, labHours); 
-	        	Stage stage = (Stage)confirm.getScene().getWindow();
-	        	stage.close();
-        	}
+        	//TODO(Sarah): Add courtney's edit function here.
         }
 	}
 }

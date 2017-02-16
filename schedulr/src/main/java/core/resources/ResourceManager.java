@@ -132,7 +132,7 @@ public class ResourceManager
 	 * Returns a sorted course list, sorted by name and number
 	 * @return sorted List of courses
 	 */
-	public List<Course> getCourseList()
+	public static List<Course> getCourseList()
 	{
 		String dept, name, notes;
 		int num, lect_hours, lab_hours, act_hours;
@@ -152,7 +152,7 @@ public class ResourceManager
 			wtu = (Double) map.get("wtu");
 			courseList.add(new Course(dept, num, name, wtu, lect_hours, notes, lab_hours, act_hours));
 		}
-		Collections.sort(courseList, new CourseComparator());
+//		Collections.sort(courseList, new CourseComparator());
 		return courseList;
 	}
 	
@@ -160,10 +160,10 @@ public class ResourceManager
 	 * Returns a sorted room list, sorted by building and number
 	 * @return sorted List of rooms
 	 */
-	public List<HashMap<String, Object>> getRoomList()
+	public static List<HashMap<String, Object>> getRoomList()
 	{
 		List<HashMap<String, Object>> classMap = DatabaseCommunicator.queryDatabase("SELECT building,number FROM rooms;");
-		Collections.sort(classMap, new RoomComparator());
+//		Collections.sort(classMap, new RoomComparator());
 		return classMap;
 	}
 	
@@ -194,7 +194,7 @@ public class ResourceManager
 	 * @author Simko
 	 *
 	 */
-    class CourseComparator implements Comparator<Course>
+    private class CourseComparator implements Comparator<Course>
     {
     	/**
     	 * Compares the last names, returning a negative number if the first name comes before the second.
