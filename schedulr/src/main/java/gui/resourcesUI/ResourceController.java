@@ -6,7 +6,12 @@ import javafx.scene.layout.VBox;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
+import core.accounts.AccountManager;
+import gui.accountsUI.FacultyDirectoryController.FacultyMember;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -30,6 +35,10 @@ public class ResourceController {
 	@FXML private VBox courseContainer;
 	@FXML private VBox roomContainer;
 	@FXML private Label test;
+	
+	// List of courses in database.
+	ArrayList<Course> courseList = new ArrayList<Course>();
+
 
 	
 	public void initialize() {
@@ -40,10 +49,9 @@ public class ResourceController {
 	@FXML
 	public void populateCourses() {
 		//Back-end connection to populate courseList
-		ArrayList<String> courseList = new ArrayList<String>();
-		courseList.add("CPE 309 - Software Engineering II");
-		courseList.add("CPE 453 - Operating Systems");
-		courseList.add("HIST 322 - Modern America");
+		
+		courseList.add(new Course("CPE 308", "Software Engineering I"));
+		courseList.add(new Course("CPE 309", "Software Engineering II"));
 		
 		courseContainer.getChildren().clear();
 		for(int i = 0; i < courseList.size(); i++) {
@@ -55,8 +63,12 @@ public class ResourceController {
 				e.printStackTrace();
 			}
             courseContainer.getChildren().add(newPane);
-            Label temp = (Label) newPane.lookup("#resourceTitle");
-            temp.setText(courseList.get(i));
+            Label temp = (Label) newPane.lookup("#departmentTitle");
+            Label temp2 = (Label) newPane.lookup("#courseTitle");
+
+            temp.setText(courseList.get(i).courseTitle.get());
+            temp2.setText((String)courseList.get(i).courseName.get());
+
 		}
 	}
 	
@@ -78,7 +90,7 @@ public class ResourceController {
 				e.printStackTrace();
 			}
             roomContainer.getChildren().add(newPane);
-            Label temp = (Label) newPane.lookup("#resourceTitle");
+            Label temp = (Label) newPane.lookup("#departmentTitle");
             temp.setText(roomList.get(i));
 		}
 	}
@@ -122,4 +134,58 @@ public class ResourceController {
             inputStage.showAndWait();
         }
     }
+	
+	/**
+     * Course is a class to correctly populate the ListView.
+     */
+	public static class Course {
+	    private final SimpleStringProperty courseTitle;
+	    private final SimpleStringProperty courseName;
+	 
+	    private Course(String courseTitle, String courseName) {
+	        this.courseTitle = new SimpleStringProperty(courseTitle);
+	        this.courseName = new SimpleStringProperty(courseName);
+	    }
+	 
+	    public String getCourseTitle() {
+	        return this.courseTitle.get();
+	    }
+	    public void setCourseTitle(String courseTitle) {
+	    	this.courseTitle.set(courseTitle);
+	    }
+	        
+	    public String getCourseName() {
+	        return this.courseName.get();
+	    }
+	    public void setCourseName(String courseName) {
+	    	this.courseName.set(courseName);
+	    }    
+	}	
+	
+	/**
+     * Course is a class to correctly populate the ListView.
+     */
+	public static class Room {
+	    private final SimpleStringProperty courseTitle;
+	    private final SimpleStringProperty courseName;
+	 
+	    private Course(String courseTitle, String courseName) {
+	        this.courseTitle = new SimpleStringProperty(courseTitle);
+	        this.courseName = new SimpleStringProperty(courseName);
+	    }
+	 
+	    public String getCourseTitle() {
+	        return this.courseTitle.get();
+	    }
+	    public void setCourseTitle(String courseTitle) {
+	    	this.courseTitle.set(courseTitle);
+	    }
+	        
+	    public String getCourseName() {
+	        return this.courseName.get();
+	    }
+	    public void setCourseName(String courseName) {
+	    	this.courseName.set(courseName);
+	    }    
+	}	
 }
