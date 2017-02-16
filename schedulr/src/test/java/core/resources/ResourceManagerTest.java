@@ -1,5 +1,9 @@
 package core.resources;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
@@ -7,8 +11,8 @@ import junit.framework.TestCase;
 
 import org.junit.Test;
 
-import core.accounts.AccountManager;
 import core.database.DatabaseCommunicator;
+
 
 public class ResourceManagerTest extends TestCase{
 
@@ -74,7 +78,7 @@ public class ResourceManagerTest extends TestCase{
 	public void testGetCourseList()
 	{
 		ResourceManager man = new ResourceManager();
-		List<HashMap<String, Object>> list = man.getCourseList();
+		List<Course> list = man.getCourseList();
 		int numCourse = list.size();
 		assertNotNull("Testing that list exists", list);
 		
@@ -83,19 +87,46 @@ public class ResourceManagerTest extends TestCase{
 		ResourceManager.addCourse("ZZZ", 123, "Test Course", 4, 6, null, 0);
 		list = man.getCourseList();
 		assertEquals("Testing number of courses", numCourse + 3, list.size());
-		assertEquals("Testing first course dept...", "AAA", list.get(0).get("department"));
-		assertEquals("Testing first course number...", 123, list.get(0).get("number"));
+		assertEquals("Testing first course dept...", "AAA", list.get(0).getDepartment());
+		assertEquals("Testing first course number...", 123, list.get(0).getNumber());
 		
-		assertEquals("Testing dept sort...", "ZZZ", list.get(list.size() - 1).get("department"));
-		assertEquals("Testing dept sort...", 123, list.get(list.size() - 1).get("number"));
+		assertEquals("Testing dept sort...", "ZZZ", list.get(list.size() - 1).getDepartment());
+		assertEquals("Testing dept sort...", 123, list.get(list.size() - 1).getNumber());
 		
-		assertEquals("Testing number sort...", 124, list.get(1).get("number"));
+		assertEquals("Testing number sort...", 124, list.get(1).getNumber());
 		
 		ResourceManager.removeCourse("AAA", 123);
 		ResourceManager.removeCourse("AAA", 124);
 		ResourceManager.removeCourse("ZZZ", 123);
 		list = man.getCourseList();
 		assertEquals("Testing number of courses...", numCourse, list.size());
+	}
+	
+	@Test
+	public void testImportList() throws IOException
+	{
+		File temp = File.createTempFile("temp", ".txt");
+		temp.deleteOnExit();
+		BufferedWriter out = new BufferedWriter(new FileWriter(temp));
+		out.write("ZZZ 999, Computer Science for Dummies, 2 activity, 4 unit, 3 lect, 2 unit, 2 lab, 5 unit, banana");
+		out.close();
+		ResourceManager.importCourses(temp);
+		assertTrue("Testing proper import... ", DatabaseCommunicator.resourceExists("courses", "department='ZZZ' AND number=999"));
+		String name = DatabaseCommunicator.queryDatabase("SELECT name FROM courses WHERE department='ZZZ' AND number=999;").get(0).get("name").toString();
+		assertEquals("Testing proper name...", "Computer Science for Dummies", name);
+		
+		File temp2 = File.createTempFile("temp", ".txt");
+		temp2.deleteOnExit();
+		out = new BufferedWriter(new FileWriter(temp2));
+		out.write("ZZZ 999, Computer Science for Smarties, 2 activity, 4 unit, 3 lect, 2 unit, 2 lab, 5 unit, banana");
+		out.close();
+		ResourceManager.importCourses(temp2);
+		assertTrue(DatabaseCommunicator.resourceExists("courses", "department='ZZZ' AND number=999"));
+		name = DatabaseCommunicator.queryDatabase("SELECT name FROM courses WHERE department='ZZZ' AND number=999;").get(0).get("name").toString();
+		assertEquals("Testing name change...", "Computer Science for Smarties", name);
+		
+		ResourceManager.removeCourse("ZZZ", 999);
+		assertFalse(DatabaseCommunicator.resourceExists("courses", "department='ZZZ' AND number=999"));
 	}
 	
 	

@@ -108,4 +108,31 @@ public class DatabaseCommunicator
 		
 		return connection;
 	}
+	/**
+	 * Adds a list of DatabaseObjects to the database
+	 * @param objectList List of DatabaseObjects to be added to the database
+	 */
+	public static void addAllToDatabase(List<DatabaseObject> objectList)
+	{
+		Connection connection = null;
+		Statement stmt = null;
+		
+		connection = connect();
+		if(connection != null)
+		{
+			try {
+			stmt = (Statement) connection.createStatement();
+			
+			for (DatabaseObject object: objectList)
+			{
+				stmt.executeUpdate("REPLACE INTO " + object.getTable() + " (" + object.getKeys() + ") "
+						+ "VALUES (" + object.getValues() + ");");
+			}
+			stmt.close();
+			connection.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
 }
