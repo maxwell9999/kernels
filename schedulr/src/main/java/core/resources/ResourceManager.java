@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.Scanner;
 
 import core.database.DatabaseCommunicator;
+import core.database.DatabaseObject;
 
 /**
  * building
@@ -67,47 +68,49 @@ public class ResourceManager
 	
 	public static void importCourses(File courseFile) throws FileNotFoundException
 	{
-		/*Map<String, Object> course = new HashMap<String, Object>();
-		Scanner fileScan = new Scanner(courseFile);
+		File file = new File("/Users/Simko/Downloads/Courseimportfile.txt");
+		ArrayList<DatabaseObject> courseList= new ArrayList<DatabaseObject>();
+		Course course;
+		Scanner fileScan = new Scanner(file);
 		Scanner lineScan;
-		String temp;
+		String[] parsedString;
+		double value;
 		
 		while (fileScan.hasNextLine())
 		{
+			course = new Course();
 			lineScan = new Scanner(fileScan.nextLine());
-			course.put("department", lineScan.next());
+			course.setDepartment(lineScan.next());
 			lineScan.useDelimiter(",");
-			course.put("number", lineScan.next());
-			course.put("name", lineScan.next());
-			course.put("wtu", 0);
+			course.setNumber(Integer.parseInt(lineScan.next().trim()));
+			course.setName(lineScan.next().trim());
 			while (lineScan.hasNext())
 			{
-				temp = lineScan.next();
-				if (temp.contains("lect"))
+				parsedString = lineScan.next().trim().split(" ");
+				value = Double.parseDouble(parsedString[0]);
+				if (parsedString[1].contains("lect"))
 				{
-					course.put("lect", temp.substring(0, temp.lastIndexOf(' ')));
-					course.put("wtu", (Integer) course.get("wtu") + lineScan.nextInt());
+					course.setLect_hours((int) value);
 				}
-				else if (temp.contains("lab"))
+				else if (parsedString[1].contains("lab"))
 				{
-					course.put("lab", temp.substring(0, temp.lastIndexOf(' ')));
-					course.put("wtu", (Integer) course.get("wtu") + lineScan.nextInt());
+					course.setLab_hours((int) value);
 				}
-				else if (temp.contains("activity"))
+				else if (parsedString[1].contains("activity"))
 				{
-					course.put("activity", temp.substring(0, temp.lastIndexOf(' ')));
-					course.put("wtu", (Integer) course.get("wtu") + lineScan.nextInt());
+					course.setAct_hours((int) value);
 				}
-				else if (temp.contains("supv"))
+				else if (parsedString[1].contains("unit"))
 				{
-					course.put("supv", temp.substring(0, temp.lastIndexOf(' ')));
-					course.put("wtu", (Integer) course.get("wtu") + lineScan.nextInt());
+					course.addWtu(value);
 				}
 			}
 			lineScan.close();
+			courseList.add(course);
 			
 		}
-		fileScan.close();*/
+		fileScan.close();
+		DatabaseCommunicator.addAllToDatabase(courseList);
 		
 	}
 
@@ -115,11 +118,28 @@ public class ResourceManager
 	 * Returns a sorted course list, sorted by name and number
 	 * @return sorted List of courses
 	 */
-	public List<HashMap<String, Object>> getCourseList()
+	public List<Course> getCourseList()
 	{
-		List<HashMap<String, Object>> courseMap = DatabaseCommunicator.queryDatabase("SELECT department,number FROM courses;");
-		Collections.sort(courseMap, new CourseComparator());
-		return courseMap;
+		String dept, name, notes;
+		int num, lect_hours, lab_hours, act_hours;
+		double wtu;
+		
+		List<Course> courseList = new ArrayList<Course>();
+		List<HashMap<String, Object>> courseMap = DatabaseCommunicator.queryDatabase("SELECT * FROM courses;");
+		for(HashMap<String, Object> map: courseMap)
+		{
+			dept = map.get("department").toString();
+			name = map.get("name").toString();
+			notes = (String) map.get("notes");
+			num = (Integer) map.get("number");
+			lect_hours = 0;//(Integer) map.get("lect_hours");
+			lab_hours = 0;//(Integer) map.get("lab_hours");
+			act_hours = 0;//(Integer) map.get("act_hours");
+			wtu = (Double) map.get("wtu");
+			courseList.add(new Course(dept, num, name, wtu, lect_hours, notes, lab_hours, act_hours));
+		}
+		Collections.sort(courseList, new CourseComparator());
+		return courseList;
 	}
 	
 	/**
@@ -160,18 +180,18 @@ public class ResourceManager
 	 * @author Simko
 	 *
 	 */
-    class CourseComparator implements Comparator<Map<String, Object>>
+    class CourseComparator implements Comparator<Course>
     {
     	/**
     	 * Compares the last names, returning a negative number if the first name comes before the second.
     	 */
-    	public int compare(Map<String, Object> Resource1, Map<String, Object> Resource2) 
+    	public int compare(Course Resource1, Course Resource2) 
     	{
-    		if (Resource1.get("department").toString().equals(Resource2.get("department").toString()))
+    		if (Resource1.getDepartment().equals(Resource2.getDepartment()))
     		{
-    			return (Integer) Resource1.get("number") - (Integer) Resource2.get("number");
+    			return Resource1.getNumber() - Resource2.getNumber();
     		}
-    		return Resource1.get("department").toString().compareTo(Resource2.get("department").toString());
+    		return Resource1.getDepartment().compareTo(Resource2.getDepartment());
     	}
 	}
     

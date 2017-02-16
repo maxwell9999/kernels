@@ -1,19 +1,19 @@
-package core.resources;
+package core.scheduling;
 
-import core.database.DatabaseObject;
+import core.database.DatabaseCommunicator;
 
-public class Course implements DatabaseObject{
+public class Course {
+	//| department | number | name                    | wtu  | lect_hours | notes | lab_hours |
 	
 	private String department;
 	private int number;
 	private String name;
-	private double wtu;
+	private int wtu;
 	private int lect_hours;
 	private String notes;
 	private int lab_hours;
-	private int act_hours;
 	
-	public Course(String dept, int num, String name, double wtu, int lect_hours, String notes, int lab_hours, int act_hours)
+	public Course(String dept, int num, String name, int wtu, int lect_hours, String notes, int lab_hours)
 	{
 		this.department = dept;
 		this.number = num;
@@ -22,7 +22,6 @@ public class Course implements DatabaseObject{
 		this.lect_hours = lect_hours;
 		this.notes = notes;
 		this.lab_hours = lab_hours;
-		this.act_hours = act_hours;
 	}
 	
 	public Course()
@@ -34,7 +33,6 @@ public class Course implements DatabaseObject{
 		this.lect_hours = 0;
 		this.notes = null;
 		this.lab_hours = 0;
-		this.act_hours = 0;
 	}
 
 	public String getDepartment() {
@@ -61,16 +59,12 @@ public class Course implements DatabaseObject{
 		this.name = name;
 	}
 
-	public double getWtu() {
+	public int getWtu() {
 		return wtu;
 	}
 
-	public void setWtu(double wtu) {
+	public void setWtu(int wtu) {
 		this.wtu = wtu;
-	}
-	
-	public void addWtu(double wtu) {
-		this.wtu += wtu;
 	}
 
 	public int getLect_hours() {
@@ -96,25 +90,13 @@ public class Course implements DatabaseObject{
 	public void setLab_hours(int lab_hours) {
 		this.lab_hours = lab_hours;
 	}
-	public int getAct_hours() {
-		return act_hours;
-	}
-
-	public void setAct_hours(int act_hours) {
-		this.act_hours = act_hours;
-	}
-
-	public String getKeys() {
-		return "department, number, name, wtu, lect_hours, notes, lab_hours, act_hours";
-	}
-
-	public String getValues() {
-		return "'" + department + "', " + number + ", '" + name + "', " + wtu + ", " + 
-				lect_hours + ", " + notes + ", " + lab_hours + ", " + act_hours;
-	}
 	
-	public String getTable()
+	public void addToDatabase()
 	{
-		return "courses";
+		String fieldString = "department, number, name, wtu, lect_hours, notes, lab_hours";
+		String valueString = "'" + department + "', " + number + ", '" + name + "', " + wtu + ", " + 
+				lect_hours + ", " + notes + ", " + lab_hours;
+		
+		DatabaseCommunicator.insertDatabase("courses", fieldString, valueString);
 	}
 }
