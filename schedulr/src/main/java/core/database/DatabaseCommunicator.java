@@ -135,4 +135,11 @@ public class DatabaseCommunicator
 			}
 		}
 	}
+	
+
+	public static void insertDatabase(DatabaseObject object)
+	{
+		String insert = "INSERT INTO " + object.getTable() + "(" + object.getKeys() + ") VALUES (" + object.getValues() + ");";
+		databaseAction(insert);
+	}
 }
