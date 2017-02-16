@@ -74,7 +74,7 @@ public class ResourceManagerTest extends TestCase{
 	public void testGetCourseList()
 	{
 		ResourceManager man = new ResourceManager();
-		List<HashMap<String, Object>> list = man.getCourseList();
+		List<Course> list = man.getCourseList();
 		int numCourse = list.size();
 		assertNotNull("Testing that list exists", list);
 		
@@ -83,13 +83,13 @@ public class ResourceManagerTest extends TestCase{
 		ResourceManager.addCourse("ZZZ", 123, "Test Course", 4, 6, null, 0);
 		list = man.getCourseList();
 		assertEquals("Testing number of courses", numCourse + 3, list.size());
-		assertEquals("Testing first course dept...", "AAA", list.get(0).get("department"));
-		assertEquals("Testing first course number...", 123, list.get(0).get("number"));
+		assertEquals("Testing first course dept...", "AAA", list.get(0).getDepartment());
+		assertEquals("Testing first course number...", 123, list.get(0).getNumber());
 		
-		assertEquals("Testing dept sort...", "ZZZ", list.get(list.size() - 1).get("department"));
-		assertEquals("Testing dept sort...", 123, list.get(list.size() - 1).get("number"));
+		assertEquals("Testing dept sort...", "ZZZ", list.get(list.size() - 1).getDepartment());
+		assertEquals("Testing dept sort...", 123, list.get(list.size() - 1).getNumber());
 		
-		assertEquals("Testing number sort...", 124, list.get(1).get("number"));
+		assertEquals("Testing number sort...", 124, list.get(1).getNumber());
 		
 		ResourceManager.removeCourse("AAA", 123);
 		ResourceManager.removeCourse("AAA", 124);

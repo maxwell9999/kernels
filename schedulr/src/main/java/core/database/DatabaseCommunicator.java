@@ -108,4 +108,38 @@ public class DatabaseCommunicator
 		
 		return connection;
 	}
+	
+	public static String convertQueryToString(String query)
+	{
+		List<HashMap<String, Object>> list = queryDatabase(query);
+		if (list.size() == 1)
+		{
+			return list.get(0).toString();
+		}
+		return null;
+	}
+	
+	public static void addAllToDatabase(List<DatabaseObject> objectList)
+	{
+		Connection connection = null;
+		Statement stmt = null;
+		
+		connection = connect();
+		if(connection != null)
+		{
+			try {
+			stmt = (Statement) connection.createStatement();
+			
+			for (DatabaseObject object: objectList)
+			{
+				stmt.executeUpdate("REPLACE INTO " + object.getTable() + " (" + object.getKeys() + ") "
+						+ "VALUES (" + object.getValues() + ");");
+			}
+			stmt.close();
+			connection.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
 }
