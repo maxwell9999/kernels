@@ -66,51 +66,61 @@ public class ResourceManager
 		DatabaseCommunicator.deleteDatabase("courses", "department='" + department + "' AND number=" + number + ";");
 	}
 	
-	public static void importCourses(File courseFile) throws FileNotFoundException
+	/**
+	 * Imports courses from a properly formatted course file
+	 * @param courseFile file to import contents from
+	 */
+	public static void importCourses(File courseFile)
 	{
-		File file = new File("/Users/Simko/Downloads/Courseimportfile.txt");
-		ArrayList<DatabaseObject> courseList= new ArrayList<DatabaseObject>();
-		Course course;
-		Scanner fileScan = new Scanner(file);
-		Scanner lineScan;
-		String[] parsedString;
-		double value;
-		
-		while (fileScan.hasNextLine())
-		{
-			course = new Course();
-			lineScan = new Scanner(fileScan.nextLine());
-			course.setDepartment(lineScan.next());
-			lineScan.useDelimiter(",");
-			course.setNumber(Integer.parseInt(lineScan.next().trim()));
-			course.setName(lineScan.next().trim());
-			while (lineScan.hasNext())
-			{
-				parsedString = lineScan.next().trim().split(" ");
-				value = Double.parseDouble(parsedString[0]);
-				if (parsedString[1].contains("lect"))
-				{
-					course.setLect_hours((int) value);
-				}
-				else if (parsedString[1].contains("lab"))
-				{
-					course.setLab_hours((int) value);
-				}
-				else if (parsedString[1].contains("activity"))
-				{
-					course.setAct_hours((int) value);
-				}
-				else if (parsedString[1].contains("unit"))
-				{
-					course.addWtu(value);
-				}
-			}
-			lineScan.close();
-			courseList.add(course);
+		try {
+			File file = new File("/Users/Simko/Downloads/Courseimportfile.txt");
+			ArrayList<DatabaseObject> courseList= new ArrayList<DatabaseObject>();
+			Course course;
+			Scanner fileScan = new Scanner(file);
+			Scanner lineScan;
+			String[] parsedString;
+			double value;
 			
+			while (fileScan.hasNextLine())
+			{
+				course = new Course();
+				lineScan = new Scanner(fileScan.nextLine());
+				course.setDepartment(lineScan.next());
+				lineScan.useDelimiter(",");
+				course.setNumber(Integer.parseInt(lineScan.next().trim()));
+				course.setName(lineScan.next().trim());
+				while (lineScan.hasNext())
+				{
+					parsedString = lineScan.next().trim().split(" ");
+					value = Double.parseDouble(parsedString[0]);
+					if (parsedString[1].contains("lect"))
+					{
+						course.setLect_hours((int) value);
+					}
+					else if (parsedString[1].contains("lab"))
+					{
+						course.setLab_hours((int) value);
+					}
+					else if (parsedString[1].contains("activity"))
+					{
+						course.setAct_hours((int) value);
+					}
+					else if (parsedString[1].contains("unit"))
+					{
+						course.addWtu(value);
+					}
+				}
+				lineScan.close();
+				courseList.add(course);
+				
+			}
+			fileScan.close();
+			DatabaseCommunicator.addAllToDatabase(courseList);
 		}
-		fileScan.close();
-		DatabaseCommunicator.addAllToDatabase(courseList);
+		catch (Exception ex)
+		{
+			System.err.println("Invalid File");
+		}
 		
 	}
 

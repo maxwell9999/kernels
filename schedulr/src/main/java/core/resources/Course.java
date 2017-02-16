@@ -40,15 +40,12 @@ public class Course implements DatabaseObject{
 	public String getDepartment() {
 		return department;
 	}
-
 	public void setDepartment(String department) {
 		this.department = department;
 	}
-
 	public int getNumber() {
 		return number;
 	}
-
 	public void setNumber(int number) {
 		this.number = number;
 	}
@@ -92,14 +89,12 @@ public class Course implements DatabaseObject{
 	public int getLab_hours() {
 		return lab_hours;
 	}
-
 	public void setLab_hours(int lab_hours) {
 		this.lab_hours = lab_hours;
 	}
 	public int getAct_hours() {
 		return act_hours;
 	}
-
 	public void setAct_hours(int act_hours) {
 		this.act_hours = act_hours;
 	}
