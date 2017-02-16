@@ -16,7 +16,7 @@ import javafx.stage.Stage;
 /**
  * UI for adding account.
  * @author sarahpadlipsky
- * @version February 6, 2017
+ * @version February 15, 2017
  */
 public class AddAccountController {
 

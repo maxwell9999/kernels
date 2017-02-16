@@ -52,7 +52,6 @@ public class CourseEntryController {
      */
 	@FXML
     private void deleteAction(ActionEvent event) {
-		System.out.println(course);
 		ResourceManager.removeCourse(course.getDepartment(), course.getNumber());
 		resourceController.populateCourses();
 	}
