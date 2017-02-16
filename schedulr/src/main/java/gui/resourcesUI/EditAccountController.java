@@ -6,7 +6,6 @@ import org.slf4j.LoggerFactory;
 import core.accounts.AccountManager;
 import core.accounts.User;
 import core.database.DatabaseCommunicator;
-import gui.accountsUI.FacultyDirectoryController;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -25,6 +24,7 @@ import javafx.stage.Stage;
  */
 public class EditAccountController {
 
+	//TODO(Simko): Are these values correct? They do not seem to be working
 	private static final int SCHEDULER = 1; 
 	private static final int FACULTY_MEMBER = 0; 
     private static final Logger log = LoggerFactory.getLogger(EditAccountController.class);

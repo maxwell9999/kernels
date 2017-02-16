@@ -5,7 +5,6 @@ import org.slf4j.LoggerFactory;
 
 import core.accounts.AccountManager;
 import core.database.DatabaseCommunicator;
-import gui.accountsUI.FacultyDirectoryController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;

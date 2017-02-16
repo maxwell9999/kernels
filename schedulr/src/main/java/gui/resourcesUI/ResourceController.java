@@ -16,7 +16,6 @@ import core.accounts.User;
 import core.resources.Course;
 import core.resources.ResourceManager;
 import core.resources.Room;
-import gui.accountsUI.FacultyDirectoryController.FacultyMember;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

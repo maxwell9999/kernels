@@ -46,9 +46,7 @@ public class FacultyEntryController {
     	editAccountController.setList("ready");
     	
     	Scene scene = new Scene(root); 
-
     	stage.setScene(scene);    
-
     	stage.show();   
 	}
 	
@@ -63,10 +61,18 @@ public class FacultyEntryController {
 		resourceController.populateFaculty();
 	}
 	
+	/**
+	 * Sets current user.
+	 * @param user set from ResourceController.
+	 */
 	public void setUser(User user) {
 		this.user = user;
 	}
 	
+	/**
+	 * Sets ResourceController
+	 * @param resourceController set from ResourceController.
+	 */
 	public void setResourceController(ResourceController resourceController) {
 		this.resourceController = resourceController;
 	}
