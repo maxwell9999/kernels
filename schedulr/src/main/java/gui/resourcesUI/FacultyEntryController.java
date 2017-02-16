@@ -2,6 +2,8 @@ package gui.resourcesUI;
 
 import java.io.IOException;
 
+import core.accounts.AccountManager;
+import core.accounts.User;
 import core.resources.Course;
 import core.resources.ResourceManager;
 import javafx.event.ActionEvent;
@@ -12,14 +14,14 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 /**
- * UI for viewing single entry for rooms and courses.
+ * UI for viewing single entry for faculty.
  * @author DavidMcIntyre, sarahpadlipsky
  * @version February 14, 2017
  */
-public class CourseEntryController {
+public class FacultyEntryController {
 
 	private ResourceController resourceController;
-	private Course course;
+	private User user;
 	
 	/**
      * onAction button for deleting new course.
@@ -29,7 +31,7 @@ public class CourseEntryController {
 	@FXML
     private void editAction(ActionEvent event) {	
 		Stage stage = new Stage();
-    	FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("editcourse.fxml"));     
+    	FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("EditAccountView.fxml"));     
 
     	Parent root = null;
 		try {
@@ -37,6 +39,11 @@ public class CourseEntryController {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}          
+		
+		EditAccountController editAccountController = fxmlLoader.<EditAccountController>getController();
+		editAccountController.setCurrentUser(user);
+		editAccountController.setResourceController(resourceController);
+    	editAccountController.setList("ready");
     	
     	Scene scene = new Scene(root); 
 
@@ -52,13 +59,12 @@ public class CourseEntryController {
      */
 	@FXML
     private void deleteAction(ActionEvent event) {
-		System.out.println(course);
-		ResourceManager.removeCourse(course.getDepartment(), course.getNumber());
-		resourceController.populateCourses();
+		AccountManager.removeUser(user.getLogin());
+		resourceController.populateFaculty();
 	}
 	
-	public void setCourse(Course course) {
-		this.course = course;
+	public void setUser(User user) {
+		this.user = user;
 	}
 	
 	public void setResourceController(ResourceController resourceController) {

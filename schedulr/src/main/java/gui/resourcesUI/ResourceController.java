@@ -12,10 +12,10 @@ import java.util.List;
 import org.apache.log4j.helpers.Loader;
 
 import core.accounts.AccountManager;
+import core.accounts.User;
 import core.resources.Course;
 import core.resources.ResourceManager;
 import core.resources.Room;
-import gui.accountsUI.EditAccountController;
 import gui.accountsUI.FacultyDirectoryController.FacultyMember;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
@@ -34,7 +34,7 @@ import javafx.stage.Stage;
 public class ResourceController {
 	@FXML private Button addNewCourse;
 	@FXML private Button addNewRoom;
-	@FXML private Button deleteButton;
+	@FXML private Button addNewFaculty;
 
 	
 	@FXML private Button confirm;
@@ -47,6 +47,7 @@ public class ResourceController {
 	@FXML private TextArea notes;
 	@FXML private CheckBox includesLab;
 	@FXML private VBox courseContainer;
+	@FXML private VBox facultyContainer;
 	@FXML private VBox roomContainer;
 	@FXML private Label test;
 	
@@ -54,10 +55,14 @@ public class ResourceController {
 	List<Course> courses = new ArrayList<Course>();
 	//TODO(Sarah): Set up room tab once back-end is done
 	List<Room> rooms = new ArrayList<Room>();
+	// List of users in database
+	List<User> faculty = new ArrayList<User>();
+
 
 	public void initialize() {
 		populateCourses();
 		populateRooms();
+		populateFaculty();
 	}
 	
 	/**
@@ -68,12 +73,12 @@ public class ResourceController {
 		//Back-end connection to populate courseList
 		courses = ResourceManager.getCourseList();
 		
-		courseContainer.getChildren().clear();
+		facultyContainer.getChildren().clear();
 		for(int i = 0; i < courses.size(); i++) {
 			Pane newPane = null;
 			FXMLLoader loader = null;
 			try {
-				loader = new FXMLLoader(getClass().getResource("resourceEntry.fxml"));
+				loader = new FXMLLoader(getClass().getResource("courseEntry.fxml"));
 				newPane = (Pane) loader.load();
 			} 
 			catch (IOException e) {
@@ -122,6 +127,49 @@ public class ResourceController {
 	}
 	
 	/**
+	 * Updates the faculty list from the database.
+	 */
+	@FXML
+	public void populateFaculty() {
+		//Back-end connection to populate courseList
+		List<HashMap<String, Object>> userMaps = AccountManager.getUserList();
+		faculty = new ArrayList<User>();
+		for (HashMap<String, Object> userMap : userMaps) {
+			String login = (String) userMap.get("login");
+			User user = AccountManager.getUser(login);
+			faculty.add(user);
+		}
+		
+		facultyContainer.getChildren().clear();
+		for(int i = 0; i < faculty.size(); i++) {
+			Pane newPane = null;
+			FXMLLoader loader = null;
+			try {
+				loader = new FXMLLoader(getClass().getResource("facultyEntry.fxml"));
+				newPane = (Pane) loader.load();
+			} 
+			catch (IOException e) {
+				e.printStackTrace();
+			}
+			// Sets values so the ResourceEntryController knows which course it contains.
+			FacultyEntryController resourceController = loader.<FacultyEntryController>getController();
+            resourceController.setUser(faculty.get(i));
+            resourceController.setResourceController(this);
+            
+
+            // Populates GUI.
+            facultyContainer.getChildren().add(newPane);
+            Label lastName = (Label) newPane.lookup("#lastName");
+            Label firstName = (Label) newPane.lookup("#firstName");
+            Label login = (Label) newPane.lookup("#login");
+            
+            lastName.setText(faculty.get(i).getLastName());
+            firstName.setText(faculty.get(i).getFirstName());
+            login.setText(faculty.get(i).getLogin());
+		}
+	}
+	
+	/**
      * onAction button for adding new course, room, and faculty member.
      * @param event Necessary field for onAction events.
      * @throws IOException 
@@ -160,7 +208,26 @@ public class ResourceController {
                 return;
             }
             
-            Stage primaryStage = (Stage) addNewCourse.getScene().getWindow();
+            Stage primaryStage = (Stage) addNewRoom.getScene().getWindow();
+            Stage inputStage = new Stage();
+            inputStage.initOwner(primaryStage);
+            inputStage.setScene(newScene);
+            inputStage.showAndWait();
+        }
+        else if (event.getSource() == addNewFaculty) {
+        	// Edit room popup
+        	FXMLLoader loader = new FXMLLoader(getClass().getResource("AddAccountView.fxml"));
+            Scene newScene;
+            try {
+                newScene = new Scene((Parent)loader.load());
+            } catch (IOException ex) {
+            	System.out.println(ex);
+            	ex.printStackTrace();
+                return;
+            }
+            AddAccountController addAccountController = loader.<AddAccountController>getController();
+            addAccountController.setResourceController(this);
+            Stage primaryStage = (Stage) addNewFaculty.getScene().getWindow();
             Stage inputStage = new Stage();
             inputStage.initOwner(primaryStage);
             inputStage.setScene(newScene);
