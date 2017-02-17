@@ -1,6 +1,8 @@
 package core.resources;
 
-public class Room {
+import core.database.DatabaseObject;
+
+public class Room implements DatabaseObject {
 	private int building;
 	private int number;
 	private int capacity;
@@ -68,4 +70,18 @@ public class Room {
 	public String getEquipment() {
 		return equipment;
 	}
+	
+	public String getKeys(){
+		return "building, number, capacity, type, notes, equipment"; 
+	}
+	
+	public String getValues() {
+		return building + ", " + number + ", " + capacity + ", '" + type + "', '" + 
+				notes + "', " + equipment;
+	}
+	
+	public String getTable() {
+		return "rooms"; 
+	}
+	
 }
