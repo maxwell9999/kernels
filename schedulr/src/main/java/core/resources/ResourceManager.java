@@ -66,6 +66,49 @@ public class ResourceManager
 		DatabaseCommunicator.deleteDatabase("courses", "department='" + department + "' AND number=" + number + ";");
 	}
 	
+	/** 
+	 * 
+	 * @param department the department offering the course; max length=4 characters
+	 * @param number the course number (different than section number)
+	 * @return Course object with fields filled in from the database 
+	 */
+	public static Course getCourse(String department, int courseNumber) {
+		Course course = new Course(); 
+		List<HashMap<String, Object>> courseAttributes = DatabaseCommunicator.queryDatabase(
+				"SELECT * FROM courses WHERE department='" + department + "' AND number=" + courseNumber + ";");
+		HashMap<String, Object> attributeMap = courseAttributes.get(0);
+		
+		course.setDepartment(attributeMap.get("department").toString());
+		course.setNumber(Integer.parseInt(attributeMap.get("number").toString()));
+		course.setName(attributeMap.get("name").toString());
+		course.setWtu(Double.parseDouble(attributeMap.get("wtu").toString()));
+		course.setLectHours(Integer.parseInt(attributeMap.get("lect_hours").toString()));
+		course.setLabHours(Integer.parseInt(attributeMap.get("lab_hours").toString()));
+		course.setActHours(Integer.parseInt(attributeMap.get("act_hours").toString()));
+		if (attributeMap.get("notes") != null) {
+			course.setNotes(attributeMap.get("notes").toString());
+		}
+	
+		return course; 
+	}
+	
+	public static Room getRoom(int building, int roomNumber) {
+		Room room = new Room(); 
+		
+		List<HashMap<String, Object>> roomAttributes = DatabaseCommunicator.queryDatabase(
+				"SELECT * FROM rooms WHERE building='" + building + "' AND number=" + roomNumber + ";");
+		HashMap<String, Object> attributeMap = roomAttributes.get(0);
+		
+		room.setBuilding(Integer.parseInt(attributeMap.get("building").toString()));
+		room.setNumber(Integer.parseInt(attributeMap.get("number").toString()));
+		room.setCapacity(Integer.parseInt(attributeMap.get("capacity").toString()));
+		room.setType(attributeMap.get("type").toString());
+		room.setNotes(attributeMap.get("notes").toString());
+		room.setEquipment(attributeMap.get("equipment").toString());
+		
+		return room; 
+	}
+	
 	public static void importCourses(File courseFile) throws FileNotFoundException
 	{
 		File file = new File("/Users/Simko/Downloads/Courseimportfile.txt");
@@ -196,4 +239,4 @@ public class ResourceManager
 	}
     
     
-}
+}	

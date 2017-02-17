@@ -13,7 +13,7 @@ import core.database.DatabaseCommunicator;
 public class ResourceManagerTest extends TestCase{
 
 	@Test
-	public void testRoomAddEditRemove()
+	public void testRoomAddEditGetRemove()
 	{
 		ResourceManager.addRoom(99, 9904, 1, "lecture", null, null);
 		List<HashMap<String, Object>> list;
@@ -22,13 +22,20 @@ public class ResourceManagerTest extends TestCase{
 		assertEquals("Testing Room Add...", 
 				1, Integer.parseInt(list.get(0).get("capacity").toString()));
 		
+		Room temp = ResourceManager.getRoom(99, 9904);
+		assertEquals("Testing Room Get...", 
+				99, temp.getBuilding());
+		assertEquals(9904, temp.getNumber()); 
+		
+		//TODO add test for edit
+		
 		ResourceManager.removeRoom(99, 9904);
 		list = DatabaseCommunicator.queryDatabase("SELECT count(*) FROM rooms;");
 		assertEquals("Testing Room Remove...", 
 				0, Integer.parseInt(list.get(0).get("count(*)").toString()));
 	}
 	
-	public void testCourseAddEditRemove()
+	public void testCourseAddEditGetRemove()
 	{
 		ResourceManager.addCourse("ABC", 123, "Test Course", 4, 6, null, 0);
 		List<HashMap<String, Object>> list;
@@ -36,6 +43,13 @@ public class ResourceManagerTest extends TestCase{
 		list = DatabaseCommunicator.queryDatabase("SELECT name FROM courses WHERE department='ABC' AND number=123;");
 		assertEquals("Testing Course Add...", 
 				"Test Course", list.get(0).get("name").toString());
+		
+		Course temp = ResourceManager.getCourse("ABC", 123); 
+		assertEquals("Testing Course Get...", 
+				"ABC", temp.getDepartment());
+		assertEquals(123, temp.getNumber()); 
+		
+		//TODO add test for edit
 		
 		ResourceManager.removeCourse("ABC", 123);
 		list = DatabaseCommunicator.queryDatabase("SELECT name FROM courses WHERE department='ABC' AND number=123;");
