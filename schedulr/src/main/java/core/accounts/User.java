@@ -1,6 +1,8 @@
 package core.accounts;
 
-public abstract class User {
+import core.database.DatabaseObject;
+
+public abstract class User implements DatabaseObject {
 	private static int DEPARTMENT_SCHEDULER = 1; 
 	private static int FACULTY_MEMBER = 2; 
 	
@@ -79,7 +81,18 @@ public abstract class User {
 		this.role = role;
 	} 
 	
+	public String getKeys(){
+		return "login, empl_id, last_name, first_name, email, office_location, role"; 
+	}
 	
+	public String getValues() {
+		return "'" + login + "', " + emplId + ", '" + lastName + "', '" + firstName + "', '" + 
+				email + "', " + officeLocation + ", " + role;
+	}
+	
+	public String getTable() {
+		return "users"; 
+	}
 	
 	
 
