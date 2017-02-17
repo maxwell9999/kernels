@@ -198,7 +198,7 @@ public class FacultyDirectoryController extends Application {
 	        this.lastName = new SimpleStringProperty(lName);
 	        this.login = new SimpleStringProperty(login);
 	    }
-	 
+	
 	    public String getFirstName() {
 	        return firstName.get();
 	    }
