@@ -57,7 +57,7 @@ public class editCourseController {
         	String departmentString = department.getValue().toString();
         	int courseNum = Integer.parseInt(courseNumber.getText());
         	String courseName = courseTitle.getText();
-        	int unitsInt = Integer.parseInt(units.getText());
+        	double unitsInt = Double.parseDouble(units.getText());
         	int hoursInt = Integer.parseInt(hours.getText());
         	int labHours = 0;
         	String notesString = notes.getText();

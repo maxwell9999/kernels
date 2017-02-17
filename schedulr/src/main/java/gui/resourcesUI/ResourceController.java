@@ -71,10 +71,10 @@ public class ResourceController {
 	public void populateCourses() {
 		//Back-end connection to populate courseList
 		courses = ResourceManager.getCourseList();
-		
-		facultyContainer.getChildren().clear();
+		courseContainer.getChildren().clear();
 		for(int i = 0; i < courses.size(); i++) {
 			Pane newPane = null;
+			
 			FXMLLoader loader = null;
 			try {
 				loader = new FXMLLoader(getClass().getResource("courseEntry.fxml"));
