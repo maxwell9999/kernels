@@ -107,22 +107,39 @@ public class ResourceController {
 	@FXML
 	public void populateRooms() {
 		//Back-end connection to populate roomList
-//		rooms = ResourceManager.getRoomList();
-//
-//		
-//		roomContainer.getChildren().clear();
-//		for(int i = 0; i < roomList.size(); i++) {
-//			Pane newPane = null;
-//			try {
-//				newPane = (Pane) FXMLLoader.load(getClass().getResource("resourceEntry.fxml"));
-//			} 
-//			catch (IOException e) {
-//				e.printStackTrace();
-//			}
-//            roomContainer.getChildren().add(newPane);
-//            Label temp = (Label) newPane.lookup("#departmentTitle");
-//            temp.setText(roomList.get(i));
-//		}
+		List<HashMap<String, Object>> roomMaps = ResourceManager.getRoomList();
+
+		rooms = new ArrayList<Room>();
+		
+		System.out.println(rooms.size());
+		
+		for (HashMap<String, Object> room : roomMaps) {
+//			String login = (String) room.get("login");
+//			Room Room = ResourceManager.getRoom(login);
+			
+		}
+		
+		Room addRoom = new Room();
+		addRoom.setBuilding(144);
+		addRoom.setNumber(255);
+		rooms.add(addRoom);
+	
+		roomContainer.getChildren().clear();
+		for(int i = 0; i < rooms.size(); i++) {
+			Pane newPane = null;
+			try {
+				newPane = (Pane) FXMLLoader.load(getClass().getResource("roomEntry.fxml"));
+			} 
+			catch (IOException e) {
+				e.printStackTrace();
+			}
+            roomContainer.getChildren().add(newPane);
+            Label building = (Label) newPane.lookup("#buildingNumber");
+            building.setText(Integer.toString(rooms.get(i).getBuilding()));
+            Label room = (Label) newPane.lookup("#roomNumber");
+            room.setText(Integer.toString(rooms.get(i).getNumber()));
+            
+		}
 	}
 	
 	/**
@@ -232,7 +249,5 @@ public class ResourceController {
             inputStage.setScene(newScene);
             inputStage.showAndWait();
         }
-    }
-
-	
+    }	
 }

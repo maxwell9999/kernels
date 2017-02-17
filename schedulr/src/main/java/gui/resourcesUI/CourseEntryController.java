@@ -37,7 +37,10 @@ public class CourseEntryController {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}          
-    	
+		// Sets values so the ResourceEntryController knows which course it contains.
+		editCourseController courseController = fxmlLoader.<editCourseController>getController();
+		courseController.setCourse(course);
+		courseController.setList("ready");
     	Scene scene = new Scene(root); 
 
     	stage.setScene(scene);    
