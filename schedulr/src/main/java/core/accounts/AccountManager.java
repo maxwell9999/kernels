@@ -52,8 +52,8 @@ public class AccountManager
 	
 	public static User getUser(String login) {
 		FacultyMember user = new FacultyMember();  
-		List<HashMap<String, Object>> userList = DatabaseCommunicator.queryDatabase("SELECT * FROM users WHERE login='" + login + "';");
-		HashMap<String, Object> userMap = userList.get(0); 
+		List<HashMap<String, Object>> userAttributes = DatabaseCommunicator.queryDatabase("SELECT * FROM users WHERE login='" + login + "';");
+		HashMap<String, Object> userMap = userAttributes.get(0); 
 		user.setLogin(userMap.get("login").toString());
 		user.setEmplId(Integer.parseInt(userMap.get("empl_id").toString()));
 		user.setFirstName((userMap.get("first_name").toString()));
