@@ -148,12 +148,10 @@ public class ResourceController {
 	@FXML
 	public void populateFaculty() {
 		//Back-end connection to populate courseList
-		List<HashMap<String, Object>> userMaps = AccountManager.getUserList();
+		List<User> userList = AccountManager.getUserList();
 		faculty = new ArrayList<User>();
-		for (HashMap<String, Object> userMap : userMaps) {
-			String login = (String) userMap.get("login");
-			User user = AccountManager.getUser(login);
-			faculty.add(user);
+		for (User currentUser : userList) {
+			faculty.add(currentUser);
 		}
 		
 		facultyContainer.getChildren().clear();

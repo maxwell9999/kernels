@@ -52,7 +52,7 @@ public class AccountManagerTest extends TestCase{
 	@Test
 	public void testGetUserList()
 	{
-		List<HashMap<String, Object>> userList = AccountManager.getUserList();
+		List<User> userList = AccountManager.getUserList();
 		int numUsers = userList.size();
 		assertNotNull("Testing that list exists", userList);
 		
@@ -61,8 +61,8 @@ public class AccountManagerTest extends TestCase{
 		AccountManager.addUser("Test_User2", 99999, "Test", "ZZZZZ", "testUser@gmail.com", "", 1);
 		userList = AccountManager.getUserList();
 		assertEquals("Testing number of users", numUsers + 2, userList.size());
-		assertEquals("Testing first user sorted", "Test_User1", userList.get(0).get("login"));
-		assertEquals("Testing last user sorted", "Test_User2", userList.get(userList.size() - 1).get("login"));
+		assertEquals("Testing first user sorted", "Test_User1", userList.get(0).getLogin());
+		assertEquals("Testing last user sorted", "Test_User2", userList.get(userList.size() - 1).getLogin());
 		
 		AccountManager.removeUser("Test_User1");
 		AccountManager.removeUser("Test_User2");

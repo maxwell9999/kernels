@@ -88,6 +88,9 @@ public class ResourceManager
 		if (attributeMap.get("notes") != null) {
 			course.setNotes(attributeMap.get("notes").toString());
 		}
+		else {
+			course.setNotes("");
+		}
 	
 		return course; 
 	}
