@@ -109,7 +109,7 @@ public class ResourceManager
 		return room; 
 	}
 	
-	public static void importCourses(File courseFile) throws FileNotFoundException
+	public static void importCourses(File file)
 	{
 		try {
 			//File file = new File("/Users/Simko/Downloads/Courseimportfile.txt");

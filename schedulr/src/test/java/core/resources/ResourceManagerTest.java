@@ -34,9 +34,9 @@ public class ResourceManagerTest extends TestCase{
 		//TODO add test for edit
 		
 		ResourceManager.removeRoom(99, 9904);
-		list = DatabaseCommunicator.queryDatabase("SELECT count(*) FROM rooms;");
+		list = DatabaseCommunicator.queryDatabase("SELECT * FROM rooms WHERE building=99 AND number=9904;");
 		assertEquals("Testing Room Remove...", 
-				0, Integer.parseInt(list.get(0).get("count(*)").toString()));
+				0, list.size());
 	}
 	
 	public void testCourseAddEditGetRemove()
@@ -65,26 +65,27 @@ public class ResourceManagerTest extends TestCase{
 	@Test
 	public void testGetRoomList()
 	{
-		ResourceManager man = new ResourceManager();
-		List<HashMap<String, Object>> list = man.getRoomList();
+		List<HashMap<String, Object>> list = ResourceManager.getRoomList();
 		int numRooms = list.size();
 		assertNotNull("Testing that list exists", list);
 		
 		ResourceManager.addRoom(0, 9904, 1, "lecture", null, null);
 		ResourceManager.addRoom(99, 9904, 1, "lecture", null, null);
 		ResourceManager.addRoom(99, 9905, 1, "lecture", null, null);
-		list = man.getRoomList();
+		list = ResourceManager.getRoomList();
+		
 		assertEquals("Testing number of rooms", numRooms + 3, list.size());
 		assertEquals("Testing first room building...", 0, list.get(0).get("building"));
 		assertEquals("Testing first room number...", 9904, list.get(0).get("number"));
 		
+		//TODO NOTE this test will fail once the database is populated
 		assertEquals("Testing building sort...", 9904, list.get(list.size() - 2).get("number"));
 		assertEquals("Testing room sort...", 9905, list.get(list.size() - 1).get("number"));
 		
 		ResourceManager.removeRoom(0, 9904);
 		ResourceManager.removeRoom(99, 9904);
 		ResourceManager.removeRoom(99, 9905);
-		list = man.getRoomList();
+		list = ResourceManager.getRoomList();
 		assertEquals("Testing number of rooms...", numRooms, list.size());
 	}
 	
