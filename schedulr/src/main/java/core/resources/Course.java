@@ -1,5 +1,6 @@
 package core.resources;
 
+import core.database.DatabaseCommunicator;
 import core.database.DatabaseObject;
 
 public class Course implements DatabaseObject{
@@ -113,5 +114,10 @@ public class Course implements DatabaseObject{
 	public String getTable()
 	{
 		return "courses";
+	}
+	
+	public void updateCourse()
+	{
+		DatabaseCommunicator.insertDatabase(this);
 	}
 }

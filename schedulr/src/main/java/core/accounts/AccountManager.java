@@ -1,5 +1,6 @@
 package core.accounts;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -9,6 +10,7 @@ import java.util.Map;
 import org.mindrot.jbcrypt.BCrypt;
 
 import core.database.DatabaseCommunicator;
+import core.resources.Course;
 
 public class AccountManager
 {
@@ -89,11 +91,30 @@ public class AccountManager
 	 * Returns a sorted user list, sorted by last name
 	 * @return sorted List of users
 	 */
-	public static List<HashMap<String, Object>> getUserList()
+	public static List<User> getUserList()
 	{
-		List<HashMap<String, Object>> userMap = DatabaseCommunicator.queryDatabase("SELECT login,last_name,first_name FROM users;");
-		Collections.sort(userMap, new UserComparator());
-		return userMap;
+		String login, firstName, lastName, email, officeLocation; 
+		int emplId;  
+		int role;
+		
+		List<User> userList = new ArrayList<User>();
+		List<HashMap<String, Object>> userMap = DatabaseCommunicator.queryDatabase("SELECT * FROM users;");
+		for(HashMap<String, Object> map: userMap)
+		{
+			login = map.get("login").toString();
+			firstName = map.get("first_name").toString();
+			lastName = map.get("last_name").toString();
+			email = map.get("email").toString();
+			officeLocation = map.get("office_location").toString();
+			emplId = (Integer) map.get("empl_id");
+			role = (Integer) map.get("role");
+			if (role == 1)
+				userList.add(new DepartmentScheduler(login, emplId, firstName, lastName, email, officeLocation));
+			else
+				userList.add(new FacultyMember(login, emplId, firstName, lastName, email, officeLocation));
+		}
+		Collections.sort(userList, new UserComparator());
+		return userList;
 	}
 	/**
 	 * User Comparator is the comparator used to compare the user's last names to put in alphabetical order.
@@ -101,14 +122,18 @@ public class AccountManager
 	 * @author Simko
 	 *
 	 */
-    static class UserComparator implements Comparator<Map<String, Object>>
+    private static class UserComparator implements Comparator<User>
     {
     	/**
     	 * Compares the last names, returning a negative number if the first name comes before the second.
     	 */
-    	public int compare(Map<String, Object> user1, Map<String, Object> user2) 
+    	public int compare(User user1, User user2) 
     	{
-    		return user1.get("last_name").toString().compareTo(user2.get("last_name").toString());
+    		if (user1.getLastName().equals(user2.getLastName()))
+    		{
+    			return user1.getFirstName().compareTo(user2.getFirstName());
+    		}
+    		return user1.getLastName().compareTo(user2.getLastName());
     	}
 	}
 }

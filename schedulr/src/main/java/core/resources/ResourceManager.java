@@ -87,6 +87,9 @@ public class ResourceManager
 		if (attributeMap.get("notes") != null) {
 			course.setNotes(attributeMap.get("notes").toString());
 		}
+		else {
+			course.setNotes("");
+		}
 	
 		return course; 
 	}
@@ -190,13 +193,13 @@ public class ResourceManager
 			name = map.get("name").toString();
 			notes = (String) map.get("notes");
 			num = (Integer) map.get("number");
-			lect_hours = 0;//(Integer) map.get("lect_hours");
-			lab_hours = 0;//(Integer) map.get("lab_hours");
-			act_hours = 0;//(Integer) map.get("act_hours");
+			lect_hours = (Integer) map.get("lect_hours");
+			lab_hours = (Integer) map.get("lab_hours");
+			act_hours = (Integer) map.get("act_hours");
 			wtu = (Double) map.get("wtu");
 			courseList.add(new Course(dept, num, name, wtu, lect_hours, notes, lab_hours, act_hours));
 		}
-//		Collections.sort(courseList, new CourseComparator());
+		Collections.sort(courseList, new CourseComparator());
 		return courseList;
 	}
 	
@@ -238,7 +241,7 @@ public class ResourceManager
 	 * @author Simko
 	 *
 	 */
-    private class CourseComparator implements Comparator<Course>
+    private static class CourseComparator implements Comparator<Course>
     {
     	/**
     	 * Compares the last names, returning a negative number if the first name comes before the second.

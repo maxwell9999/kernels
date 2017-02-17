@@ -65,8 +65,17 @@ public class DatabaseCommunicator
 		databaseAction(update);
 	}
 	
+	public static void updateDatabase(DatabaseObject object)
+	{
+		String update = ("REPLACE INTO " + object.getTable() + " (" + object.getKeys() + ") "
+				+ "VALUES (" + object.getValues() + ");");
+		databaseAction(update);
+	}
+	
 	public static boolean resourceExists(String tableName, String uniqueIdentifier) {
 		List<HashMap<String, Object>> list = queryDatabase("SELECT count(*) FROM " + tableName + " WHERE " + uniqueIdentifier + ";");
+		if (list.size() == 0)
+			return false;
 		return Integer.parseInt(list.get(0).get("count(*)").toString()) == 1; 
 	}
 	

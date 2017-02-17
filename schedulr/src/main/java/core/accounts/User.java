@@ -1,5 +1,6 @@
 package core.accounts;
 
+import core.database.DatabaseCommunicator;
 import core.database.DatabaseObject;
 
 public abstract class User implements DatabaseObject {
@@ -92,6 +93,11 @@ public abstract class User implements DatabaseObject {
 	
 	public String getTable() {
 		return "users"; 
+	}
+	
+	public void updateCourse()
+	{
+		DatabaseCommunicator.insertDatabase(this);
 	}
 	
 	
