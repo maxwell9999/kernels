@@ -16,6 +16,7 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextArea;
 import core.database.DatabaseCommunicator;
 import core.resources.ResourceManager;
+import core.resources.Room;
 
 public class editRoomController {
 	@FXML private Button confirm;
@@ -37,15 +38,14 @@ public class editRoomController {
         	int roomInt = Integer.parseInt(roomNumber.getText());
         	int capacityInt = Integer.parseInt(capacity.getText());
         	String roomTypeString = roomType.getValue().toString();
-        	String equipmentString = equipment.getText();
         	String notesString = notes.getText();
         	
         	if (DatabaseCommunicator.resourceExists("rooms", "building=" + buildingInt + " AND room=" + roomInt)) {
         		//TODO make error message
         	}
         	else {
-	        	ResourceManager.addRoom(buildingInt, roomInt, capacityInt, roomTypeString,
-	        			notesString, equipmentString);
+        		Room newRoom = new Room(buildingInt, roomInt, capacityInt, roomTypeString, notesString);
+	        	newRoom.updateRoom();
 	        	
 	        	Stage stage = (Stage)confirm.getScene().getWindow();
 	        	stage.close();

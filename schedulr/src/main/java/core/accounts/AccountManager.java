@@ -27,10 +27,13 @@ public class AccountManager
 	public static void addUser(String username, int emplID, String first, String last, String email, String office, int role)
 	{
 		String hashed = BCrypt.hashpw(emplID + "", BCrypt.gensalt());
-		String fieldString = "login, empl_id, last_name, first_name, email, office_location, pass_hash, role";
-		String valueString = "'" + username + "', " + emplID + ", '" + last + "', '" + first +  "', '" + email +  "', '" + office + "', '" + hashed + "', " + role;
-		
-		DatabaseCommunicator.insertDatabase("users", fieldString, valueString);
+		User newUser;
+		if (role == 1)
+			newUser = new DepartmentScheduler(username, emplID, first, last, email, office);
+		else
+			newUser = new FacultyMember(username, emplID, first, last, email, office);
+		newUser.updateUser();
+		newUser.changePassword(hashed);
 	}
 	
 	/**
@@ -40,16 +43,6 @@ public class AccountManager
 	public static void removeUser(String username)
 	{
 		DatabaseCommunicator.deleteDatabase("users", "login='" + username + "'");
-	}
-	
-	/**
-     * Query method to edit existing user information
-     * @param username field to be used for user login 
-     * @param setValues column=value pairs separated by commas
-     */
-	public static void editUser(String username, String setValues)
-	{
-		DatabaseCommunicator.updateDatabase("users", setValues, "login='" + username + "'");
 	}
 	
 	public static User getUser(String login) {
@@ -65,26 +58,16 @@ public class AccountManager
 		return user; 
 	}
 	
-	/**
-     * Query method to reset existing user password. 
-     * @param username field to be used for user login 
-     * @param newPass new password
-     */
-	public static void resetPassword(String username, String newPass)
-	{
-		String hashed = BCrypt.hashpw(newPass, BCrypt.gensalt());
-		editUser(username, "pass_hash='" + hashed + "'");
-		DatabaseCommunicator.updateDatabase("users", "reset_password=0", "login='" + username + "'");
-	}
 	
 	/**
      * Query method to promote or demote an existing user
      * @param username field to be used for user login 
      * @param role denotes user privileges 
      */
-	public static void changeRole(String username, int role)
+	public static void changeRole(User user, int role)
 	{
-		DatabaseCommunicator.updateDatabase("users", "role=" + role, "login='" + username + "'");
+		user.setRole(role);
+		user.updateUser();
 	}
 	
 	/**

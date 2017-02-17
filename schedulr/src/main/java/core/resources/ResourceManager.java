@@ -28,13 +28,10 @@ public class ResourceManager
 	/**
      * Query method to add new room to database
      */
-	public static void addRoom(int building, int number, int capacity, String type, String notes, String equipment)
+	public static void addRoom(int building, int number, int capacity, String type, String notes)
 	{
-		String fieldString = "building, number, capacity, type, notes, equipment";
-		String valueString = building + ", " + number + ", " + capacity + ", '" + type + "', '" + 
-				notes + "', '" + equipment + "'" ;
-		
-		DatabaseCommunicator.insertDatabase("rooms", fieldString, valueString);
+		Room newRoom = new Room(building, number, capacity, type, notes);
+		newRoom.updateRoom();
 	}
 	
 	/**
@@ -48,13 +45,10 @@ public class ResourceManager
 	/**
      * Query method to add new course to database
      */
-	public static void addCourse(String department, int number, String name, int wtu, int lect_hours, String notes, int lab_hours)
+	public static void addCourse(String department, int number, String name, double wtu, int lectHours, String notes, int labHours, int actHours)
 	{
-		String fieldString = "department, number, name, wtu, lect_hours, notes, lab_hours";
-		String valueString = "'" + department + "', " + number + ", '" + name + "', " + wtu + ", " + 
-				lect_hours + ", " + notes + ", " + lab_hours;
-		
-		DatabaseCommunicator.insertDatabase("courses", fieldString, valueString);
+		Course newCourse = new Course(department, number, name, wtu, lectHours, notes, labHours, actHours);
+		newCourse.updateCourse();
 	}
 	
 	/**
@@ -106,7 +100,6 @@ public class ResourceManager
 		room.setCapacity(Integer.parseInt(attributeMap.get("capacity").toString()));
 		room.setType(attributeMap.get("type").toString());
 		room.setNotes(attributeMap.get("notes").toString());
-		room.setEquipment(attributeMap.get("equipment").toString());
 		
 		return room; 
 	}

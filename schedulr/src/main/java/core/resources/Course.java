@@ -120,4 +120,8 @@ public class Course implements DatabaseObject{
 	{
 		DatabaseCommunicator.updateDatabase(this);
 	}
+
+	public String getKeyIdentifier() {
+		return "department='" + department + "' AND number=" + number;
+	}
 }

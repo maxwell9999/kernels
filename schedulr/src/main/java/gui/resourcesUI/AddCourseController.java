@@ -60,7 +60,7 @@ public class AddCourseController {
         	}
         	else {
 	        	ResourceManager.addCourse(departmentString, courseNum, courseName, unitsInt, hoursInt, 
-	        			(notesString.equals("")) ? "null" : notesString, labHours); 
+	        			(notesString.equals("")) ? "null" : notesString, labHours, labHours); 
 	        	System.out.println(resourceController);
 	        	resourceController.populateCourses();
 	        	Stage stage = (Stage)confirm.getScene().getWindow();

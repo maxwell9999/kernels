@@ -100,6 +100,20 @@ public abstract class User implements DatabaseObject {
 		DatabaseCommunicator.updateDatabase(this);
 	}
 	
+	public void changePassword(String pass) {
+		DatabaseCommunicator.updateDatabase(this, "pass_hash='" + pass + "'");
+		DatabaseCommunicator.updateDatabase(this, "reset_password=0");
+	}
+	
+	public void resetPassword() {
+		
+	}
+	
+	public String getKeyIdentifier()
+	{
+		return "login='" + login + "'";
+	}
+	
 	
 
 }

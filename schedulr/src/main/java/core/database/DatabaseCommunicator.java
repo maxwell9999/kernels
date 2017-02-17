@@ -47,11 +47,11 @@ public class DatabaseCommunicator
 		return result;
 	}
 	
-	public static void insertDatabase(String tableName, String fieldString, String valueString)
+	/*public static void insertDatabase(String tableName, String fieldString, String valueString)
 	{
 		String insert = "INSERT INTO " + tableName + "(" + fieldString + ") VALUES (" + valueString + ");";
 		databaseAction(insert);
-	}
+	}*/
 	
 	public static void deleteDatabase(String tableName, String value)
 	{
@@ -59,9 +59,9 @@ public class DatabaseCommunicator
 		databaseAction(delete);
 	}
 	
-	public static void updateDatabase(String tableName, String newValue, String identifier)
+	public static void updateDatabase(DatabaseObject object, String newValue)
 	{
-		String update = "UPDATE " + tableName + " SET " + newValue  + " WHERE " + identifier + ";";
+		String update = "UPDATE " + object.getTable() + " SET " + newValue  + " WHERE " + object.getKeyIdentifier() + ";";
 		databaseAction(update);
 	}
 	

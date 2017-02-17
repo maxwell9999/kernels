@@ -4,5 +4,7 @@ public interface DatabaseObject {
 	public String getKeys();
 	public String getValues();
 	public String getTable();
+	public String getKeyIdentifier();
+	
 
 }

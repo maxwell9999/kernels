@@ -49,5 +49,8 @@ public class Feedback implements DatabaseObject
 	public void addToDatabase() {
 		DatabaseCommunicator.updateDatabase(this);
 	}
+	public String getKeyIdentifier() {
+		return null;
+	}
 
 }
