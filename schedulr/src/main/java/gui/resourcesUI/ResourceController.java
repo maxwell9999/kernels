@@ -114,15 +114,15 @@ public class ResourceController {
 		System.out.println(rooms.size());
 		
 		for (HashMap<String, Object> room : roomMaps) {
-//			String login = (String) room.get("login");
-//			Room Room = ResourceManager.getRoom(login);
+			Integer building = (Integer) room.get("building");
+			Integer number = (Integer) room.get("number");
+
+			Room roomToAdd = ResourceManager.getRoom(building,number);
 			
+			rooms.add(roomToAdd);
 		}
 		
-		Room addRoom = new Room();
-		addRoom.setBuilding(144);
-		addRoom.setNumber(255);
-		rooms.add(addRoom);
+
 	
 		roomContainer.getChildren().clear();
 		for(int i = 0; i < rooms.size(); i++) {

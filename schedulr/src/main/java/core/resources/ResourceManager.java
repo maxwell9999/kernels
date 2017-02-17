@@ -1,6 +1,7 @@
 package core.resources;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -65,11 +66,6 @@ public class ResourceManager
 		DatabaseCommunicator.deleteDatabase("courses", "department='" + department + "' AND number=" + number + ";");
 	}
 	
-	/**
-	 * Imports courses from a properly formatted course file
-	 * @param courseFile file to import contents from
-	 */
-	public static void importCourses(File file)
 	/** 
 	 * 
 	 * @param department the department offering the course; max length=4 characters
@@ -119,7 +115,7 @@ public class ResourceManager
 			//File file = new File("/Users/Simko/Downloads/Courseimportfile.txt");
 			ArrayList<DatabaseObject> courseList= new ArrayList<DatabaseObject>();
 			Course course;
-			Scanner fileScan = new Scanner(file);
+			Scanner fileScan = new Scanner(courseFile);
 			Scanner lineScan;
 			String[] parsedString;
 			double value;
