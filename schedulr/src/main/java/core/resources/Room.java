@@ -77,7 +77,7 @@ public class Room implements DatabaseObject {
 	}
 	
 	public void updateRoom() {
-		DatabaseCommunicator.updateDatabase(this);
+		DatabaseCommunicator.replaceDatabase(this);
 	}
 	
 	public String getKeyIdentifier() {

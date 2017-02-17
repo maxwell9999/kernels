@@ -88,7 +88,7 @@ public abstract class User implements DatabaseObject {
 	
 	public String getValues() {
 		return "'" + login + "', " + emplId + ", '" + lastName + "', '" + firstName + "', '" + 
-				email + "', " + officeLocation + ", " + role;
+				email + "', '" + officeLocation + "', " + role;
 	}
 	
 	public String getTable() {
@@ -97,15 +97,16 @@ public abstract class User implements DatabaseObject {
 	
 	public void updateUser()
 	{
-		DatabaseCommunicator.updateDatabase(this);
+		DatabaseCommunicator.editDatabase(this, "login='" + login + "', empl_id=" + emplId + ", last_name='" + lastName + "', "
+				+ "first_name='" + firstName + "', email='" + email + "', office_location='" + officeLocation + "', role=" + role);
 	}
 	
 	public void changePassword(String pass) {
-		DatabaseCommunicator.updateDatabase(this, "pass_hash='" + pass + "'");
-		DatabaseCommunicator.updateDatabase(this, "reset_password=0");
+		DatabaseCommunicator.editDatabase(this, "pass_hash='" + pass + "'");
+		DatabaseCommunicator.editDatabase(this, "reset_password=0");
 	}
 	
-	public void resetPassword() {
+	public void forgotPassword() {
 		
 	}
 	

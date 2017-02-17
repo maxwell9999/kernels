@@ -32,8 +32,7 @@ public class AccountManager
 			newUser = new DepartmentScheduler(username, emplID, first, last, email, office);
 		else
 			newUser = new FacultyMember(username, emplID, first, last, email, office);
-		newUser.updateUser();
-		newUser.changePassword(hashed);
+		DatabaseCommunicator.insertDatabase(newUser, newUser.getKeys() + ", pass_hash", newUser.getValues() + ", '" + hashed + "'");
 	}
 	
 	/**

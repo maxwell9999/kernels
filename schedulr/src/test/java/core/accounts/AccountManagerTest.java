@@ -21,7 +21,9 @@ public class AccountManagerTest extends TestCase{
 		list = DatabaseCommunicator.queryDatabase("SELECT empl_id FROM users WHERE login='Test_User';");
 		assertEquals("Testing User Add", 99999, Integer.parseInt(list.get(0).get("empl_id").toString()));
 		
-		AccountManager.editUser("Test_User", "email='newEmail@hotmail.com'");
+		User test = AccountManager.getUser("Test_User");
+		test.setEmail("newEmail@hotmail.com");
+		test.updateUser();
 		list = DatabaseCommunicator.queryDatabase("SELECT email FROM users WHERE login='Test_User';");
 		assertEquals("Testing User Editing", "newEmail@hotmail.com", list.get(0).get("email"));
 				
@@ -38,7 +40,7 @@ public class AccountManagerTest extends TestCase{
 		assertTrue("Testing empl_id password", BCrypt.checkpw("99999", list.get(0).get("pass_hash").toString()));
 		assertEquals("Testing Reset Password = 1", 1, Integer.parseInt(list.get(0).get("reset_password").toString()));
 		
-		AccountManager.resetPassword("Test_User", "potato");
+		AccountManager.getUser("Test_User").changePassword(BCrypt.hashpw("potato", BCrypt.gensalt()));
 		
 		list = DatabaseCommunicator.queryDatabase("SELECT pass_hash,reset_password FROM users WHERE login='Test_User';");
 		assertTrue("Testing reset password", BCrypt.checkpw("potato", list.get(0).get("pass_hash").toString()));

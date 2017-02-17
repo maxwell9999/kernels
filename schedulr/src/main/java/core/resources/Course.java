@@ -118,7 +118,7 @@ public class Course implements DatabaseObject{
 	
 	public void updateCourse()
 	{
-		DatabaseCommunicator.updateDatabase(this);
+		DatabaseCommunicator.replaceDatabase(this);
 	}
 
 	public String getKeyIdentifier() {
