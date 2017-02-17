@@ -1,4 +1,4 @@
-package gui.accountsUI;
+package gui.resourcesUI;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,7 +16,7 @@ import javafx.stage.Stage;
 /**
  * UI for adding account.
  * @author sarahpadlipsky
- * @version February 6, 2017
+ * @version February 15, 2017
  */
 public class AddAccountController {
 
@@ -33,7 +33,7 @@ public class AddAccountController {
     @FXML private CheckBox checkbox;
     @FXML private Label errorMessage;
     
-    private FacultyDirectoryController facultyController;
+    private ResourceController resourceController;
     
     private AccountManager account;
     
@@ -76,7 +76,7 @@ public class AddAccountController {
             else {
 	            AccountManager.addUser(userNameString, Integer.parseInt(employeeIDString), 
 	            		firstNameString, lastNameString, emailString, officeString, role);
-	            facultyController.updateList();
+	            resourceController.populateFaculty();
 	            Stage currentStage = (Stage) checkbox.getScene().getWindow();
                 currentStage.close();
     		}
@@ -91,11 +91,11 @@ public class AddAccountController {
     }
     
     /**
-     * Sets the FacultyDirectoryController.
-     * @param controller controller to set the FacultyDirectoryController to.
+     * Sets the ResourceController.
+     * @param controller controller to set the ResourceController to.
      */
-    public void setFacultyController(FacultyDirectoryController controller) {
-		facultyController = controller;
+    public void setResourceController(ResourceController resourceController) {
+    	this.resourceController = resourceController;
 		
 	}
 

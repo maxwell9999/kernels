@@ -40,15 +40,12 @@ public class Course implements DatabaseObject{
 	public String getDepartment() {
 		return department;
 	}
-
 	public void setDepartment(String department) {
 		this.department = department;
 	}
-
 	public int getNumber() {
 		return number;
 	}
-
 	public void setNumber(int number) {
 		this.number = number;
 	}
@@ -105,7 +102,7 @@ public class Course implements DatabaseObject{
 	}
 
 	public String getKeys() {
-		return "department, number, name, wtu, lectHours, notes, labHours, actHours";
+		return "department, number, name, wtu, lect_hours, notes, lab_hours, act_hours";
 	}
 
 	public String getValues() {

@@ -108,17 +108,10 @@ public class DatabaseCommunicator
 		
 		return connection;
 	}
-	
-	public static String convertQueryToString(String query)
-	{
-		List<HashMap<String, Object>> list = queryDatabase(query);
-		if (list.size() == 1)
-		{
-			return list.get(0).toString();
-		}
-		return null;
-	}
-	
+	/**
+	 * Adds a list of DatabaseObjects to the database
+	 * @param objectList List of DatabaseObjects to be added to the database
+	 */
 	public static void addAllToDatabase(List<DatabaseObject> objectList)
 	{
 		Connection connection = null;
@@ -141,5 +134,12 @@ public class DatabaseCommunicator
 				e.printStackTrace();
 			}
 		}
+	}
+	
+
+	public static void insertDatabase(DatabaseObject object)
+	{
+		String insert = "INSERT INTO " + object.getTable() + "(" + object.getKeys() + ") VALUES (" + object.getValues() + ");";
+		databaseAction(insert);
 	}
 }

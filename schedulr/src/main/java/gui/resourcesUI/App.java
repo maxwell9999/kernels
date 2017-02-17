@@ -1,4 +1,4 @@
-package gui.accountsUI;
+package gui.resourcesUI;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -16,12 +16,15 @@ public class App extends Application
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		Parent root = FXMLLoader.load(getClass().getResource("LoginView.fxml"));
+		System.out.println(getClass());
+		System.out.println(getClass().getResource("resources.fxml"));
+		Parent root = FXMLLoader.load(getClass().getResource("resources.fxml"));
         Scene scene = new Scene(root, 600, 500);
 		/*Parent root = FXMLLoader.load(getClass().getResource("resources.fxml"));
         Scene scene = new Scene(root, 609, 515);*/
 
         primaryStage.setScene(scene);
+        
         primaryStage.show();
 	}
 }

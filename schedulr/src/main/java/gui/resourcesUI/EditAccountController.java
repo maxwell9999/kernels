@@ -1,4 +1,4 @@
-package gui.accountsUI;
+package gui.resourcesUI;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,6 +24,7 @@ import javafx.stage.Stage;
  */
 public class EditAccountController {
 
+	//TODO(Simko): Are these values correct? They do not seem to be working
 	private static final int SCHEDULER = 1; 
 	private static final int FACULTY_MEMBER = 0; 
     private static final Logger log = LoggerFactory.getLogger(EditAccountController.class);
@@ -36,10 +37,9 @@ public class EditAccountController {
     @FXML private TextField office;
     @FXML private CheckBox checkbox;
     @FXML private Label errorMessage;
-    @FXML private Button removeButton;
     
-    // Access to faculty directory which is still open.
-    private FacultyDirectoryController facultyController;
+    // Access to ResourceController.
+    private ResourceController resourceController;
     // User that was clicked.
     private User currentUser;
     // Observable list so it is known when all items have been loaded.
@@ -62,12 +62,6 @@ public class EditAccountController {
                 
                 username.setEditable(false);
                 employeeID.setEditable(false);
-                firstName.setEditable(false);
-                lastName.setEditable(false);
-                email.setEditable(false);
-                office.setEditable(false);
-                checkbox.setDisable(true);
-                
             }
         });
     }
@@ -77,48 +71,24 @@ public class EditAccountController {
      * @param event Necessary field for onAction events.
      */
     @FXML
-    private void removeOrSaveAccount(ActionEvent event) {
-    	
-    	// Removes the current user from the database.
-    	if (removeButton.getText().equals("Remove")) {
-    		AccountManager.removeUser(currentUser.getLogin());
-    		facultyController.updateList();
-    		Stage currentStage = (Stage) removeButton.getScene().getWindow();
-            currentStage.close();
+    private void saveAccount(ActionEvent event) {
     		
-    	} else if (removeButton.getText().equals("Save")) {
     		// TODO(Sarah): What if we remove the user, and then add a new one completely? Hard to save ONLY new info - but what if info is incorrect? Then info has been deleted.
     		String newValues = "first_name='" + firstName.getText() + "', last_name='" + lastName.getText() + "', email='" + 
     				email.getText() + "', office_location='" + office.getText() + "', role=" + (checkbox.isSelected() ? SCHEDULER : FACULTY_MEMBER);
     		AccountManager.editUser(currentUser.getLogin(), newValues);
-    		facultyController.updateList();
-    	}
+    		resourceController.populateFaculty();
+    		Stage currentStage = (Stage) checkbox.getScene().getWindow();
+            currentStage.close();
+    	
     }
     
     /**
-     * onAction function for editing an account.
-     * @param event Necessary field for onAction events.
+     * Sets the ResourceController.
+     * @param controller controller to set the ResourceController to.
      */
-    @FXML
-    private void editAccount(ActionEvent event) {
-  
-        firstName.setEditable(true);
-        lastName.setEditable(true);
-        email.setEditable(true);
-        office.setEditable(true);
-        checkbox.setDisable(false);
-        
-        removeButton.setText("Save");
-        
-    }
-    
-    /**
-     * Sets the FacultyDirectoryController.
-     * @param controller controller to set the FacultyDirectoryController to.
-     */
-    public void setFacultyController(FacultyDirectoryController controller) {
-		facultyController = controller;
-		
+    public void setResourceController(ResourceController resourceController) {
+    	this.resourceController = resourceController;	
 	}
     
     /**

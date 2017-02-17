@@ -1,7 +1,6 @@
 package core.resources;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -109,51 +108,67 @@ public class ResourceManager
 		return room; 
 	}
 	
-	public static void importCourses(File courseFile) throws FileNotFoundException
+
+	/**
+	 * Imports courses from a properly formatted course file
+	 * @param courseFile file to import contents from
+	 */
+	public static void importCourses(File file)
 	{
-		File file = new File("/Users/Simko/Downloads/Courseimportfile.txt");
-		ArrayList<DatabaseObject> courseList= new ArrayList<DatabaseObject>();
-		Course course;
-		Scanner fileScan = new Scanner(file);
-		Scanner lineScan;
-		String[] parsedString;
-		double value;
-		
-		while (fileScan.hasNextLine())
-		{
-			course = new Course();
-			lineScan = new Scanner(fileScan.nextLine());
-			course.setDepartment(lineScan.next());
-			lineScan.useDelimiter(",");
-			course.setNumber(Integer.parseInt(lineScan.next().trim()));
-			course.setName(lineScan.next().trim());
-			while (lineScan.hasNext())
-			{
-				parsedString = lineScan.next().trim().split(" ");
-				value = Double.parseDouble(parsedString[0]);
-				if (parsedString[1].contains("lect"))
-				{
-					course.setLectHours((int) value);
-				}
-				else if (parsedString[1].contains("lab"))
-				{
-					course.setLabHours((int) value);
-				}
-				else if (parsedString[1].contains("activity"))
-				{
-					course.setActHours((int) value);
-				}
-				else if (parsedString[1].contains("unit"))
-				{
-					course.addWtu(value);
-				}
-			}
-			lineScan.close();
-			courseList.add(course);
+		try {
+			//File file = new File("/Users/Simko/Downloads/Courseimportfile.txt");
+			ArrayList<DatabaseObject> courseList= new ArrayList<DatabaseObject>();
+			Course course;
+			Scanner fileScan = new Scanner(file);
+			Scanner lineScan;
+			String[] parsedString;
+			double value;
 			
+			while (fileScan.hasNextLine())
+			{
+				course = new Course();
+				lineScan = new Scanner(fileScan.nextLine());
+				course.setDepartment(lineScan.next());
+				lineScan.useDelimiter(",");
+				course.setNumber(Integer.parseInt(lineScan.next().trim()));
+				course.setName(lineScan.next().trim());
+				while (lineScan.hasNext())
+				{
+					parsedString = lineScan.next().trim().split(" ");
+					try {
+							value = Double.parseDouble(parsedString[0]);
+						if (parsedString[1].contains("lect"))
+						{
+							course.setLectHours((int) value);
+						}
+						else if (parsedString[1].contains("lab"))
+						{
+							course.setLabHours((int) value);
+						}
+						else if (parsedString[1].contains("activity"))
+						{
+							course.setActHours((int) value);
+						}
+						else if (parsedString[1].contains("unit"))
+						{
+							course.addWtu(value);
+						}
+					} catch (NumberFormatException num) {
+						//skip that parse, not formatted correctly
+					}
+				}
+				courseList.add(course);
+				lineScan.close();
+				
+			}
+			fileScan.close();
+			DatabaseCommunicator.addAllToDatabase(courseList);
 		}
-		fileScan.close();
-		DatabaseCommunicator.addAllToDatabase(courseList);
+		catch (Exception ex)
+		{
+			System.err.println("Invalid File");
+			ex.printStackTrace();
+		}
 		
 	}
 
@@ -161,7 +176,7 @@ public class ResourceManager
 	 * Returns a sorted course list, sorted by name and number
 	 * @return sorted List of courses
 	 */
-	public List<Course> getCourseList()
+	public static List<Course> getCourseList()
 	{
 		String dept, name, notes;
 		int num, lect_hours, lab_hours, act_hours;
@@ -181,7 +196,7 @@ public class ResourceManager
 			wtu = (Double) map.get("wtu");
 			courseList.add(new Course(dept, num, name, wtu, lect_hours, notes, lab_hours, act_hours));
 		}
-		Collections.sort(courseList, new CourseComparator());
+//		Collections.sort(courseList, new CourseComparator());
 		return courseList;
 	}
 	
@@ -189,10 +204,10 @@ public class ResourceManager
 	 * Returns a sorted room list, sorted by building and number
 	 * @return sorted List of rooms
 	 */
-	public List<HashMap<String, Object>> getRoomList()
+	public static List<HashMap<String, Object>> getRoomList()
 	{
 		List<HashMap<String, Object>> classMap = DatabaseCommunicator.queryDatabase("SELECT building,number FROM rooms;");
-		Collections.sort(classMap, new RoomComparator());
+//		Collections.sort(classMap, new RoomComparator());
 		return classMap;
 	}
 	
@@ -223,7 +238,7 @@ public class ResourceManager
 	 * @author Simko
 	 *
 	 */
-    class CourseComparator implements Comparator<Course>
+    private class CourseComparator implements Comparator<Course>
     {
     	/**
     	 * Compares the last names, returning a negative number if the first name comes before the second.
