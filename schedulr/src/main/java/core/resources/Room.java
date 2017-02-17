@@ -85,8 +85,8 @@ public class Room implements DatabaseObject {
 		return "rooms"; 
 	}
 	
-	public void updateCourse() {
-		DatabaseCommunicator.insertDatabase(this);
+	public void updateRoom() {
+		DatabaseCommunicator.updateDatabase(this);
 	}
 	
 }

@@ -118,6 +118,6 @@ public class Course implements DatabaseObject{
 	
 	public void updateCourse()
 	{
-		DatabaseCommunicator.insertDatabase(this);
+		DatabaseCommunicator.updateDatabase(this);
 	}
 }

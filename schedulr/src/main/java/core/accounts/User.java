@@ -95,9 +95,9 @@ public abstract class User implements DatabaseObject {
 		return "users"; 
 	}
 	
-	public void updateCourse()
+	public void updateUser()
 	{
-		DatabaseCommunicator.insertDatabase(this);
+		DatabaseCommunicator.updateDatabase(this);
 	}
 	
 	
