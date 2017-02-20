@@ -19,7 +19,7 @@ public class ResourceManagerTest extends TestCase{
 	@Test
 	public void testRoomAddEditGetRemove()
 	{
-		ResourceManager.addRoom(99, 9904, 1, "lecture", null, null);
+		ResourceManager.addRoom(99, 9904, 1, "lecture", "");
 		List<HashMap<String, Object>> list;
 
 		list = DatabaseCommunicator.queryDatabase("SELECT capacity FROM rooms WHERE building=99 AND number=9904;");
@@ -41,7 +41,7 @@ public class ResourceManagerTest extends TestCase{
 	
 	public void testCourseAddEditGetRemove()
 	{
-		ResourceManager.addCourse("ABC", 123, "Test Course", 4, 6, null, 0);
+		ResourceManager.addCourse("ABC", 123, "Test Course", 4, 6, 0, 0, "");
 		List<HashMap<String, Object>> list;
 
 		list = DatabaseCommunicator.queryDatabase("SELECT name FROM courses WHERE department='ABC' AND number=123;");
@@ -69,9 +69,9 @@ public class ResourceManagerTest extends TestCase{
 		int numRooms = list.size();
 		assertNotNull("Testing that list exists", list);
 		
-		ResourceManager.addRoom(0, 9904, 1, "lecture", null, null);
-		ResourceManager.addRoom(99, 9904, 1, "lecture", null, null);
-		ResourceManager.addRoom(99, 9905, 1, "lecture", null, null);
+		ResourceManager.addRoom(0, 9904, 1, "lecture", "");
+		ResourceManager.addRoom(99, 9904, 1, "lecture", "");
+		ResourceManager.addRoom(99, 9905, 1, "lecture", "");
 		list = ResourceManager.getRoomList();
 		
 		assertEquals("Testing number of rooms", numRooms + 3, list.size());
@@ -97,9 +97,9 @@ public class ResourceManagerTest extends TestCase{
 		int numCourse = list.size();
 		assertNotNull("Testing that list exists", list);
 		
-		ResourceManager.addCourse("AAA", 123, "Test Course", 4, 6, null, 0);
-		ResourceManager.addCourse("AAA", 124, "Test Course", 4, 6, null, 1);
-		ResourceManager.addCourse("ZZZ", 123, "Test Course", 4, 6, null, 0);
+		ResourceManager.addCourse("AAA", 123, "Test Course", 4, 6, 0, 0, "");
+		ResourceManager.addCourse("AAA", 124, "Test Course", 4, 6, 0, 1, "");
+		ResourceManager.addCourse("ZZZ", 123, "Test Course", 4, 6, 0, 0, "");
 		list = man.getCourseList();
 		assertEquals("Testing number of courses", numCourse + 3, list.size());
 		assertEquals("Testing first course dept...", "AAA", list.get(0).getDepartment());

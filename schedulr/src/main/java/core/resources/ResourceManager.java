@@ -18,7 +18,6 @@ import core.database.DatabaseObject;
  * number
  * capacity
  * notes
- * equipment
  * primary = (building, number)
  * @author Simko
  *
@@ -29,11 +28,11 @@ public class ResourceManager
 	/**
      * Query method to add new room to database
      */
-	public static void addRoom(int building, int number, int capacity, String type, String notes, String equipment)
+	public static void addRoom(int building, int number, int capacity, String type, String notes)
 	{
-		String fieldString = "building, number, capacity, type, notes, equipment";
+		String fieldString = "building, number, capacity, type, notes";
 		String valueString = building + ", " + number + ", " + capacity + ", '" + type + "', '" + 
-				notes + "', '" + equipment + "'" ;
+				notes + "'";
 		
 		DatabaseCommunicator.insertDatabase("rooms", fieldString, valueString);
 	}
@@ -49,11 +48,11 @@ public class ResourceManager
 	/**
      * Query method to add new course to database
      */
-	public static void addCourse(String department, int number, String name, int wtu, int lect_hours, String notes, int lab_hours)
+	public static void addCourse(String department, int number, String name, double wtu, int lect_hours, int lab_hours, int act_hours, String notes)
 	{
-		String fieldString = "department, number, name, wtu, lect_hours, notes, lab_hours";
+		String fieldString = "department, number, name, wtu, lect_hours, lab_hours, act_hours, notes";
 		String valueString = "'" + department + "', " + number + ", '" + name + "', " + wtu + ", " + 
-				lect_hours + ", " + notes + ", " + lab_hours;
+				lect_hours + ", " + lab_hours + ", " + act_hours + ", '" + notes + "'";
 		
 		DatabaseCommunicator.insertDatabase("courses", fieldString, valueString);
 	}
@@ -91,6 +90,7 @@ public class ResourceManager
 		else {
 			course.setNotes("");
 		}
+		course.setNotes(attributeMap.get("notes").toString());
 	
 		return course; 
 	}
@@ -107,7 +107,6 @@ public class ResourceManager
 		room.setCapacity(Integer.parseInt(attributeMap.get("capacity").toString()));
 		room.setType(attributeMap.get("type").toString());
 		room.setNotes(attributeMap.get("notes").toString());
-		room.setEquipment(attributeMap.get("equipment").toString());
 		
 		return room; 
 	}

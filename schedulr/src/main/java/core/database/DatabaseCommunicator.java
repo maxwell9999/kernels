@@ -47,6 +47,7 @@ public class DatabaseCommunicator
 		return result;
 	}
 	
+	//TODO deprecate this method and adopt method below
 	public static void insertDatabase(String tableName, String fieldString, String valueString)
 	{
 		String insert = "INSERT INTO " + tableName + "(" + fieldString + ") VALUES (" + valueString + ");";
@@ -134,8 +135,9 @@ public class DatabaseCommunicator
 			
 			for (DatabaseObject object: objectList)
 			{
-				stmt.executeUpdate("REPLACE INTO " + object.getTable() + " (" + object.getKeys() + ") "
-						+ "VALUES (" + object.getValues() + ");");
+				String replace = "REPLACE INTO " + object.getTable() + " (" + object.getKeys() + ") "
+						+ "VALUES (" + object.getValues() + ");";
+				stmt.executeUpdate(replace);
 			}
 			stmt.close();
 			connection.close();

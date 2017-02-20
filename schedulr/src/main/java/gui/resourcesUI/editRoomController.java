@@ -18,16 +18,20 @@ import core.database.DatabaseCommunicator;
 import core.resources.ResourceManager;
 
 public class editRoomController {
+	
+	private static final String SMARTROOM = "Smartroom"; 
+	private static final String LECTURE = "Lecture"; 
+	private static final String LAB = "Lab"; 
+	
 	@FXML private Button confirm;
 	@FXML private ChoiceBox roomType;
 	@FXML private TextField buildingNumber;
 	@FXML private TextField roomNumber;
 	@FXML private TextField capacity;
-	@FXML private TextArea equipment;
 	@FXML private TextArea notes;
 	
 	public void initialize() {
-		roomType.setItems(FXCollections.observableArrayList("Smartroom", "Lecture", "Lab"));
+		roomType.setItems(FXCollections.observableArrayList(SMARTROOM, LECTURE, LAB));
 	}
 	
 	@FXML
@@ -37,7 +41,6 @@ public class editRoomController {
         	int roomInt = Integer.parseInt(roomNumber.getText());
         	int capacityInt = Integer.parseInt(capacity.getText());
         	String roomTypeString = roomType.getValue().toString();
-        	String equipmentString = equipment.getText();
         	String notesString = notes.getText();
         	
         	if (DatabaseCommunicator.resourceExists("rooms", "building=" + buildingInt + " AND room=" + roomInt)) {
@@ -45,7 +48,7 @@ public class editRoomController {
         	}
         	else {
 	        	ResourceManager.addRoom(buildingInt, roomInt, capacityInt, roomTypeString,
-	        			notesString, equipmentString);
+	        			notesString);
 	        	
 	        	Stage stage = (Stage)confirm.getScene().getWindow();
 	        	stage.close();

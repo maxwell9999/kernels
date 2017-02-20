@@ -21,12 +21,18 @@ import javafx.scene.control.TextArea;
  * @version February 15, 2017
  */
 public class AddCourseController {
+	
+	private static final String LECTURE = "Lecture";
+	private static final String ACTIVITY = "Activity";
+	private static final String SUPERVISORY = "Supervisory";
+	
 	@FXML private Button confirm;
 	@FXML private ChoiceBox department;
 	@FXML private TextField courseNumber;
 	@FXML private TextField courseTitle;
 	@FXML private TextField units;
 	@FXML private TextField hours;
+	@FXML private ChoiceBox type; 
 	@FXML private TextArea notes;
 	@FXML private CheckBox includesLab;
 	
@@ -34,7 +40,9 @@ public class AddCourseController {
 	private ResourceController resourceController;
 	
 	public void initialize() {
+		//TODO may want to have these reflect the departments in the database
 		department.setItems(FXCollections.observableArrayList("CPE", "SE", "CSC"));
+		type.setItems(FXCollections.observableArrayList(LECTURE, ACTIVITY, SUPERVISORY));
 	}
 	
 	/**
@@ -48,8 +56,9 @@ public class AddCourseController {
         	String departmentString = department.getValue().toString();
         	int courseNum = Integer.parseInt(courseNumber.getText());
         	String courseName = courseTitle.getText();
-        	int unitsInt = Integer.parseInt(units.getText());
+        	double unitsInt = Double.parseDouble(units.getText());
         	int hoursInt = Integer.parseInt(hours.getText());
+        	String typeString = type.getValue().toString(); 
         	int labHours = 0;
         	String notesString = notes.getText();
         	
@@ -59,8 +68,23 @@ public class AddCourseController {
         		System.err.println("Already in Database");
         	}
         	else {
-	        	ResourceManager.addCourse(departmentString, courseNum, courseName, unitsInt, hoursInt, 
-	        			(notesString.equals("")) ? "null" : notesString, labHours); 
+        		//TODO update the UI to match additional course types and hours
+        		// department, number, name, wtu, lect_hours, lab_hours, act_hours, notes
+        		int lectHours = 0; 
+        		int actHours = 0; 
+        		
+        		if (typeString.equals(LECTURE)) {
+        			lectHours = hoursInt;
+        			if (includesLab.isSelected()) {
+        				labHours = lectHours; 
+        			}
+        		}
+        		else if (typeString.equals(ACTIVITY)) {
+        			actHours = hoursInt; 
+        		}
+
+	        	ResourceManager.addCourse(departmentString, courseNum, courseName, unitsInt, lectHours, 
+	        			labHours, actHours, notes.getText()); 
 	        	System.out.println(resourceController);
 	        	resourceController.populateCourses();
 	        	Stage stage = (Stage)confirm.getScene().getWindow();
