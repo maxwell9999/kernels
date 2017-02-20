@@ -1,6 +1,6 @@
 package core.accounts;
 
-public class DepartmentScheduler extends User{  
+public class DepartmentScheduler extends User {  
 	private static final int DEPT_SCHED_ROLE = 1; 
 
 	public DepartmentScheduler() {

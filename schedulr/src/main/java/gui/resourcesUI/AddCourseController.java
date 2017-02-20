@@ -3,6 +3,7 @@ package gui.resourcesUI;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
+import java.awt.Label;
 import java.io.IOException;
 
 import core.database.DatabaseCommunicator;
@@ -35,6 +36,7 @@ public class AddCourseController {
 	@FXML private ChoiceBox type; 
 	@FXML private TextArea notes;
 	@FXML private CheckBox includesLab;
+	@FXML private Label errorLabel;
 	
 	// Access to ResourceController to update lists.
 	private ResourceController resourceController;
@@ -64,8 +66,7 @@ public class AddCourseController {
         	
         	// Adds the course to the database if it does not already exist.
         	if (DatabaseCommunicator.resourceExists("courses", "department='" + departmentString + "' AND number=" + courseNum)) {
-        		//TODO(Sarah): add error box
-        		System.err.println("Already in Database");
+//        		errorLabel.setText("Course already exists.");
         	}
         	else {
         		//TODO update the UI to match additional course types and hours

@@ -122,17 +122,21 @@ public class ResourceController {
 			rooms.add(roomToAdd);
 		}
 		
-
-	
 		roomContainer.getChildren().clear();
 		for(int i = 0; i < rooms.size(); i++) {
 			Pane newPane = null;
+			FXMLLoader loader = null;
 			try {
-				newPane = (Pane) FXMLLoader.load(getClass().getResource("roomEntry.fxml"));
+				loader = new FXMLLoader(getClass().getResource("roomEntry.fxml"));
+				newPane = (Pane) loader.load();
 			} 
 			catch (IOException e) {
 				e.printStackTrace();
 			}
+			// Sets values so the ResourceEntryController knows which course it contains.
+			RoomEntryController roomEntryController = loader.<RoomEntryController>getController();
+			roomEntryController.setRoom(rooms.get(i));
+			roomEntryController.setResourceController(this);
             roomContainer.getChildren().add(newPane);
             Label building = (Label) newPane.lookup("#buildingNumber");
             building.setText(Integer.toString(rooms.get(i).getBuilding()));
@@ -212,7 +216,7 @@ public class ResourceController {
         }
         else if (event.getSource() == addNewRoom) {
         	// Edit room popup
-        	FXMLLoader loader = new FXMLLoader(getClass().getResource("editroom.fxml"));
+        	FXMLLoader loader = new FXMLLoader(getClass().getResource("AddRoom.fxml"));
             Scene newScene;
             try {
                 newScene = new Scene((Parent)loader.load());
@@ -222,6 +226,8 @@ public class ResourceController {
                 return;
             }
             
+            AddRoomController addRoomController = loader.<AddRoomController>getController();
+            addRoomController.setResourceController(this);
             Stage primaryStage = (Stage) addNewRoom.getScene().getWindow();
             Stage inputStage = new Stage();
             inputStage.initOwner(primaryStage);
