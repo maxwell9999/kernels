@@ -12,12 +12,12 @@ public class CourseTest extends TestCase{
 	public void testEmptyConstructor() {
 		assertTrue("Testing Course empty constructor...", 
 				course instanceof Course);
-		assertNull(course.getDepartment()); 
+		assertEquals("", course.getDepartment()); 
 		assertEquals(0, course.getNumber()); 
-		assertNull(course.getName()); 
+		assertEquals("", course.getName()); 
 		assertEquals(0.0, course.getWtu()); 
 		assertEquals(0, course.getLectHours()); 
-		assertNull(course.getNotes()); 
+		assertEquals("", course.getNotes()); 
 		assertEquals(0, course.getLabHours());	
 		assertEquals(0, course.getActHours());	
 		

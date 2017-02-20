@@ -8,19 +8,17 @@ public class Room implements DatabaseObject {
 	private int capacity;
 	private String type; 
 	private String notes; 
-	private String equipment;
 	
 	public Room() {
 		
 	}
 	
-	public Room(int building, int number, int capacity, String type, String notes, String equipment) {
+	public Room(int building, int number, int capacity, String type, String notes) {
 		this.building = building;
 		this.number = number; 
 		this.capacity = capacity;
 		this.type = type;
 		this.notes = notes;
-		this.equipment = equipment;
 	}
 	
 	public void setBuilding(int building) {
@@ -63,21 +61,14 @@ public class Room implements DatabaseObject {
 		return notes;
 	}
 	
-	public void setEquipment(String equipment) {
-		this.equipment = equipment;
-	}
-	
-	public String getEquipment() {
-		return equipment;
-	}
 	
 	public String getKeys(){
-		return "building, number, capacity, type, notes, equipment"; 
+		return "building, number, capacity, type, notes"; 
 	}
 	
 	public String getValues() {
 		return building + ", " + number + ", " + capacity + ", '" + type + "', '" + 
-				notes + "', " + equipment;
+				notes + "'";
 	}
 	
 	public String getTable() {

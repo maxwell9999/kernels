@@ -45,7 +45,7 @@ public class editRoomController {
         	}
         	else {
 	        	ResourceManager.addRoom(buildingInt, roomInt, capacityInt, roomTypeString,
-	        			notesString, equipmentString);
+	        			notesString);
 	        	
 	        	Stage stage = (Stage)confirm.getScene().getWindow();
 	        	stage.close();
