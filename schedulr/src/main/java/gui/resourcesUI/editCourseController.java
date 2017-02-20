@@ -45,8 +45,15 @@ public class editCourseController {
                 units.setText(Double.toString(course.getWtu()));
                 hours.setText(Integer.toString(course.getLectHours()));
                 notes.setText(course.getNotes());
-                
-                
+                String dept = course.getDepartment();
+                if(dept.equals("CPE")){
+                    department.getSelectionModel().select(0);
+                } else if(dept.equals("SE")) {
+                    department.getSelectionModel().select(1);
+
+                } else if(dept.equals("CSC")) {
+                    department.getSelectionModel().select(2);
+                }                   
             }
         });
 	}
@@ -57,10 +64,19 @@ public class editCourseController {
         	String departmentString = department.getValue().toString();
         	int courseNum = Integer.parseInt(courseNumber.getText());
         	String courseName = courseTitle.getText();
-        	int unitsInt = Integer.parseInt(units.getText());
+        	double unitsInt = Double.parseDouble(units.getText());
         	int hoursInt = Integer.parseInt(hours.getText());
         	int labHours = 0;
         	String notesString = notes.getText();
+        	
+        	course.setDepartment(departmentString);
+        	course.setNumber(courseNum);
+        	course.setName(courseName);
+        	course.setWtu(unitsInt);
+        	course.setLectHours(hoursInt);
+        	
+        	course.updateCourse();
+        
         	
         	//TODO(Sarah): Add courtney's edit function here.
         }

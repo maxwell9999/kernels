@@ -1,6 +1,7 @@
 package core.resources;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -100,11 +101,6 @@ public class ResourceManager
 		return room; 
 	}
 	
-
-	/**
-	 * Imports courses from a properly formatted course file
-	 * @param courseFile file to import contents from
-	 */
 	public static void importCourses(File file)
 	{
 		try {

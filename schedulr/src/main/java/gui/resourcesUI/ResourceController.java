@@ -71,10 +71,10 @@ public class ResourceController {
 	public void populateCourses() {
 		//Back-end connection to populate courseList
 		courses = ResourceManager.getCourseList();
-		
-		facultyContainer.getChildren().clear();
+		courseContainer.getChildren().clear();
 		for(int i = 0; i < courses.size(); i++) {
 			Pane newPane = null;
+			
 			FXMLLoader loader = null;
 			try {
 				loader = new FXMLLoader(getClass().getResource("courseEntry.fxml"));
@@ -120,7 +120,7 @@ public class ResourceController {
 			catch (IOException e) {
 				e.printStackTrace();
 			}
-			/*// Sets values so the ResourceEntryController knows which course it contains.
+
 			RoomEntryController roomEntryController = loader.<RoomEntryController>getController();
 			roomEntryController.setRoom(rooms.get(i));
 			roomEntryController.setResourceController(this);
@@ -128,7 +128,7 @@ public class ResourceController {
             Label building = (Label) newPane.lookup("#buildingNumber");
             building.setText(Integer.toString(rooms.get(i).getBuilding()));
             Label room = (Label) newPane.lookup("#roomNumber");
-            room.setText(Integer.toString(rooms.get(i).getNumber()));*/
+            room.setText(Integer.toString(rooms.get(i).getNumber()));
             
 		}
 	}
@@ -203,7 +203,7 @@ public class ResourceController {
         }
         else if (event.getSource() == addNewRoom) {
         	// Edit room popup
-        	FXMLLoader loader = new FXMLLoader(getClass().getResource("editroom.fxml"));
+        	FXMLLoader loader = new FXMLLoader(getClass().getResource("AddRoom.fxml"));
             Scene newScene;
             try {
                 newScene = new Scene((Parent)loader.load());
@@ -213,6 +213,8 @@ public class ResourceController {
                 return;
             }
             
+            AddRoomController addRoomController = loader.<AddRoomController>getController();
+            addRoomController.setResourceController(this);
             Stage primaryStage = (Stage) addNewRoom.getScene().getWindow();
             Stage inputStage = new Stage();
             inputStage.initOwner(primaryStage);
