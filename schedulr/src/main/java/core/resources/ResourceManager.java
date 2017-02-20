@@ -196,11 +196,24 @@ public class ResourceManager
 	 * Returns a sorted room list, sorted by building and number
 	 * @return sorted List of rooms
 	 */
-	public static List<HashMap<String, Object>> getRoomList()
-	{
-		List<HashMap<String, Object>> classMap = DatabaseCommunicator.queryDatabase("SELECT building,number FROM rooms;");
-//		Collections.sort(classMap, new RoomComparator());
-		return classMap;
+	public static List<Room> getRoomList(String identifier) {
+		String notes, type;
+		int building, number, capacity;
+		
+		List<Room> roomList = new ArrayList<Room>();
+		// handle where clause
+		List<HashMap<String, Object>> rooms = DatabaseCommunicator.queryDatabase("SELECT * FROM rooms;");
+		for(HashMap<String, Object> map: rooms)
+		{
+			building = (Integer) map.get("building");
+			number = (Integer) map.get("number"); 
+			type = (String) map.get("type");
+			capacity = (Integer) map.get("capacity");
+			notes = (String) map.get("lect_hours");
+			roomList.add(new Room(building, number, capacity, type, notes));
+		}
+		Collections.sort(roomList, new RoomComparator());
+		return roomList;
 	}
 	
 	/**
@@ -209,18 +222,18 @@ public class ResourceManager
 	 * @author Simko
 	 *
 	 */
-    class RoomComparator implements Comparator<Map<String, Object>>
+    private static class RoomComparator implements Comparator<Room>
     {
     	/**
     	 * Compares the buildings first then room number, putting them in order.
     	 */
-    	public int compare(Map<String, Object> Resource1, Map<String, Object> Resource2) 
+    	public int compare(Room Resource1, Room Resource2) 
     	{
-    		if (((Integer) Resource1.get("building")) == ((Integer) Resource2.get("building")))
+    		if (Resource1.getBuilding() == Resource2.getBuilding())
     		{
-    			return (Integer) Resource1.get("number") - (Integer) Resource2.get("number");
+    			return Resource1.getNumber() - Resource2.getNumber();
     		}
-    		return (Integer) Resource1.get("building") - (Integer) Resource2.get("building");
+    		return Resource1.getBuilding() - Resource2.getBuilding();
     	}
 	}
     
