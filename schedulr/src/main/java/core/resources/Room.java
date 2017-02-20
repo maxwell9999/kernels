@@ -1,5 +1,6 @@
 package core.resources;
 
+import core.database.DatabaseCommunicator;
 import core.database.DatabaseObject;
 
 public class Room implements DatabaseObject {
@@ -73,6 +74,14 @@ public class Room implements DatabaseObject {
 	
 	public String getTable() {
 		return "rooms"; 
+	}
+	
+	public void updateRoom() {
+		DatabaseCommunicator.replaceDatabase(this);
+	}
+	
+	public String getKeyIdentifier() {
+		return "building='" + building + "' AND number=" + number;
 	}
 	
 }

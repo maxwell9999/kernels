@@ -20,6 +20,7 @@ public class ResourceManagerTest extends TestCase{
 	public void testRoomAddEditGetRemove()
 	{
 		ResourceManager.addRoom(99, 9904, 1, "lecture", "");
+
 		List<HashMap<String, Object>> list;
 
 		list = DatabaseCommunicator.queryDatabase("SELECT capacity FROM rooms WHERE building=99 AND number=9904;");
@@ -72,6 +73,7 @@ public class ResourceManagerTest extends TestCase{
 		ResourceManager.addRoom(0, 9904, 1, "lecture", "");
 		ResourceManager.addRoom(99, 9904, 1, "lecture", "");
 		ResourceManager.addRoom(99, 9905, 1, "lecture", "");
+
 		list = ResourceManager.getRoomList();
 		
 		assertEquals("Testing number of rooms", numRooms + 3, list.size());
@@ -92,15 +94,15 @@ public class ResourceManagerTest extends TestCase{
 	@Test
 	public void testGetCourseList()
 	{
-		ResourceManager man = new ResourceManager();
-		List<Course> list = man.getCourseList();
+		List<Course> list = ResourceManager.getCourseList();
 		int numCourse = list.size();
 		assertNotNull("Testing that list exists", list);
 		
 		ResourceManager.addCourse("AAA", 123, "Test Course", 4, 6, 0, 0, "");
 		ResourceManager.addCourse("AAA", 124, "Test Course", 4, 6, 0, 1, "");
 		ResourceManager.addCourse("ZZZ", 123, "Test Course", 4, 6, 0, 0, "");
-		list = man.getCourseList();
+		list = ResourceManager.getCourseList();
+
 		assertEquals("Testing number of courses", numCourse + 3, list.size());
 		assertEquals("Testing first course dept...", "AAA", list.get(0).getDepartment());
 		assertEquals("Testing first course number...", 123, list.get(0).getNumber());
@@ -113,7 +115,7 @@ public class ResourceManagerTest extends TestCase{
 		ResourceManager.removeCourse("AAA", 123);
 		ResourceManager.removeCourse("AAA", 124);
 		ResourceManager.removeCourse("ZZZ", 123);
-		list = man.getCourseList();
+		list = ResourceManager.getCourseList();
 		assertEquals("Testing number of courses...", numCourse, list.size());
 	}
 	

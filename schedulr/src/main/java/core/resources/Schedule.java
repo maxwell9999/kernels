@@ -56,4 +56,7 @@ public class Schedule implements DatabaseObject {
 		return "schedules";
 	}
 	
+	public String getKeyIdentifier() {
+		return "term='" + term + "' AND year=" + year;
+	}
 }

@@ -29,11 +29,9 @@ public class ResourceManager
      */
 	public static void addRoom(int building, int number, int capacity, String type, String notes)
 	{
-		String fieldString = "building, number, capacity, type, notes";
-		String valueString = building + ", " + number + ", " + capacity + ", '" + type + "', '" + 
-				notes + "'";
-		
-		DatabaseCommunicator.insertDatabase("rooms", fieldString, valueString);
+
+		Room newRoom = new Room(building, number, capacity, type, notes);
+		newRoom.updateRoom();
 	}
 	
 	/**
@@ -47,13 +45,11 @@ public class ResourceManager
 	/**
      * Query method to add new course to database
      */
-	public static void addCourse(String department, int number, String name, double wtu, int lect_hours, int lab_hours, int act_hours, String notes)
+
+	public static void addCourse(String department, int number, String name, double wtu, int lectHours, int labHours, int actHours, String notes)
 	{
-		String fieldString = "department, number, name, wtu, lect_hours, lab_hours, act_hours, notes";
-		String valueString = "'" + department + "', " + number + ", '" + name + "', " + wtu + ", " + 
-				lect_hours + ", " + lab_hours + ", " + act_hours + ", '" + notes + "'";
-		
-		DatabaseCommunicator.insertDatabase("courses", fieldString, valueString);
+		Course newCourse = new Course(department, number, name, wtu, lectHours, notes, labHours, actHours);
+		newCourse.updateCourse();
 	}
 	
 	/**
@@ -186,13 +182,13 @@ public class ResourceManager
 			name = map.get("name").toString();
 			notes = (String) map.get("notes");
 			num = (Integer) map.get("number");
-			lect_hours = 0;//(Integer) map.get("lect_hours");
-			lab_hours = 0;//(Integer) map.get("lab_hours");
-			act_hours = 0;//(Integer) map.get("act_hours");
+			lect_hours = (Integer) map.get("lect_hours");
+			lab_hours = (Integer) map.get("lab_hours");
+			act_hours = (Integer) map.get("act_hours");
 			wtu = (Double) map.get("wtu");
 			courseList.add(new Course(dept, num, name, wtu, lect_hours, notes, lab_hours, act_hours));
 		}
-//		Collections.sort(courseList, new CourseComparator());
+		Collections.sort(courseList, new CourseComparator());
 		return courseList;
 	}
 	
@@ -234,7 +230,7 @@ public class ResourceManager
 	 * @author Simko
 	 *
 	 */
-    private class CourseComparator implements Comparator<Course>
+    private static class CourseComparator implements Comparator<Course>
     {
     	/**
     	 * Compares the last names, returning a negative number if the first name comes before the second.

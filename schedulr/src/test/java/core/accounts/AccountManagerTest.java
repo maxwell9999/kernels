@@ -21,7 +21,9 @@ public class AccountManagerTest extends TestCase{
 		list = DatabaseCommunicator.queryDatabase("SELECT empl_id FROM users WHERE login='Test_User';");
 		assertEquals("Testing User Add", 99999, Integer.parseInt(list.get(0).get("empl_id").toString()));
 		
-		AccountManager.editUser("Test_User", "email='newEmail@hotmail.com'");
+		User test = AccountManager.getUser("Test_User");
+		test.setEmail("newEmail@hotmail.com");
+		test.updateUser();
 		list = DatabaseCommunicator.queryDatabase("SELECT email FROM users WHERE login='Test_User';");
 		assertEquals("Testing User Editing", "newEmail@hotmail.com", list.get(0).get("email"));
 				
@@ -38,7 +40,7 @@ public class AccountManagerTest extends TestCase{
 		assertTrue("Testing empl_id password", BCrypt.checkpw("99999", list.get(0).get("pass_hash").toString()));
 		assertEquals("Testing Reset Password = 1", 1, Integer.parseInt(list.get(0).get("reset_password").toString()));
 		
-		AccountManager.resetPassword("Test_User", "potato");
+		AccountManager.getUser("Test_User").changePassword(BCrypt.hashpw("potato", BCrypt.gensalt()));
 		
 		list = DatabaseCommunicator.queryDatabase("SELECT pass_hash,reset_password FROM users WHERE login='Test_User';");
 		assertTrue("Testing reset password", BCrypt.checkpw("potato", list.get(0).get("pass_hash").toString()));
@@ -52,7 +54,7 @@ public class AccountManagerTest extends TestCase{
 	@Test
 	public void testGetUserList()
 	{
-		List<HashMap<String, Object>> userList = AccountManager.getUserList();
+		List<User> userList = AccountManager.getUserList();
 		int numUsers = userList.size();
 		assertNotNull("Testing that list exists", userList);
 		
@@ -61,8 +63,8 @@ public class AccountManagerTest extends TestCase{
 		AccountManager.addUser("Test_User2", 99999, "Test", "ZZZZZ", "testUser@gmail.com", "", 1);
 		userList = AccountManager.getUserList();
 		assertEquals("Testing number of users", numUsers + 2, userList.size());
-		assertEquals("Testing first user sorted", "Test_User1", userList.get(0).get("login"));
-		assertEquals("Testing last user sorted", "Test_User2", userList.get(userList.size() - 1).get("login"));
+		assertEquals("Testing first user sorted", "Test_User1", userList.get(0).getLogin());
+		assertEquals("Testing last user sorted", "Test_User2", userList.get(userList.size() - 1).getLogin());
 		
 		AccountManager.removeUser("Test_User1");
 		AccountManager.removeUser("Test_User2");

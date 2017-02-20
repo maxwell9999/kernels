@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import core.accounts.AccountManager;
+import core.accounts.DepartmentScheduler;
 import core.accounts.User;
 import core.database.DatabaseCommunicator;
 import javafx.collections.FXCollections;
@@ -74,9 +75,11 @@ public class EditAccountController {
     private void saveAccount(ActionEvent event) {
     		
     		// TODO(Sarah): What if we remove the user, and then add a new one completely? Hard to save ONLY new info - but what if info is incorrect? Then info has been deleted.
-    		String newValues = "first_name='" + firstName.getText() + "', last_name='" + lastName.getText() + "', email='" + 
-    				email.getText() + "', office_location='" + office.getText() + "', role=" + (checkbox.isSelected() ? SCHEDULER : FACULTY_MEMBER);
-    		AccountManager.editUser(currentUser.getLogin(), newValues);
+    		currentUser.setFirstName(firstName.getText());
+    		currentUser.setLastName(lastName.getText());
+    		currentUser.setEmail(email.getText());
+    		currentUser.setOfficeLocation(office.getText());
+    		currentUser.updateUser();
     		resourceController.populateFaculty();
     		Stage currentStage = (Stage) checkbox.getScene().getWindow();
             currentStage.close();

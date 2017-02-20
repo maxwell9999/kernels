@@ -68,8 +68,6 @@ public class AddCourseController {
         		System.err.println("Already in Database");
         	}
         	else {
-        		//TODO update the UI to match additional course types and hours
-        		// department, number, name, wtu, lect_hours, lab_hours, act_hours, notes
         		int lectHours = 0; 
         		int actHours = 0; 
         		
@@ -85,6 +83,7 @@ public class AddCourseController {
 
 	        	ResourceManager.addCourse(departmentString, courseNum, courseName, unitsInt, lectHours, 
 	        			labHours, actHours, notes.getText()); 
+
 	        	System.out.println(resourceController);
 	        	resourceController.populateCourses();
 	        	Stage stage = (Stage)confirm.getScene().getWindow();

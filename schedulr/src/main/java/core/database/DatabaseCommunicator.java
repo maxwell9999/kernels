@@ -47,10 +47,10 @@ public class DatabaseCommunicator
 		return result;
 	}
 	
-	//TODO deprecate this method and adopt method below
-	public static void insertDatabase(String tableName, String fieldString, String valueString)
+
+	public static void insertDatabase(DatabaseObject object, String fieldString, String valueString)
 	{
-		String insert = "INSERT INTO " + tableName + "(" + fieldString + ") VALUES (" + valueString + ");";
+		String insert = "INSERT INTO " + object.getTable() + "(" + fieldString + ") VALUES (" + valueString + ");";
 		databaseAction(insert);
 	}
 	
@@ -60,14 +60,29 @@ public class DatabaseCommunicator
 		databaseAction(delete);
 	}
 	
-	public static void updateDatabase(String tableName, String newValue, String identifier)
+	/*public static void updateDatabase(DatabaseObject object, String newValue)
 	{
-		String update = "UPDATE " + tableName + " SET " + newValue  + " WHERE " + identifier + ";";
+		String update = "UPDATE " + object.getTable() + " SET " + newValue  + " WHERE " + object.getKeyIdentifier() + ";";
+		databaseAction(update);
+	}*/
+	
+	public static void editDatabase(DatabaseObject object, String newValue)
+	{
+		String update = "UPDATE " + object.getTable() + " SET " + newValue  + " WHERE " + object.getKeyIdentifier() + ";";
+		databaseAction(update);
+	}
+	
+	public static void replaceDatabase(DatabaseObject object)
+	{
+		String update = ("REPLACE INTO " + object.getTable() + " (" + object.getKeys() + ") "
+				+ "VALUES (" + object.getValues() + ");");
 		databaseAction(update);
 	}
 	
 	public static boolean resourceExists(String tableName, String uniqueIdentifier) {
 		List<HashMap<String, Object>> list = queryDatabase("SELECT count(*) FROM " + tableName + " WHERE " + uniqueIdentifier + ";");
+		if (list.size() == 0)
+			return false;
 		return Integer.parseInt(list.get(0).get("count(*)").toString()) == 1; 
 	}
 	
@@ -136,12 +151,5 @@ public class DatabaseCommunicator
 				e.printStackTrace();
 			}
 		}
-	}
-	
-
-	public static void insertDatabase(DatabaseObject object)
-	{
-		String insert = "INSERT INTO " + object.getTable() + "(" + object.getKeys() + ") VALUES (" + object.getValues() + ");";
-		databaseAction(insert);
 	}
 }

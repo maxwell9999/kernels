@@ -16,6 +16,7 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextArea;
 import core.database.DatabaseCommunicator;
 import core.resources.ResourceManager;
+import core.resources.Room;
 
 public class editRoomController {
 	
@@ -47,8 +48,9 @@ public class editRoomController {
         		//TODO make error message
         	}
         	else {
-	        	ResourceManager.addRoom(buildingInt, roomInt, capacityInt, roomTypeString,
-	        			notesString);
+
+        		Room newRoom = new Room(buildingInt, roomInt, capacityInt, roomTypeString, notesString);
+	        	newRoom.updateRoom();
 	        	
 	        	Stage stage = (Stage)confirm.getScene().getWindow();
 	        	stage.close();
