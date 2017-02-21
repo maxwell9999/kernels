@@ -82,8 +82,8 @@ public class ResourceManagerTest extends TestCase{
 		
 		//TODO Modify this test. Need to select a subset of rooms to sort
 		//NOTE this test will fail once the database is populated
-		//assertEquals("Testing building sort...", 9904, list.get(list.size() - 2).get("number"));
-		//assertEquals("Testing room sort...", 9905, list.get(list.size() - 1).get("number"));
+		assertEquals("Testing building sort...", 9904, list.get(list.size() - 2).getNumber());
+		assertEquals("Testing room sort...", 9905, list.get(list.size() - 1).getNumber());
 		
 		ResourceManager.removeRoom(0, 9904);
 		ResourceManager.removeRoom(99, 9904);

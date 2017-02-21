@@ -1,7 +1,7 @@
 package core.accounts;
 
 public class FacultyMember extends User{  
-	private static final int FACULTY_MEMBER_ROLE = 2; 
+	private static final int FACULTY_MEMBER_ROLE = 0; 
 
 	public FacultyMember() {
 		this.setRole(FACULTY_MEMBER_ROLE); 
