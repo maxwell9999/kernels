@@ -1,14 +1,13 @@
 package core.accounts;
 
 public class DepartmentScheduler extends User {  
-	private static final int DEPT_SCHED_ROLE = 2; 
 
 	public DepartmentScheduler() {
-		this.setRole(DEPT_SCHED_ROLE); 
+		this.setRole(DEPARTMENT_SCHEDULER); 
 	}
 	
 	public DepartmentScheduler(String login, int emplId, String firstName, String lastName, String email, String officeLocation) {
-		super(login, emplId, firstName, lastName, email, officeLocation, DEPT_SCHED_ROLE); 
+		super(login, emplId, firstName, lastName, email, officeLocation, DEPARTMENT_SCHEDULER); 
 	}
 	
 }

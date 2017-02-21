@@ -2,6 +2,7 @@ package gui.accountsUI;
 
 import java.io.IOException;
 
+import core.accounts.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -20,6 +21,8 @@ public class ResetPasswordController {
     @FXML private TextField confirmField;
     @FXML private Button saveButton;
     @FXML private Label errorLabel;
+    
+    private User user;
     
     /**
      * onAction button for saving new password.
@@ -44,6 +47,7 @@ public class ResetPasswordController {
         	
         	else {
         		// Put database code here. 
+        		user.changePassword(password);
 		        	// NEED SOMEHOW TO FETCH USER THAT IS LOGGED IN
 		        	// resetPassword(username, password);
         		// To close current window.
@@ -67,5 +71,9 @@ public class ResetPasswordController {
     public static boolean isValid(String password) {
     	return (password.length() >= 8 && password.length() <= 16 && password.matches(".*\\d.*")
     			&& password.matches(".*[A-Z].*") && password.matches(".*[a-z].*")); 
+    }
+    
+    public void setUser(User user) {
+    	this.user = user;
     }
 }

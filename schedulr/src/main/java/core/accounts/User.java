@@ -1,11 +1,13 @@
 package core.accounts;
 
+import org.mindrot.jbcrypt.BCrypt;
+
 import core.database.DatabaseCommunicator;
 import core.database.DatabaseObject;
 
 public abstract class User implements DatabaseObject {
-	private static int DEPARTMENT_SCHEDULER = 1; 
-	private static int FACULTY_MEMBER = 2; 
+	protected static int DEPARTMENT_SCHEDULER = 1; 
+	protected static int FACULTY_MEMBER = 2; 
 	
 	private String login; 
 	private int emplId; 
@@ -102,7 +104,8 @@ public abstract class User implements DatabaseObject {
 	}
 	
 	public void changePassword(String pass) {
-		DatabaseCommunicator.editDatabase(this, "pass_hash='" + pass + "'");
+		String hashed = BCrypt.hashpw(pass, BCrypt.gensalt());
+		DatabaseCommunicator.editDatabase(this, "pass_hash='" + hashed + "'");
 		DatabaseCommunicator.editDatabase(this, "reset_password=0");
 	}
 	
