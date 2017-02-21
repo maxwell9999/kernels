@@ -27,7 +27,7 @@ public class EditAccountController {
 
 	//TODO(Simko): Are these values correct? They do not seem to be working
 	private static final int SCHEDULER = 1; 
-	private static final int FACULTY_MEMBER = 0; 
+	private static final int FACULTY_MEMBER = 2; 
     private static final Logger log = LoggerFactory.getLogger(EditAccountController.class);
     private boolean error = false;
     @FXML private TextField username;
