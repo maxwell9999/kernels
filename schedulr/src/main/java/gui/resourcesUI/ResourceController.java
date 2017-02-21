@@ -52,7 +52,7 @@ public class ResourceController {
 	
 	// List of courses in database.
 	List<Course> courses = new ArrayList<Course>();
-	//TODO(Sarah): Set up room tab once back-end is done
+	// List of rooms in database.
 	List<Room> rooms = new ArrayList<Room>();
 	// List of users in database
 	List<User> faculty = new ArrayList<User>();
