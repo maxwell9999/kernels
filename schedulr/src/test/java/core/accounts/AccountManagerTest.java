@@ -16,6 +16,7 @@ public class AccountManagerTest extends TestCase{
 	public void testUserAddEditRemove()
 	{
 		AccountManager.addUser("Test_User", 99999, "Test", "User", "testUser@gmail.com", "", 1);
+		AccountManager.addUser("Test_User12", 99999, "AAA", "User", "testUser@gmail.com", "", 2);
 		List<HashMap<String, Object>> list;
 
 		list = DatabaseCommunicator.queryDatabase("SELECT empl_id FROM users WHERE login='Test_User';");
@@ -26,10 +27,20 @@ public class AccountManagerTest extends TestCase{
 		test.updateUser();
 		list = DatabaseCommunicator.queryDatabase("SELECT email FROM users WHERE login='Test_User';");
 		assertEquals("Testing User Editing", "newEmail@hotmail.com", list.get(0).get("email"));
+		test = AccountManager.getUser("Test_User");
+		assertTrue("Testing the role...", test instanceof FacultyMember);
+		
+		test = AccountManager.getUser("Test_User12");
+		AccountManager.changeRole(test, 1);
+		list = DatabaseCommunicator.queryDatabase("SELECT email FROM users WHERE login='Test_User12';");
+		test = AccountManager.getUser("Test_User");
 		assertTrue("Testing the role...", test instanceof FacultyMember);
 				
 		AccountManager.removeUser("Test_User");
 		list = DatabaseCommunicator.queryDatabase("SELECT empl_id FROM users WHERE login='Test_User';");
+		assertEquals("Testing User Removal", 0, list.size());
+		AccountManager.removeUser("Test_User12");
+		list = DatabaseCommunicator.queryDatabase("SELECT empl_id FROM users WHERE login='Test_User12';");
 		assertEquals("Testing User Removal", 0, list.size());
 	}
 	
