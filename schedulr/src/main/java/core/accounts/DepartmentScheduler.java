@@ -1,7 +1,7 @@
 package core.accounts;
 
 public class DepartmentScheduler extends User {  
-	private static final int DEPT_SCHED_ROLE = 1; 
+	private static final int DEPT_SCHED_ROLE = 2; 
 
 	public DepartmentScheduler() {
 		this.setRole(DEPT_SCHED_ROLE); 

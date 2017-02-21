@@ -42,6 +42,7 @@ public class RoomEntryController {
 		editRoomController roomController = fxmlLoader.<editRoomController>getController();
 		roomController.setRoom(room);
 		roomController.setList("ready");
+		roomController.setController(resourceController);
     	Scene scene = new Scene(root); 
 
     	stage.setScene(scene);    
@@ -60,10 +61,18 @@ public class RoomEntryController {
 		resourceController.populateRooms();
 	}
 	
+	/**
+     * Sets current room
+     * @param room sets current room
+     */
 	public void setRoom(Room room) {
 		this.room = room;
 	}
 	
+	/**
+     * Access to ResourceController.
+     * @param ResourceController to set ResourceController
+     */
 	public void setResourceController(ResourceController resourceController) {
 		this.resourceController = resourceController;
 	}
