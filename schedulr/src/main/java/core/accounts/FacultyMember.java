@@ -1,14 +1,14 @@
 package core.accounts;
 
 public class FacultyMember extends User{  
-	private static final int FACULTY_MEMBER_ROLE = 0; 
+	//private static final int FACULTY_MEMBER_ROLE = 1; 
 
 	public FacultyMember() {
-		this.setRole(FACULTY_MEMBER_ROLE); 
+		this.setRole(FACULTY_MEMBER); 
 	}
 	
 	public FacultyMember(String login, int emplId, String firstName, String lastName, String email, String officeLocation) {
-		super(login, emplId, firstName, lastName, email, officeLocation, FACULTY_MEMBER_ROLE); 
+		super(login, emplId, firstName, lastName, email, officeLocation, FACULTY_MEMBER); 
 	}
 	
 }

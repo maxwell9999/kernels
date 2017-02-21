@@ -31,11 +31,11 @@ import javafx.stage.Stage;
  * @version February 14, 2017
  */
 public class ResourceController {
+	
 	@FXML private Button addNewCourse;
 	@FXML private Button addNewRoom;
 	@FXML private Button addNewFaculty;
 
-	
 	@FXML private Button confirm;
 	@FXML private ChoiceBox department;
 	@FXML private Label courseDepartment;
@@ -52,12 +52,14 @@ public class ResourceController {
 	
 	// List of courses in database.
 	List<Course> courses = new ArrayList<Course>();
-	//TODO(Sarah): Set up room tab once back-end is done
+	// List of rooms in database.
 	List<Room> rooms = new ArrayList<Room>();
 	// List of users in database
 	List<User> faculty = new ArrayList<User>();
 
-
+	/**
+	 *  Called when controller is initialized to populate GUI.
+	 */
 	public void initialize() {
 		populateCourses();
 		populateRooms();
@@ -103,7 +105,6 @@ public class ResourceController {
 	/**
 	 * Updates the room list from the database.
 	 */
-	//TODO(Sarah): Update this.
 	@FXML
 	public void populateRooms() {
 		//Back-end connection to populate roomList
@@ -161,13 +162,11 @@ public class ResourceController {
             resourceController.setUser(faculty.get(i));
             resourceController.setResourceController(this);
             
-
             // Populates GUI.
             facultyContainer.getChildren().add(newPane);
             Label lastName = (Label) newPane.lookup("#lastName");
             Label firstName = (Label) newPane.lookup("#firstName");
             Label login = (Label) newPane.lookup("#login");
-            
             lastName.setText(faculty.get(i).getLastName());
             firstName.setText(faculty.get(i).getFirstName());
             login.setText(faculty.get(i).getLogin());
@@ -182,7 +181,7 @@ public class ResourceController {
 	@FXML
     private void handleButtonClick(ActionEvent event) {
         if (event.getSource() == addNewCourse) {
-        	// Edit courses popup
+        	// Add course popup
         	System.out.println(getClass().getResource("addCourse.fxml"));
         	FXMLLoader loader = new FXMLLoader(getClass().getResource("addCourse.fxml"));
             Scene newScene;
@@ -202,7 +201,7 @@ public class ResourceController {
             inputStage.showAndWait();
         }
         else if (event.getSource() == addNewRoom) {
-        	// Edit room popup
+        	// Add room popup
         	FXMLLoader loader = new FXMLLoader(getClass().getResource("AddRoom.fxml"));
             Scene newScene;
             try {
@@ -222,7 +221,7 @@ public class ResourceController {
             inputStage.showAndWait();
         }
         else if (event.getSource() == addNewFaculty) {
-        	// Edit room popup
+        	// Add Faculty popup
         	FXMLLoader loader = new FXMLLoader(getClass().getResource("AddAccountView.fxml"));
             Scene newScene;
             try {

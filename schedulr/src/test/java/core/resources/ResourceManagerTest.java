@@ -28,11 +28,17 @@ public class ResourceManagerTest extends TestCase{
 				1, Integer.parseInt(list.get(0).get("capacity").toString()));
 		
 		Room temp = ResourceManager.getRoom(99, 9904);
-		assertEquals("Testing Room Get...", 
-				99, temp.getBuilding());
+		assertEquals("Testing Room Get...", 99, temp.getBuilding());
 		assertEquals(9904, temp.getNumber()); 
 		
-		//TODO add test for edit
+		temp.setNotes("This is a note");
+		temp.updateRoom();
+		
+		//Get the room from the database again
+		temp = ResourceManager.getRoom(99, 9904);
+		assertEquals("Testing Room Get...", 99, temp.getBuilding());
+		assertEquals(9904, temp.getNumber()); 
+		assertEquals("Testing editing note...", "This is a note", temp.getNotes()); 
 		
 		ResourceManager.removeRoom(99, 9904);
 		list = DatabaseCommunicator.queryDatabase("SELECT * FROM rooms WHERE building=99 AND number=9904;");
@@ -55,6 +61,14 @@ public class ResourceManagerTest extends TestCase{
 		assertEquals(123, temp.getNumber()); 
 		
 		//TODO add test for edit
+		temp.setNotes("This is a happy note");
+		temp.updateCourse();
+		
+		//Get the course from the database again
+		temp = ResourceManager.getCourse("ABC", 123); 
+		assertEquals("Testing Course Get...", "ABC", temp.getDepartment());
+		assertEquals(123, temp.getNumber());
+		assertEquals("Testing edit note", "This is a happy note", temp.getNotes());
 		
 		ResourceManager.removeCourse("ABC", 123);
 		list = DatabaseCommunicator.queryDatabase("SELECT name FROM courses WHERE department='ABC' AND number=123;");

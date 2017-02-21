@@ -3,7 +3,6 @@ package gui.resourcesUI;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-import java.awt.Label;
 import java.io.IOException;
 
 import core.database.DatabaseCommunicator;
@@ -15,6 +14,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.Label;
+
 
 /**
  * UI for adding a course.
@@ -42,7 +43,6 @@ public class AddCourseController {
 	private ResourceController resourceController;
 	
 	public void initialize() {
-		//TODO may want to have these reflect the departments in the database
 		department.setItems(FXCollections.observableArrayList("CPE", "SE", "CSC"));
 		type.setItems(FXCollections.observableArrayList(LECTURE, ACTIVITY, SUPERVISORY));
 	}
@@ -66,7 +66,7 @@ public class AddCourseController {
         	
         	// Adds the course to the database if it does not already exist.
         	if (DatabaseCommunicator.resourceExists("courses", "department='" + departmentString + "' AND number=" + courseNum)) {
-//        		errorLabel.setText("Course already exists.");
+        		errorLabel.setText("Course already exists.");
         	}
         	else {
         		int lectHours = 0; 

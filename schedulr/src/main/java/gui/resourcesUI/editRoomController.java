@@ -37,12 +37,17 @@ public class editRoomController {
 	@FXML private TextField capacity;
 	@FXML private TextArea notes;
 	
+	// Current room.
 	private Room room;
 	// Observable list so it is known when all items have been loaded.
     private ObservableList<String> list = FXCollections.observableArrayList();
+    // Access to ResourceController.
+    private ResourceController controller;
 	
+    // Called when controller is first loaded.
 	public void initialize() {
 		roomType.setItems(FXCollections.observableArrayList(SMARTROOM, LECTURE, LAB));
+		// Sets up listener to populate fields with current room information.
 		list.addListener(new ListChangeListener<String>() {
 
     		// Sets fields with information from current user.
@@ -59,10 +64,16 @@ public class editRoomController {
                 } else if(type.equals(LAB)) {
                 	roomType.getSelectionModel().select(2);
                 }
+                buildingNumber.setEditable(false);
+                roomNumber.setEditable(false);;
             }
         }); 
 	}
 	
+	 /**
+     * onAction function for saving a room.
+     * @param event Necessary field for onAction events.
+     */
 	@FXML
     private void handleButtonClick(ActionEvent event) {
         if (event.getSource() == confirm) {
@@ -72,15 +83,16 @@ public class editRoomController {
         	String roomTypeString = roomType.getValue().toString();
         	String notesString = notes.getText();
         	
-        	if (DatabaseCommunicator.resourceExists("rooms", "building=" + buildingInt + " AND room=" + roomInt)) {
-        		//TODO make error message
-        	}
-        	else {
-
-        		Room newRoom = new Room(buildingInt, roomInt, capacityInt, roomTypeString, notesString);
-	        	newRoom.updateRoom();
-	        	
-	        	Stage stage = (Stage)confirm.getScene().getWindow();
+        	if (DatabaseCommunicator.resourceExists("rooms", "building=" + buildingInt + " AND number=" + roomInt)) {
+        		
+        		room.setBuilding(buildingInt);
+        		room.setNumber(roomInt);
+        		room.setCapacity(capacityInt);
+        		room.setType(roomTypeString);
+        		room.setNotes(notesString);
+        		room.updateRoom();
+	        	controller.populateRooms();
+        		Stage stage = (Stage)confirm.getScene().getWindow();
 	        	stage.close();
         	}
         }
@@ -94,7 +106,19 @@ public class editRoomController {
 		list.add(string);
 	}
     
+    /**
+     * Sets current room.
+     * @param controller user to set the current room.
+     */
     public void setRoom(Room room) {
     	this.room = room;
+    }
+    
+    /**
+     * Gives access to ResourceController.
+     * @param controller access to ResourceController.
+     */
+    public void setController(ResourceController controller) {
+    	this.controller = controller;
     }
 }
