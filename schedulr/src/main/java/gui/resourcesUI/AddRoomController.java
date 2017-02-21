@@ -10,10 +10,10 @@ import javafx.stage.Stage;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.*;
+
+import java.io.IOException;
+
 import core.database.DatabaseCommunicator;
 import core.resources.ResourceManager;
 
@@ -29,6 +29,7 @@ public class AddRoomController {
 	@FXML private TextField roomNumber;
 	@FXML private TextField capacity;
 	@FXML private TextArea notes;
+	@FXML private Label roomError;
 	
 	private ResourceController controller;
 	
@@ -36,6 +37,11 @@ public class AddRoomController {
 		roomType.setItems(FXCollections.observableArrayList(SMARTROOM, LECTURE, LAB));
 	}
 	
+	/**
+     * onAction button for adding new room.
+     * @param event Necessary field for onAction events.
+     * @throws IOException 
+     */
 	@FXML
     private void handleButtonClick(ActionEvent event) {
         if (event.getSource() == confirm) {
@@ -46,9 +52,10 @@ public class AddRoomController {
         	String notesString = notes.getText();
         	
         	if (DatabaseCommunicator.resourceExists("rooms", "building=" + buildingInt + " AND number=" + roomInt)) {
-        		//TODO(Sarah): make error message
+        		roomError.setText("Room already exists.");
         	}
         	else {
+        		roomError.setText("");
 	        	ResourceManager.addRoom(buildingInt, roomInt, capacityInt, roomTypeString,
 	        			notesString);
 	        	controller.populateRooms();
@@ -58,9 +65,11 @@ public class AddRoomController {
         }
 	}
 	
+	/**
+	 * Sets resource controller.
+	 * @param resourceController access to ResourceController
+	 */
 	public void setResourceController(ResourceController controller) {
 		this.controller = controller;
 	}
-	
-	
 }

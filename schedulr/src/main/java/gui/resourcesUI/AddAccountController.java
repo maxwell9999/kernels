@@ -20,8 +20,8 @@ import javafx.stage.Stage;
  */
 public class AddAccountController {
 
-	private static final int SCHEDULER = 1; 
-	private static final int FACULTY_MEMBER = 0; 
+	private static final int SCHEDULER = 2; 
+	private static final int FACULTY_MEMBER = 1; 
     private static final Logger log = LoggerFactory.getLogger(AddAccountController.class);
     private boolean error = false;
     @FXML private TextField username;
@@ -33,23 +33,21 @@ public class AddAccountController {
     @FXML private CheckBox checkbox;
     @FXML private Label errorMessage;
     
+    // Access to ResourceController.
     private ResourceController resourceController;
-    
+    // Access to AccountManager.
     private AccountManager account;
     
-    public AddAccountController()
-    {
+    public AddAccountController() {
     	account = new AccountManager();
     }
-    
     
     /**
      * onAction button for saving new account.
      * @param event Necessary field for onAction events.
      */
     @FXML
-    private void saveAccount(ActionEvent event)
-    {
+    private void saveAccount(ActionEvent event) {
     	error = false;
     	String userNameString = username.getText();
     	String employeeIDString = employeeID.getText();
@@ -65,7 +63,7 @@ public class AddAccountController {
     	}
     	
     	if (!error) {
-    		// Do database saving of account.
+    		// Saves account in database.
     		errorMessage.setText("");
             int role = scheduler ? SCHEDULER : FACULTY_MEMBER;
             
@@ -96,7 +94,5 @@ public class AddAccountController {
      */
     public void setResourceController(ResourceController resourceController) {
     	this.resourceController = resourceController;
-		
 	}
-
 }

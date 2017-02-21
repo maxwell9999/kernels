@@ -41,10 +41,10 @@ public class CourseEntryController {
 		editCourseController courseController = fxmlLoader.<editCourseController>getController();
 		courseController.setCourse(course);
 		courseController.setList("ready");
-    	Scene scene = new Scene(root); 
-
+		courseController.setController(resourceController);
+    	
+		Scene scene = new Scene(root); 
     	stage.setScene(scene);    
-
     	stage.show();   
 	}
 	
@@ -59,12 +59,19 @@ public class CourseEntryController {
 		resourceController.populateCourses();
 	}
 	
+	/**
+	 * Sets current course.
+	 * @param resourceController current couse.
+	 */
 	public void setCourse(Course course) {
 		this.course = course;
 	}
 	
+	/**
+	 * Sets resource controller.
+	 * @param resourceController access to ResourceController
+	 */
 	public void setResourceController(ResourceController resourceController) {
 		this.resourceController = resourceController;
 	}
-
 }
