@@ -60,8 +60,6 @@ public class ResetPasswordController {
 
         // TODO(Sarah): Will also have it open another application and not go back to login screen.
         
-        // TODO(Courtney): Create method to verify password meets requirements per documentation
-    	
     }
     
     public static boolean isValid(String password) {
