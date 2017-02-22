@@ -10,8 +10,8 @@ public class FeedbackTest {
 
 	@Test
 	public void testAddFeedback() {
-		Feedback feed = new Feedback("TestUser", "This schedule rocks!", 5);
-		feed.addToDatabase();
+		Feedback feedback = new Feedback("TestUser", "This schedule rocks!", 5);
+		feedback.addToDatabase();
 		assertTrue("Testing adding feedback to database...", DatabaseCommunicator.resourceExists("feedback", "username='TestUser'"));
 		
 		DatabaseCommunicator.deleteDatabase("feedback", "username='TestUser'");

@@ -10,7 +10,7 @@ public class DatabaseCommunicatorTest extends TestCase{
 	public void testResourceExists() {
 		assertTrue("Testing admin account exists...", 
 				DatabaseCommunicator.resourceExists("users", "login='admin'")); 
-		assertFalse("Testing monkey account exists...", 
+		assertFalse("Testing monkey account does not exist...", 
 				DatabaseCommunicator.resourceExists("users", "login='monkey'")); 
 	}
 }
