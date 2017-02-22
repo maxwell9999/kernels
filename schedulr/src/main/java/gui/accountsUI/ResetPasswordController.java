@@ -46,10 +46,7 @@ public class ResetPasswordController {
         	}
         	
         	else {
-        		// Put database code here. 
         		user.changePassword(newPassword);
-		        	// NEED SOMEHOW TO FETCH USER THAT IS LOGGED IN
-		        	// user.updatePassword(newPassword);
         		// To close current window.
 	        	Stage stage = (Stage) saveButton.getScene().getWindow();
 	            stage.close();
