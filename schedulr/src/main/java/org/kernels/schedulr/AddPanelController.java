@@ -1,41 +1,43 @@
 package org.kernels.schedulr;
 
-import main.java.de.ks.fxcontrols.weekview.*;
-
-import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.function.BiPredicate;
-import java.util.function.Consumer;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javafx.beans.property.StringProperty;
+import de.ks.fxcontrols.weekview.*;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
-import javafx.scene.control.*;
-import javafx.scene.layout.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Spinner;
+import javafx.scene.control.SpinnerValueFactory;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 
 public class AddPanelController extends VBox {
 
 	private static final Logger log = LoggerFactory.getLogger(AddPanelController.class);
 
 	@FXML
-	ComboBox selectClass;
+	Text panelTitle;
 	@FXML
-	ComboBox selectFaculty;
+	ComboBox<String> selectClass;
 	@FXML
-	ComboBox selectRoomType;
+	ComboBox<String> selectFaculty;
 	@FXML
-	ComboBox selectRoom;
+	ComboBox<String> selectRoomType;
+	@FXML
+	ComboBox<String> selectRoom;
 	@FXML
 	TextField section;
 	@FXML
@@ -79,9 +81,6 @@ public class AddPanelController extends VBox {
 
     @FXML
     public void initialize() {
-//        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("AddPanel.fxml"));
-//        fxmlLoader.setController(this);
-
 
         SpinnerValueFactory<Integer> hSValFac = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 23, 0, 1);
         hourStepper.setValueFactory(hSValFac);
@@ -94,8 +93,6 @@ public class AddPanelController extends VBox {
     	SpinnerValueFactory<Integer> lengthValFac = new SpinnerValueFactory.IntegerSpinnerValueFactory(50, 360, 50, 60);
         length.setValueFactory(lengthValFac);
 
-        //custom event for adding calendar
-
         addToCalendar.setOnAction(new EventHandler<ActionEvent>() {
 
             public void handle(ActionEvent event) {
@@ -103,12 +100,15 @@ public class AddPanelController extends VBox {
             }
         });
 
-//        try {
-//            fxmlLoader.load();
-//        } catch (IOException exception) {
-//            throw new RuntimeException(exception);
-//        }
     }
+
+	public void initData(String panelTitle, WeekView<Object> weekView, LocalDate begin, LocalDate end, LinkedList<WeekViewAppointment<Object>> retval) {
+		this.panelTitle.setText(panelTitle);
+		this.weekView = weekView;
+		this.begin = begin;
+		this.end = end;
+		this.retval = retval;
+	}
 
     private int[] selectedDays() {
 
@@ -185,11 +185,92 @@ public class AddPanelController extends VBox {
         }
         return retval;
 	}
+/*
+	private LinkedList<WeekViewAppointment<Object>> editAppt(LocalDate begin, LocalDate end, LinkedList<WeekViewAppointment<Object>> retval) {
 
-	public void initData(WeekView<Object> weekView, LocalDate begin, LocalDate end, LinkedList<WeekViewAppointment<Object>> retval) {
-		this.weekView = weekView;
-		this.begin = begin;
-		this.end = end;
-		this.retval = retval;
+        LocalDate firstDayOfWeek = begin;
+
+        int[] days = selectedDays();
+        int j = 1;
+
+        for (int i : days) {
+        	if (i < 1 || i > 7) {
+        		j++;
+        		if (j == 7) {
+        			System.out.println("No days selected.");
+        		}
+        		continue;
+        	}
+        	i--;
+        	LocalDate current = firstDayOfWeek.plusDays(i);
+        	LocalTime time = LocalTime.of(hourStepper.getValue(), minStepper.getValue());
+        	Duration duration = Duration.ofMinutes(length.getValue());
+			LocalDateTime localDateTime = LocalDateTime.of(current, time);
+
+	        BiPredicate<LocalDate, LocalTime> newTimePossiblePredicate = (newDate, newTime) -> {
+	            if (newTime == null) {
+	              return true;
+	            }
+	            if (newTime.getHour() >= 0 && newTime.getHour() <= 24) {
+	              return true;
+	            } else {
+	              log.info("Wrong time {}", newTime);
+	              return false;
+	            }
+	          };
+
+	        WeekViewAppointment<Object> timedAppointment = new WeekViewAppointment<>(name.getText() + " " + i + " " + length.getValue() + "m", localDateTime, duration);
+	        log.info("Creating new appointment beginning at {} {}", current, time);
+	        timedAppointment.setChangeStartCallback((newDate, newTime) -> {
+	          log.info("{} now starts on {} {}", timedAppointment.getTitle(), newDate, newTime);
+	        });
+	        timedAppointment.setNewTimePossiblePredicate(newTimePossiblePredicate);
+	        retval.add(timedAppointment);
+        }
+        return retval;
 	}
+
+	private LinkedList<WeekViewAppointment<Object>> rmAppt(LocalDate begin, LocalDate end, LinkedList<WeekViewAppointment<Object>> retval) {
+
+        LocalDate firstDayOfWeek = begin;
+
+        int[] days = selectedDays();
+        int j = 1;
+
+        for (int i : days) {
+        	if (i < 1 || i > 7) {
+        		j++;
+        		if (j == 7) {
+        			System.out.println("No days selected.");
+        		}
+        		continue;
+        	}
+        	i--;
+        	LocalDate current = firstDayOfWeek.plusDays(i);
+        	LocalTime time = LocalTime.of(hourStepper.getValue(), minStepper.getValue());
+        	Duration duration = Duration.ofMinutes(length.getValue());
+			LocalDateTime localDateTime = LocalDateTime.of(current, time);
+
+	        BiPredicate<LocalDate, LocalTime> newTimePossiblePredicate = (newDate, newTime) -> {
+	            if (newTime == null) {
+	              return true;
+	            }
+	            if (newTime.getHour() >= 0 && newTime.getHour() <= 24) {
+	              return true;
+	            } else {
+	              log.info("Wrong time {}", newTime);
+	              return false;
+	            }
+	          };
+
+	        WeekViewAppointment<Object> timedAppointment = new WeekViewAppointment<>(name.getText() + " " + i + " " + length.getValue() + "m", localDateTime, duration);
+	        log.info("Creating new appointment beginning at {} {}", current, time);
+	        timedAppointment.setChangeStartCallback((newDate, newTime) -> {
+	          log.info("{} now starts on {} {}", timedAppointment.getTitle(), newDate, newTime);
+	        });
+	        timedAppointment.setNewTimePossiblePredicate(newTimePossiblePredicate);
+	        retval.add(timedAppointment);
+        }
+        return retval;
+	}*/
 }

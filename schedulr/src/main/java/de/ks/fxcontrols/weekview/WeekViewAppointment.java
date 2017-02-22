@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-package main.java.de.ks.fxcontrols.weekview;
+package de.ks.fxcontrols.weekview;
 
 import javafx.scene.control.Button;
 import javafx.scene.control.Control;
