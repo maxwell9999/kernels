@@ -44,6 +44,11 @@ public class AccountManager
 		DatabaseCommunicator.deleteDatabase("users", "login='" + username + "'");
 	}
 	
+	/**
+	 * Method to get a User object specified by the login
+	 * @param login username of user 
+	 * @return User with information filled in from database 
+	 */
 	public static User getUser(String login) {
 		User user;  
 		String firstName, lastName, email, officeLocation; 
