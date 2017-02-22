@@ -41,9 +41,9 @@ public class AddPanelController extends VBox {
 	@FXML
 	TextField name;
 	@FXML
-	Spinner unitStepper;
+	TextField unitStepper;
 	@FXML
-	Spinner wtuStepper;
+	TextField wtuStepper;
 	@FXML
 	TextArea description;
 	@FXML

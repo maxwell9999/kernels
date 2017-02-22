@@ -13,6 +13,8 @@
  * limitations under the License.
  */
 
+package main.java.de.ks.fxcontrols; 
+
 import main.java.de.ks.fxcontrols.weekview.WeekView;
 import main.java.de.ks.fxcontrols.weekview.WeekViewAppointment;
 import javafx.application.Application;

@@ -31,8 +31,6 @@
       <Text boundsType="VISUAL" layoutX="25.0" layoutY="187.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Room" textOrigin="CENTER" />
       <Text boundsType="VISUAL" layoutX="25.0" layoutY="223.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Capacity" textOrigin="CENTER" />
       <TextField fx:id="name" layoutX="125.0" layoutY="246.0" prefHeight="26.0" prefWidth="225.0" />
-      <Spinner fx:id="unitStepper" layoutX="125.0" layoutY="352.0" prefHeight="26.0" prefWidth="60.0" />
-      <Spinner fx:id="wtuStepper" layoutX="290.0" layoutY="352.0" prefHeight="26.0" prefWidth="60.0" />
       <Text boundsType="VISUAL" layoutX="25.0" layoutY="365.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Units" textOrigin="CENTER" />
       <Text boundsType="VISUAL" layoutX="215.0" layoutY="365.0" strokeType="OUTSIDE" strokeWidth="0.0" text="WTUs" textOrigin="CENTER" />
       <Text boundsType="VISUAL" layoutX="25.0" layoutY="401.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Start Time" textOrigin="CENTER" />
@@ -49,7 +47,7 @@
       <Spinner fx:id="length" layoutX="125.0" layoutY="424.0" prefHeight="26.0" prefWidth="100.0" />
       <Text boundsType="VISUAL" layoutX="193.0" layoutY="401.0" strokeType="OUTSIDE" strokeWidth="0.0" text=":" textOrigin="CENTER" />
       <Text boundsType="VISUAL" layoutX="229.0" layoutY="437.0" strokeType="OUTSIDE" strokeWidth="0.0" text="min" textOrigin="CENTER" />
-      <Spinner fx:id="unitStepper" disable="true" layoutX="125.0" layoutY="210.0" prefHeight="26.0" prefWidth="60.0" />
+      <Spinner fx:id="capacityStepper" disable="true" layoutX="125.0" layoutY="210.0" prefHeight="26.0" prefWidth="60.0" />
       <CheckBox fx:id="m" contentDisplay="RIGHT" layoutX="125.0" layoutY="460.0" mnemonicParsing="false" text="M" />
       <CheckBox fx:id="t" contentDisplay="RIGHT" layoutX="170.0" layoutY="460.0" mnemonicParsing="false" text="T" />
       <CheckBox fx:id="f" contentDisplay="RIGHT" layoutX="305.0" layoutY="460.0" mnemonicParsing="false" text="F" />
@@ -58,5 +56,7 @@
       <CheckBox fx:id="X" contentDisplay="RIGHT" layoutX="170.0" layoutY="486.0" mnemonicParsing="false" text="X" />
       <CheckBox fx:id="s" contentDisplay="RIGHT" layoutX="125.0" layoutY="486.0" mnemonicParsing="false" text="S" />
       <Text boundsType="VISUAL" layoutX="25.0" layoutY="480.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Days" textOrigin="CENTER" />
+      <TextField fx:id="unitStepper" layoutX="125.0" layoutY="352.0" prefHeight="27.0" prefWidth="60.0" />
+      <TextField fx:id="wtuStepper" layoutX="291.0" layoutY="352.0" prefHeight="27.0" prefWidth="60.0" />
    </children>
 </Pane>
