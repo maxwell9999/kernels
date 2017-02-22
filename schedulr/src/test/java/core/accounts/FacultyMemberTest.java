@@ -26,7 +26,6 @@ public class FacultyMemberTest extends TestCase {
 		assertEquals("Testing login...",
 				"99-999", facultyMember.getOfficeLocation());
 		
-		
 	}
 
 }
