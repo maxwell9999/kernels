@@ -54,9 +54,6 @@ public class editCourseController {
                 courseTitle.setText(course.getName());
                 units.setText(Double.toString(course.getWtu()));
                 
-                System.out.println(course.getLectHours());
-                System.out.println(course.getLabHours());
-
                 // Sets hours
                 if (course.getLectHours() != 0) {
                     hours.setText(Integer.toString(course.getLectHours()));
