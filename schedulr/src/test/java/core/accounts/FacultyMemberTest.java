@@ -5,15 +5,7 @@ import org.junit.Test;
 import junit.framework.TestCase;
 
 public class FacultyMemberTest extends TestCase {
-	
-	@Test
-	public void testEmptyConstructor() {
-		FacultyMember facultyMember = new FacultyMember(); 
 		
-		assertTrue("Testing empty constructor...", 
-				facultyMember instanceof FacultyMember); 
-	}
-	
 	@Test
 	public void testNonEmptyConstructor() {
 		FacultyMember facultyMember = new FacultyMember("Test_User", 99999, "Test", "User", "testUser@gmail.com", "99-999"); 

@@ -24,7 +24,7 @@
         <Label layoutX="15.0" layoutY="136.0" text="Notes" />
         <TextArea fx:id="notes" layoutX="15.0" layoutY="153.0" prefHeight="101.0" prefWidth="243.0" />
         <Button fx:id="confirm" layoutX="190.0" layoutY="263.0" mnemonicParsing="false" onAction="#handleButtonClick" text="Confirm" />
-            <Label fx:id="roomError" layoutX="52.0" layoutY="268.0" prefHeight="17.0" prefWidth="118.0" textFill="#fc0202">
+            <Label fx:id="roomError" layoutX="34.0" layoutY="268.0" prefHeight="17.0" prefWidth="133.0" textFill="#fc0202">
                <font>
                   <Font name="Optima Regular" size="13.0" />
                </font>

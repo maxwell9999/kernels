@@ -27,6 +27,7 @@ public class StudentFeedbackController {
     @FXML private RadioButton button3;
     @FXML private RadioButton button4;
     @FXML private RadioButton button5;
+    //TODO(Sarah): Make it have a 256 character limit - if not pop up error message 
 	@FXML private TextArea noteField;
 	// Keeps track of which Radio Button has been selected.
 	int buttonToggled = 0;
@@ -44,7 +45,7 @@ public class StudentFeedbackController {
     	button4.setToggleGroup(group);
     	button5.setToggleGroup(group);
     	    	
-    	// Gets currently selected Radio Butotn.
+    	// Gets currently selected Radio Button.
     	group.selectedToggleProperty().addListener(new ChangeListener<Toggle>(){
     	    public void changed(ObservableValue<? extends Toggle> ov,
     	        Toggle old_toggle, Toggle new_toggle) {
