@@ -75,9 +75,13 @@ public class Section extends Course implements DatabaseObject {
 	}
 
 	//TODO fix formatting of start time to match database
+	//TODO null in test
 	public String getValues() {
 		return "'" + this.getDepartment() + "', " + this.getNumber() + ", " + room.getBuilding() + ", " + room.getNumber() + ", '" + 
-				instructor.getLogin() + "', '" + (this.getStartTime()+":00") + "', '" + this.daysOfWeek + "', " + schedule.getScheduleId() ;
+				instructor.getLogin() + "', '" + 
+				(this.getStartTime()+":00") + "', '" + 
+				this.daysOfWeek + "', " + 
+				schedule.getScheduleId() ;
 	}
 	
 	public String getTable()

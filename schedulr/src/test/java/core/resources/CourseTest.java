@@ -1,6 +1,7 @@
 package core.resources;
 
 import junit.framework.TestCase;
+
 import org.junit.Test;
 
 
@@ -71,6 +72,7 @@ public class CourseTest extends TestCase{
 		assertEquals(3, course.getLectHours()); 
 		assertNull(course.getNotes()); 
 		assertEquals(3, course.getLabHours());	
+		assertEquals("department='CPE' AND number=101", course.getKeyIdentifier());
 	}
 	
 	@Test

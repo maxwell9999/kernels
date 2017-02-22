@@ -56,6 +56,7 @@ public class RoomTest extends TestCase{
 		assertEquals(30, room.getCapacity()); 
 		assertEquals("SmallLecture", room.getType()); 
 		assertEquals("Chairs are old.", room.getNotes()); 
+		assertEquals("building='14' AND number=247", room.getKeyIdentifier());
 	}
 	
 }

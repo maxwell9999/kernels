@@ -44,5 +44,13 @@ public class ScheduleTest extends TestCase {
 		assertEquals("Testing getScheduleId...", 
 				1, schedule.getScheduleId()); 
 	}
+	
+	public void testDatabaseObject() {
+		Schedule schedule = new Schedule("XX", 9999); 
+		assertEquals("year, term", schedule.getKeys());
+		assertEquals("9999, 'XX'; ", schedule.getValues());
+		assertEquals("schedules", schedule.getTable());
+		assertEquals("term='XX' AND year=9999", schedule.getKeyIdentifier());
+	}
 
 }
