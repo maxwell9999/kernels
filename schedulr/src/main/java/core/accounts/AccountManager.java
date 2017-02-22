@@ -58,10 +58,12 @@ public class AccountManager
 		officeLocation = map.get("office_location").toString();
 		emplId = (Integer) map.get("empl_id");
 		role = (Integer) map.get("role");
+
 		if (role == User.DEPARTMENT_SCHEDULER)
 			user = new DepartmentScheduler(login, emplId, firstName, lastName, email, officeLocation);
 		else
 			user = new FacultyMember(login, emplId, firstName, lastName, email, officeLocation);
+
 		return user; 
 	}
 	
@@ -89,6 +91,7 @@ public class AccountManager
 		
 		List<User> userList = new ArrayList<User>();
 		List<HashMap<String, Object>> userMap = DatabaseCommunicator.queryDatabase("SELECT * FROM users;");
+
 		for(HashMap<String, Object> map: userMap)
 		{
 			login = map.get("login").toString();
@@ -98,11 +101,14 @@ public class AccountManager
 			officeLocation = map.get("office_location").toString();
 			emplId = (Integer) map.get("empl_id");
 			role = (Integer) map.get("role");
+
 			if (role == User.DEPARTMENT_SCHEDULER)
 				userList.add(new DepartmentScheduler(login, emplId, firstName, lastName, email, officeLocation));
 			else
 				userList.add(new FacultyMember(login, emplId, firstName, lastName, email, officeLocation));
+
 		}
+
 		Collections.sort(userList, new UserComparator());
 		return userList;
 	}
