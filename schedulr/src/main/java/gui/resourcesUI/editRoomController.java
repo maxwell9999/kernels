@@ -15,6 +15,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 
 import javax.swing.SingleSelectionModel;
@@ -36,6 +37,7 @@ public class editRoomController {
 	@FXML private TextField roomNumber;
 	@FXML private TextField capacity;
 	@FXML private TextArea notes;
+	@FXML private Label errorLabel;
 	
 	// Current room.
 	private Room room;
@@ -77,24 +79,28 @@ public class editRoomController {
 	@FXML
     private void handleButtonClick(ActionEvent event) {
         if (event.getSource() == confirm) {
-        	int buildingInt = Integer.parseInt(buildingNumber.getText());
-        	int roomInt = Integer.parseInt(roomNumber.getText());
-        	int capacityInt = Integer.parseInt(capacity.getText());
-        	String roomTypeString = roomType.getValue().toString();
-        	String notesString = notes.getText();
-        	
-        	if (DatabaseCommunicator.resourceExists("rooms", "building=" + buildingInt + " AND number=" + roomInt)) {
-        		
-        		room.setBuilding(buildingInt);
-        		room.setNumber(roomInt);
-        		room.setCapacity(capacityInt);
-        		room.setType(roomTypeString);
-        		room.setNotes(notesString);
-        		room.updateRoom();
-	        	controller.populateRooms();
-        		Stage stage = (Stage)confirm.getScene().getWindow();
-	        	stage.close();
-        	}
+        	try {
+	        	int buildingInt = Integer.parseInt(buildingNumber.getText());
+	        	int roomInt = Integer.parseInt(roomNumber.getText());
+	        	int capacityInt = Integer.parseInt(capacity.getText());
+	        	String roomTypeString = roomType.getValue().toString();
+	        	String notesString = notes.getText();
+	        	
+	        	if (DatabaseCommunicator.resourceExists("rooms", "building=" + buildingInt + " AND number=" + roomInt)) {
+	        		
+	        		room.setBuilding(buildingInt);
+	        		room.setNumber(roomInt);
+	        		room.setCapacity(capacityInt);
+	        		room.setType(roomTypeString);
+	        		room.setNotes(notesString);
+	        		room.updateRoom();
+		        	controller.populateRooms();
+	        		Stage stage = (Stage)confirm.getScene().getWindow();
+		        	stage.close();
+	        	}
+        	} catch (Exception e) {
+	        	errorLabel.setText("*All fields required.");
+	        }
         }
 	}
 	
