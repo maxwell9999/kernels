@@ -28,7 +28,7 @@ public class AccountManager
 	{
 		String hashed = BCrypt.hashpw(emplID + "", BCrypt.gensalt());
 		User newUser;
-		if (role == 1)
+		if (role == User.DEPARTMENT_SCHEDULER)
 			newUser = new DepartmentScheduler(username, emplID, first, last, email, office);
 		else
 			newUser = new FacultyMember(username, emplID, first, last, email, office);
@@ -45,15 +45,23 @@ public class AccountManager
 	}
 	
 	public static User getUser(String login) {
-		FacultyMember user = new FacultyMember();  
+		User user;  
+		String firstName, lastName, email, officeLocation; 
+		int emplId;  
+		int role;
+		
 		List<HashMap<String, Object>> userAttributes = DatabaseCommunicator.queryDatabase("SELECT * FROM users WHERE login='" + login + "';");
-		HashMap<String, Object> userMap = userAttributes.get(0); 
-		user.setLogin(userMap.get("login").toString());
-		user.setEmplId(Integer.parseInt(userMap.get("empl_id").toString()));
-		user.setFirstName((userMap.get("first_name").toString()));
-		user.setLastName((userMap.get("last_name").toString()));
-		user.setEmail((userMap.get("email").toString()));
-		user.setOfficeLocation((userMap.get("office_location").toString()));
+		HashMap<String, Object> map = userAttributes.get(0); 
+		firstName = map.get("first_name").toString();
+		lastName = map.get("last_name").toString();
+		email = map.get("email").toString();
+		officeLocation = map.get("office_location").toString();
+		emplId = (Integer) map.get("empl_id");
+		role = (Integer) map.get("role");
+		if (role == User.DEPARTMENT_SCHEDULER)
+			user = new DepartmentScheduler(login, emplId, firstName, lastName, email, officeLocation);
+		else
+			user = new FacultyMember(login, emplId, firstName, lastName, email, officeLocation);
 		return user; 
 	}
 	
@@ -90,7 +98,7 @@ public class AccountManager
 			officeLocation = map.get("office_location").toString();
 			emplId = (Integer) map.get("empl_id");
 			role = (Integer) map.get("role");
-			if (role == 1)
+			if (role == User.DEPARTMENT_SCHEDULER)
 				userList.add(new DepartmentScheduler(login, emplId, firstName, lastName, email, officeLocation));
 			else
 				userList.add(new FacultyMember(login, emplId, firstName, lastName, email, officeLocation));
