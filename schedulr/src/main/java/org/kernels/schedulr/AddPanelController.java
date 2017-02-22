@@ -14,6 +14,8 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.control.Spinner;
+import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.layout.*;
 import javafx.scene.text.*;
 
@@ -24,21 +26,21 @@ public class AddPanelController extends VBox {
 	@FXML
 	Text panelTitle;
 	@FXML
-	ComboBox selectClass;
+	ComboBox<String> selectClass;
 	@FXML
-	ComboBox selectFaculty;
+	ComboBox<String> selectFaculty;
 	@FXML
-	ComboBox selectRoomType;
+	ComboBox<String> selectRoomType;
 	@FXML
-	ComboBox selectRoom;
+	ComboBox<String> selectRoom;
 	@FXML
 	TextField section;
 	@FXML
 	TextField name;
 	@FXML
-	Spinner unitStepper;
+	Spinner<Integer> unitStepper = new Spinner<Integer>();
 	@FXML
-	Spinner wtuStepper;
+	Spinner<Integer> wtuStepper = new Spinner<Integer>();
 	@FXML
 	TextArea description;
 	@FXML
