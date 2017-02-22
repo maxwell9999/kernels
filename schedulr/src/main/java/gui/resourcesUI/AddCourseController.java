@@ -55,40 +55,49 @@ public class AddCourseController {
 	@FXML
     private void handleButtonClick(ActionEvent event) {
         if (event.getSource() == confirm) {
-        	String departmentString = department.getValue().toString();
-        	int courseNum = Integer.parseInt(courseNumber.getText());
-        	String courseName = courseTitle.getText();
-        	double unitsInt = Double.parseDouble(units.getText());
-        	int hoursInt = Integer.parseInt(hours.getText());
-        	String typeString = type.getValue().toString(); 
-        	int labHours = 0;
-        	String notesString = notes.getText();
-        	
-        	// Adds the course to the database if it does not already exist.
-        	if (DatabaseCommunicator.resourceExists("courses", "department='" + departmentString + "' AND number=" + courseNum)) {
-        		errorLabel.setText("Course already exists.");
-        	}
-        	else {
-        		int lectHours = 0; 
-        		int actHours = 0; 
-        		
-        		if (typeString.equals(LECTURE)) {
-        			lectHours = hoursInt;
-        			if (includesLab.isSelected()) {
-        				labHours = lectHours; 
+        	String departmentString = "";
+        	int courseNum = 0; 
+        	try {
+	        	departmentString = department.getValue().toString();
+	        	courseNum = Integer.parseInt(courseNumber.getText());
+	        	String courseName = courseTitle.getText();
+	        	double unitsInt = Double.parseDouble(units.getText());
+	        	int hoursInt = Integer.parseInt(hours.getText());
+	        	String typeString = type.getValue().toString(); 
+	        	int labHours = 0;
+	        	String notesString = notes.getText();
+	        	
+	        	// Adds the course to the database if it does not already exist.
+	        	if (DatabaseCommunicator.resourceExists("courses", "department='" + departmentString + "' AND number=" + courseNum)) {
+	        	}
+	        	else {
+	        		int lectHours = 0; 
+	        		int actHours = 0; 
+	        		
+	        		if (typeString.equals(LECTURE)) {
+	        			lectHours = hoursInt;
+	        		}
+	        		else if (typeString.equals(ACTIVITY)) {
+	        			actHours = hoursInt; 
+	        		}
+	
+	        		if (includesLab.isSelected()) {
+        				labHours = hoursInt; 
         			}
+		        	ResourceManager.addCourse(departmentString, courseNum, courseName, unitsInt, lectHours, 
+		        			labHours, actHours, notes.getText()); 
+	
+		        	System.out.println(resourceController);
+		        	resourceController.populateCourses();
+		        	Stage stage = (Stage)confirm.getScene().getWindow();
+		        	stage.close();
+	        	}
+        	} catch (Exception e) {
+        		if (DatabaseCommunicator.resourceExists("courses", "department='" + departmentString + "' AND number=" + courseNum)) {
+        			errorLabel.setText("Course already exists.");
+        		} else {
+        			errorLabel.setText("All fields are required.");
         		}
-        		else if (typeString.equals(ACTIVITY)) {
-        			actHours = hoursInt; 
-        		}
-
-	        	ResourceManager.addCourse(departmentString, courseNum, courseName, unitsInt, lectHours, 
-	        			labHours, actHours, notes.getText()); 
-
-	        	System.out.println(resourceController);
-	        	resourceController.populateCourses();
-	        	Stage stage = (Stage)confirm.getScene().getWindow();
-	        	stage.close();
         	}
         }
 	}

@@ -182,7 +182,6 @@ public class ResourceController {
     private void handleButtonClick(ActionEvent event) {
         if (event.getSource() == addNewCourse) {
         	// Add course popup
-        	System.out.println(getClass().getResource("addCourse.fxml"));
         	FXMLLoader loader = new FXMLLoader(getClass().getResource("addCourse.fxml"));
             Scene newScene;
             try {

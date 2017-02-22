@@ -45,22 +45,32 @@ public class AddRoomController {
 	@FXML
     private void handleButtonClick(ActionEvent event) {
         if (event.getSource() == confirm) {
-        	int buildingInt = Integer.parseInt(buildingNumber.getText());
-        	int roomInt = Integer.parseInt(roomNumber.getText());
-        	int capacityInt = Integer.parseInt(capacity.getText());
-        	String roomTypeString = roomType.getValue().toString();
-        	String notesString = notes.getText();
-        	
-        	if (DatabaseCommunicator.resourceExists("rooms", "building=" + buildingInt + " AND number=" + roomInt)) {
-        		roomError.setText("Room already exists.");
-        	}
-        	else {
-        		roomError.setText("");
-	        	ResourceManager.addRoom(buildingInt, roomInt, capacityInt, roomTypeString,
-	        			notesString);
-	        	controller.populateRooms();
-	        	Stage stage = (Stage)confirm.getScene().getWindow();
-	        	stage.close();
+        	int buildingInt = 0;
+        	int roomInt = 0;
+        	try {
+	        	buildingInt = Integer.parseInt(buildingNumber.getText());
+	        	roomInt = Integer.parseInt(roomNumber.getText());
+	        	int capacityInt = Integer.parseInt(capacity.getText());
+	        	String roomTypeString = roomType.getValue().toString();
+	        	String notesString = notes.getText();
+	        	
+	        	if (DatabaseCommunicator.resourceExists("rooms", "building=" + buildingInt + " AND number=" + roomInt)) {
+	        		roomError.setText("Room already exists.");
+	        	}
+	        	else {
+	        		roomError.setText("");
+		        	ResourceManager.addRoom(buildingInt, roomInt, capacityInt, roomTypeString,
+		        			notesString);
+		        	controller.populateRooms();
+		        	Stage stage = (Stage)confirm.getScene().getWindow();
+		        	stage.close();
+	        	}
+        	} catch (Exception e) {
+        		if (DatabaseCommunicator.resourceExists("rooms", "building=" + buildingInt + " AND number=" + roomInt)) {
+	        		roomError.setText("Room already exists.");
+	        	} else {
+	        		roomError.setText("All fields are required.");
+	        	}
         	}
         }
 	}

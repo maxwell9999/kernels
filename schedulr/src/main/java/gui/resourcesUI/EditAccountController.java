@@ -71,20 +71,23 @@ public class EditAccountController {
      */
     @FXML
     private void saveAccount(ActionEvent event) {
-    		
-    		currentUser.setFirstName(firstName.getText());
-    		currentUser.setLastName(lastName.getText());
-    		currentUser.setEmail(email.getText());
-    		currentUser.setOfficeLocation(office.getText());
-    		if (checkbox.isSelected()) {
-    			currentUser.setRole(SCHEDULER);
+    		if (email.getText().equals("")) {
+    			errorMessage.setText("*Fields Required.");
     		} else {
-    			currentUser.setRole(FACULTY_MEMBER);
+	    		currentUser.setFirstName(firstName.getText());
+	    		currentUser.setLastName(lastName.getText());
+	    		currentUser.setEmail(email.getText());
+	    		currentUser.setOfficeLocation(office.getText());
+	    		if (checkbox.isSelected()) {
+	    			currentUser.setRole(SCHEDULER);
+	    		} else {
+	    			currentUser.setRole(FACULTY_MEMBER);
+	    		}
+	    		currentUser.updateUser();
+	    		resourceController.populateFaculty();
+	    		Stage currentStage = (Stage) checkbox.getScene().getWindow();
+	            currentStage.close();
     		}
-    		currentUser.updateUser();
-    		resourceController.populateFaculty();
-    		Stage currentStage = (Stage) checkbox.getScene().getWindow();
-            currentStage.close();
     }
     
     /**
