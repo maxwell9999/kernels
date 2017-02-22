@@ -21,7 +21,7 @@
       <TextField disable="true" layoutX="265.0" layoutY="65.0" prefHeight="26.0" prefWidth="85.0" />
       <Text boundsType="VISUAL" layoutX="25.0" layoutY="78.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Section" textOrigin="CENTER" />
       <Text boundsType="VISUAL" layoutX="25.0" layoutY="43.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Class" textOrigin="CENTER" />
-      <Text boundsType="VISUAL" layoutX="15.0" layoutY="15.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Add a Class" textOrigin="CENTER">
+      <Text fx:id="panelTitle" boundsType="VISUAL" layoutX="15.0" layoutY="15.0" strokeType="OUTSIDE" strokeWidth="0.0" text="" textOrigin="CENTER">
          <font>
             <Font size="16.0" />
          </font></Text>
@@ -43,7 +43,7 @@
       <Text boundsType="VISUAL" layoutX="25.0" layoutY="259.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Name" textOrigin="CENTER" />
       <TextArea fx:id="description" layoutX="125.0" layoutY="282.0" prefHeight="60.0" prefWidth="225.0" />
       <Button fx:id="addToCalendar" layoutX="125.0" layoutY="706.5" mnemonicParsing="false" text="Add to Calendar" />
-      <Line endX="225.0" layoutX="125.0" layoutY="15.0" strokeWidth="2.0" />
+      <Line endX="200.0" layoutX="150.0" layoutY="15.0" strokeWidth="2.0" />
       <Spinner fx:id="hourStepper" layoutX="125.0" layoutY="388.0" prefHeight="26.0" prefWidth="64.0" />
       <Spinner fx:id="minStepper" layoutX="200.0" layoutY="388.0" prefHeight="26.0" prefWidth="64.0" />
       <Spinner fx:id="length" layoutX="125.0" layoutY="424.0" prefHeight="26.0" prefWidth="100.0" />
@@ -55,7 +55,7 @@
       <CheckBox fx:id="f" contentDisplay="RIGHT" layoutX="305.0" layoutY="460.0" mnemonicParsing="false" text="F" />
       <CheckBox fx:id="r" contentDisplay="RIGHT" layoutX="260.0" layoutY="460.0" mnemonicParsing="false" text="R" />
       <CheckBox fx:id="w" contentDisplay="RIGHT" layoutX="215.0" layoutY="460.0" mnemonicParsing="false" text="W" />
-      <CheckBox fx:id="X" contentDisplay="RIGHT" layoutX="170.0" layoutY="486.0" mnemonicParsing="false" text="X" />
+      <CheckBox fx:id="x" contentDisplay="RIGHT" layoutX="170.0" layoutY="486.0" mnemonicParsing="false" text="X" />
       <CheckBox fx:id="s" contentDisplay="RIGHT" layoutX="125.0" layoutY="486.0" mnemonicParsing="false" text="S" />
       <Text boundsType="VISUAL" layoutX="25.0" layoutY="480.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Days" textOrigin="CENTER" />
    </children>

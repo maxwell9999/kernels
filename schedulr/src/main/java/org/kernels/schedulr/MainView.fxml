@@ -5,6 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.layout.HBox?>
 
 <VBox prefHeight="1000.0" prefWidth="1400.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
   <children>
@@ -47,7 +48,7 @@
         </Menu>
       </menus>
     </MenuBar>
-    <SplitPane dividerPositions="0.1005567928730512, 0.9005567928730512" focusTraversable="true" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
+    <SplitPane fx:id="splitPane" dividerPositions="0.1005567928730512, 0.9905567928730512" focusTraversable="true" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
       <items>
         <AnchorPane>
           <children>
@@ -63,17 +64,27 @@
         </AnchorPane>
         <ScrollPane prefHeight="-1.0" prefWidth="-1.0">
           <content>
-            <AnchorPane fx:id="calendarPane" minHeight="-1.0" minWidth="-1.0" prefHeight="545.0" prefWidth="430.0">
-              <children>
-              </children>
-            </AnchorPane>
+          	<VBox fx:id="mainPane">
+          	    <children>
+          	    	<HBox spacing="2">
+          	    		<children>
+          	    			<Button fx:id="addPanelButton" text="Add a class"/>
+          	    			<Button fx:id="editPanelButton" text="Edit a class"/>
+          	    			<Button fx:id="rmPanelButton" text="Remove a class"/>
+          	    		</children>
+					</HBox>
+		            <AnchorPane fx:id="calendarPane" minHeight="-1.0" minWidth="-1.0" prefHeight="545.0" prefWidth="430.0">
+		              <children>
+		              </children>
+	            </AnchorPane>
+	            </children>
+            </VBox>
           </content>
         </ScrollPane>
         <AnchorPane>
           <children>
           	<VBox fx:id="addPane">
           		<children>
-            		<Button fx:id="addPanelButton" text="Add a class" />
             	</children>
             </VBox>
  		  </children>

@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-package main.java.de.ks.fxcontrols.weekview;
+package de.ks.fxcontrols.weekview;
 
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
