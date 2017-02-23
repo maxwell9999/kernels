@@ -1,4 +1,4 @@
-package org.kernels.schedulr;
+package gui.scheduling;
 
 import java.io.IOException;
 import java.time.LocalDate;

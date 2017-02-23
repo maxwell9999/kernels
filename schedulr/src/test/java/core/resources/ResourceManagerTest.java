@@ -9,6 +9,7 @@ import java.util.List;
 
 import junit.framework.TestCase;
 
+import org.junit.After;
 import org.junit.Test;
 
 import core.database.DatabaseCommunicator;
@@ -161,5 +162,16 @@ public class ResourceManagerTest extends TestCase{
 		assertFalse(DatabaseCommunicator.resourceExists("courses", "department='ZZZ' AND number=999"));
 	}
 	
-	
+	@After
+	public void cleanUp()
+	{
+		DatabaseCommunicator.deleteDatabase("rooms", "building=0 and number=9904");
+		DatabaseCommunicator.deleteDatabase("rooms", "building=99 and number=9904");
+		DatabaseCommunicator.deleteDatabase("rooms", "building=99 and number=9905");
+		DatabaseCommunicator.deleteDatabase("courses", "department='ABC' and number=123");
+		DatabaseCommunicator.deleteDatabase("courses", "department='AAA' and number=123");
+		DatabaseCommunicator.deleteDatabase("courses", "department='AAA' and number=124");
+		DatabaseCommunicator.deleteDatabase("courses", "department='ZZZ' and number=123");
+		DatabaseCommunicator.deleteDatabase("courses", "department='ZZZ' and number=999");
+	}	
 }

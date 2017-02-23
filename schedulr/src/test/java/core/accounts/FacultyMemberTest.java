@@ -1,7 +1,9 @@
 package core.accounts;
 
+import org.junit.After;
 import org.junit.Test;
 
+import core.database.DatabaseCommunicator;
 import junit.framework.TestCase;
 
 public class FacultyMemberTest extends TestCase {
@@ -27,5 +29,5 @@ public class FacultyMemberTest extends TestCase {
 				"99-999", facultyMember.getOfficeLocation());
 		
 	}
-
+	
 }

@@ -1,4 +1,4 @@
-package org.kernels.schedulr;
+package gui.scheduling;
 
 import java.time.Duration;
 import java.time.LocalDate;

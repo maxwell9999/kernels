@@ -6,8 +6,8 @@ import core.database.DatabaseCommunicator;
 import core.database.DatabaseObject;
 
 public abstract class User implements DatabaseObject {
-	protected static int DEPARTMENT_SCHEDULER = 1; 
-	protected static int FACULTY_MEMBER = 2; 
+	public static int SCHEDULER = 1; 
+	public static int FACULTY_MEMBER = 2; 
 	
 	private String login; 
 	private int emplId; 
