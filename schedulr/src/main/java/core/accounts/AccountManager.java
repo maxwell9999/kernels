@@ -28,7 +28,7 @@ public class AccountManager
 	{
 		String hashed = BCrypt.hashpw(emplID + "", BCrypt.gensalt());
 		User newUser;
-		if (role == User.DEPARTMENT_SCHEDULER)
+		if (role == User.SCHEDULER)
 			newUser = new DepartmentScheduler(username, emplID, first, last, email, office);
 		else
 			newUser = new FacultyMember(username, emplID, first, last, email, office);
@@ -44,6 +44,11 @@ public class AccountManager
 		DatabaseCommunicator.deleteDatabase("users", "login='" + username + "'");
 	}
 	
+	/**
+	 * Method to get a User object specified by the login
+	 * @param login username of user 
+	 * @return User with information filled in from database 
+	 */
 	public static User getUser(String login) {
 		User user;  
 		String firstName, lastName, email, officeLocation; 
@@ -58,10 +63,12 @@ public class AccountManager
 		officeLocation = map.get("office_location").toString();
 		emplId = (Integer) map.get("empl_id");
 		role = (Integer) map.get("role");
-		if (role == User.DEPARTMENT_SCHEDULER)
+
+		if (role == User.SCHEDULER)
 			user = new DepartmentScheduler(login, emplId, firstName, lastName, email, officeLocation);
 		else
 			user = new FacultyMember(login, emplId, firstName, lastName, email, officeLocation);
+
 		return user; 
 	}
 	
@@ -89,6 +96,7 @@ public class AccountManager
 		
 		List<User> userList = new ArrayList<User>();
 		List<HashMap<String, Object>> userMap = DatabaseCommunicator.queryDatabase("SELECT * FROM users;");
+
 		for(HashMap<String, Object> map: userMap)
 		{
 			login = map.get("login").toString();
@@ -98,11 +106,14 @@ public class AccountManager
 			officeLocation = map.get("office_location").toString();
 			emplId = (Integer) map.get("empl_id");
 			role = (Integer) map.get("role");
-			if (role == User.DEPARTMENT_SCHEDULER)
+
+			if (role == User.SCHEDULER)
 				userList.add(new DepartmentScheduler(login, emplId, firstName, lastName, email, officeLocation));
 			else
 				userList.add(new FacultyMember(login, emplId, firstName, lastName, email, officeLocation));
+
 		}
+
 		Collections.sort(userList, new UserComparator());
 		return userList;
 	}

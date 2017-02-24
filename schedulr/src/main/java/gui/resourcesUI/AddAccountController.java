@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import core.accounts.AccountManager;
+import core.accounts.User;
 import core.database.DatabaseCommunicator;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -20,8 +21,8 @@ import javafx.stage.Stage;
  */
 public class AddAccountController {
 
-	private static final int SCHEDULER = 2; 
-	private static final int FACULTY_MEMBER = 1; 
+	//private static final int SCHEDULER = 2; 
+	//private static final int FACULTY_MEMBER = 1; 
     private static final Logger log = LoggerFactory.getLogger(AddAccountController.class);
     private boolean error = false;
     @FXML private TextField username;
@@ -65,7 +66,7 @@ public class AddAccountController {
     	if (!error) {
     		// Saves account in database.
     		errorMessage.setText("");
-            int role = scheduler ? SCHEDULER : FACULTY_MEMBER;
+            int role = scheduler ? User.SCHEDULER : User.FACULTY_MEMBER;
             
             if (DatabaseCommunicator.resourceExists("users", "login='" + userNameString + "'")) {
             	errorMessage.setText("Login already exists");
