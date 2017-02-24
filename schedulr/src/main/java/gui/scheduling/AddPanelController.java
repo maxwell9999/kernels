@@ -116,7 +116,14 @@ public class AddPanelController extends VBox {
         addToCalendar.setOnAction(new EventHandler<ActionEvent>() {
 
             public void handle(ActionEvent event) {
-                weekView.recreateEntries(addAppt(begin, end, retval));
+            	
+            	LinkedList<WeekViewAppointment<Object>> appts = addAppt(begin, end, retval);
+            	Section curSection = createSection();
+            	
+            	if(checkTeacherConflicts(curSection.getInstructor())) {
+            		weekView.recreateEntries(appts);
+            		curSection.addToDatabase();
+            	}
             }
         });
         
@@ -248,7 +255,7 @@ public class AddPanelController extends VBox {
 	 * Method to add a Section to the database with fields specified in the AddPanel UI
 	 * NOTE: must be called AFTER addAppt() in order for the days of the week to be properly stored
 	 */
-	private void createSection() {
+	private Section createSection() {
 		Schedule schedule = getSchedule(); 
 		Course course = getCourse(); 
 		FacultyMember instructor = getInstructor(); 
@@ -257,7 +264,8 @@ public class AddPanelController extends VBox {
 		int duration = length.getValue(); 
 
 		Section section = new Section(schedule, course, instructor, room, startTime, duration, daysOfWeek); 
-		section.addToDatabase();
+		//section.addToDatabase();
+		return section;
 	}
 	
 	private Schedule getSchedule() {
@@ -358,6 +366,7 @@ public class AddPanelController extends VBox {
 	          log.info("{} now starts on {} {}", timedAppointment.getTitle(), newDate, newTime);
 	        });
 	        timedAppointment.setNewTimePossiblePredicate(newTimePossiblePredicate);
+
 	        retval.add(timedAppointment);
         }
         return retval;
@@ -365,6 +374,11 @@ public class AddPanelController extends VBox {
 	
 	public void setScheduleId(int scheduleId) {
 		this.scheduleId = scheduleId; 
+	}
+	
+	//TODO(Courtney) You said that you could do this with a query super easily
+	private boolean checkTeacherConflicts(FacultyMember teacher) {
+		return false;
 	}
 /*
 	private LinkedList<WeekViewAppointment<Object>> editAppt(LocalDate begin, LocalDate end, LinkedList<WeekViewAppointment<Object>> retval) {
