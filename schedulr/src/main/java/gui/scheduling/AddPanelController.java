@@ -36,7 +36,9 @@ public class AddPanelController extends VBox {
 	@FXML
 	Text panelTitle;
 	@FXML
-	ComboBox<String> selectClass;
+	ComboBox<String> selectDepartment;
+	@FXML
+	ComboBox<String> selectNumber; 
 	@FXML
 	ComboBox<String> selectFaculty;
 	@FXML
@@ -87,7 +89,7 @@ public class AddPanelController extends VBox {
     @FXML
     public void initialize() {
     	
-    	populateCourses(); 
+    	populateDepartments(); 
     	populateFaculty(); 
     	populateRoomTypes(); 
 
@@ -114,6 +116,12 @@ public class AddPanelController extends VBox {
         		populateRoomNumbers(selectRoomType.getValue()); 
         	}
         });
+        
+        selectDepartment.setOnAction(new EventHandler<ActionEvent>() {
+        	public void handle(ActionEvent event) {
+        		populateCourseNumbers(selectDepartment.getValue()); 
+        	}
+        });
 
     }
 
@@ -125,13 +133,22 @@ public class AddPanelController extends VBox {
 		this.retval = retval;
 	}
 	
-	private void populateCourses() {
-		List<HashMap<String, Object>> rows = DatabaseCommunicator.queryDatabase("SELECT department, number FROM courses;"); 
-		List<String> courses = new ArrayList<String>(); 
+	private void populateDepartments() {
+		List<HashMap<String, Object>> rows = DatabaseCommunicator.queryDatabase("SELECT DISTINCT department FROM courses;"); 
+		List<String> departments = new ArrayList<String>(); 
 		for (HashMap<String, Object> row : rows) {
-			courses.add(row.get("department").toString() + row.get("number").toString()); 
+			departments.add(row.get("department").toString()); 
 		}
-		selectClass.setItems(FXCollections.observableArrayList(courses)); 
+		selectDepartment.setItems(FXCollections.observableArrayList(departments)); 
+	}
+	
+	private void populateCourseNumbers(String department) {
+		List<HashMap<String, Object>> rows = DatabaseCommunicator.queryDatabase("SELECT number FROM courses WHERE department='" + department + "';"); 
+		List<String> numbers = new ArrayList<String>(); 
+		for (HashMap<String, Object> row : rows) {
+			numbers.add(row.get("number").toString()); 
+		}
+		selectNumber.setItems(FXCollections.observableArrayList(numbers)); 
 	}
 
 	private void populateFaculty() {
@@ -144,7 +161,7 @@ public class AddPanelController extends VBox {
 	}
 	
 	private void populateRoomTypes() {
-		List<HashMap<String, Object>> rows = DatabaseCommunicator.queryDatabase("SELECT type FROM rooms;"); 
+		List<HashMap<String, Object>> rows = DatabaseCommunicator.queryDatabase("SELECT DISTINCT type FROM rooms;"); 
 		List<String> roomTypes = new ArrayList<String>(); 
 		for (HashMap<String, Object> row : rows) {
 			roomTypes.add(row.get("type").toString()); 

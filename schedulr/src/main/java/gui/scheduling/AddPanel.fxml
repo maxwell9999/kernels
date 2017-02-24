@@ -13,50 +13,52 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="375.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.scheduling.AddPanelController">
     <children>
-      <ComboBox fx:id="selectClass" layoutX="125.0" layoutY="30.0" prefHeight="26.0" prefWidth="225.0" promptText="- Select Class -" />
-      <ComboBox fx:id="selectFaculty" layoutX="125.0" layoutY="102.0" prefHeight="26.0" prefWidth="225.0" promptText="- Select Faculty -" />
-      <ComboBox fx:id="selectRoomType" layoutX="125.0" layoutY="138.0" prefHeight="26.0" prefWidth="225.0" promptText="- Select Room Type -" />
-      <ComboBox fx:id="selectRoom" layoutX="125.0" layoutY="174.0" prefHeight="26.0" prefWidth="225.0" promptText="- Select Room -" />
-      <TextField fx:id="section" disable="true" layoutX="125.0" layoutY="65.0" prefHeight="26.0" prefWidth="53.0" />
-      <TextField disable="true" layoutX="265.0" layoutY="65.0" prefHeight="26.0" prefWidth="85.0" />
-      <Text boundsType="VISUAL" layoutX="25.0" layoutY="78.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Section" textOrigin="CENTER" />
-      <Text boundsType="VISUAL" layoutX="25.0" layoutY="43.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Class" textOrigin="CENTER" />
-      <Text fx:id="panelTitle" boundsType="VISUAL" layoutX="15.0" layoutY="15.0" strokeType="OUTSIDE" strokeWidth="0.0" text="" textOrigin="CENTER">
+      <ComboBox fx:id="selectDepartment" layoutX="125.0" layoutY="21.0" prefHeight="27.0" prefWidth="225.0" promptText="- Select Department -" />
+      <ComboBox fx:id="selectFaculty" layoutX="124.0" layoutY="128.0" prefHeight="26.0" prefWidth="225.0" promptText="- Select Faculty -" />
+      <ComboBox fx:id="selectRoomType" layoutX="124.0" layoutY="164.0" prefHeight="26.0" prefWidth="225.0" promptText="- Select Room Type -" />
+      <ComboBox fx:id="selectRoom" layoutX="124.0" layoutY="200.0" prefHeight="26.0" prefWidth="225.0" promptText="- Select Room -" />
+      <TextField fx:id="section" disable="true" layoutX="124.0" layoutY="91.0" prefHeight="26.0" prefWidth="53.0" />
+      <TextField disable="true" layoutX="264.0" layoutY="91.0" prefHeight="26.0" prefWidth="85.0" />
+      <Text boundsType="VISUAL" layoutX="24.0" layoutY="104.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Section" textOrigin="CENTER" />
+      <Text boundsType="VISUAL" layoutX="21.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Department" textOrigin="CENTER" />
+      <Text fx:id="panelTitle" boundsType="VISUAL" layoutX="14.0" layoutY="10.0" strokeType="OUTSIDE" strokeWidth="0.0" text="" textOrigin="CENTER" wrappingWidth="9.0">
          <font>
             <Font size="16.0" />
          </font></Text>
-      <Text boundsType="VISUAL" layoutX="200.0" layoutY="78.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Class #" textOrigin="CENTER" />
-      <Text boundsType="VISUAL" layoutX="25.0" layoutY="115.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Faculty" textOrigin="CENTER" />
-      <Text boundsType="VISUAL" layoutX="25.0" layoutY="151.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Room Type" textOrigin="CENTER" />
-      <Text boundsType="VISUAL" layoutX="25.0" layoutY="187.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Room" textOrigin="CENTER" />
-      <Text boundsType="VISUAL" layoutX="25.0" layoutY="223.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Capacity" textOrigin="CENTER" />
-      <TextField fx:id="name" layoutX="125.0" layoutY="246.0" prefHeight="26.0" prefWidth="225.0" />
-      <Text boundsType="VISUAL" layoutX="25.0" layoutY="365.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Units" textOrigin="CENTER" />
-      <Text boundsType="VISUAL" layoutX="215.0" layoutY="365.0" strokeType="OUTSIDE" strokeWidth="0.0" text="WTUs" textOrigin="CENTER" />
-      <Text boundsType="VISUAL" layoutX="25.0" layoutY="401.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Start Time" textOrigin="CENTER" />
-      <Text boundsType="VISUAL" layoutX="25.0" layoutY="437.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Duration" textOrigin="CENTER" />
-      <Text boundsType="VISUAL" layoutX="25.0" layoutY="579.5" strokeType="OUTSIDE" strokeWidth="0.0" text="Note" textOrigin="CENTER" />
-      <Text boundsType="VISUAL" layoutX="25.0" layoutY="312.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Description" textOrigin="CENTER" />
-      <TextArea fx:id="note" layoutX="125.0" layoutY="515.5" prefHeight="180.0" prefWidth="225.0" />
-      <Text boundsType="VISUAL" layoutX="25.0" layoutY="259.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Name" textOrigin="CENTER" />
-      <TextArea fx:id="description" layoutX="125.0" layoutY="282.0" prefHeight="60.0" prefWidth="225.0" />
-      <Button fx:id="addToCalendar" layoutX="125.0" layoutY="706.5" mnemonicParsing="false" text="Add to Calendar" />
-      <Line endX="200.0" layoutX="150.0" layoutY="15.0" strokeWidth="2.0" />
-      <Spinner fx:id="hourStepper" layoutX="125.0" layoutY="388.0" prefHeight="26.0" prefWidth="64.0" />
-      <Spinner fx:id="minStepper" layoutX="200.0" layoutY="388.0" prefHeight="26.0" prefWidth="64.0" />
-      <Spinner fx:id="length" layoutX="125.0" layoutY="424.0" prefHeight="26.0" prefWidth="100.0" />
-      <Text boundsType="VISUAL" layoutX="193.0" layoutY="401.0" strokeType="OUTSIDE" strokeWidth="0.0" text=":" textOrigin="CENTER" />
-      <Text boundsType="VISUAL" layoutX="229.0" layoutY="437.0" strokeType="OUTSIDE" strokeWidth="0.0" text="min" textOrigin="CENTER" />
-      <Spinner fx:id="capacityStepper" disable="true" layoutX="125.0" layoutY="210.0" prefHeight="26.0" prefWidth="60.0" />
-      <CheckBox fx:id="m" contentDisplay="RIGHT" layoutX="125.0" layoutY="460.0" mnemonicParsing="false" text="M" />
-      <CheckBox fx:id="t" contentDisplay="RIGHT" layoutX="170.0" layoutY="460.0" mnemonicParsing="false" text="T" />
-      <CheckBox fx:id="f" contentDisplay="RIGHT" layoutX="305.0" layoutY="460.0" mnemonicParsing="false" text="F" />
-      <CheckBox fx:id="r" contentDisplay="RIGHT" layoutX="260.0" layoutY="460.0" mnemonicParsing="false" text="R" />
-      <CheckBox fx:id="w" contentDisplay="RIGHT" layoutX="215.0" layoutY="460.0" mnemonicParsing="false" text="W" />
-      <CheckBox fx:id="x" contentDisplay="RIGHT" layoutX="170.0" layoutY="486.0" mnemonicParsing="false" text="X" />
-      <CheckBox fx:id="s" contentDisplay="RIGHT" layoutX="125.0" layoutY="486.0" mnemonicParsing="false" text="S" />
-      <Text boundsType="VISUAL" layoutX="25.0" layoutY="480.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Days" textOrigin="CENTER" />
-      <TextField fx:id="unitStepper" layoutX="125.0" layoutY="352.0" prefHeight="27.0" prefWidth="60.0" />
-      <TextField fx:id="wtuStepper" layoutX="291.0" layoutY="352.0" prefHeight="27.0" prefWidth="60.0" />
+      <Text boundsType="VISUAL" layoutX="199.0" layoutY="104.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Class #" textOrigin="CENTER" />
+      <Text boundsType="VISUAL" layoutX="24.0" layoutY="141.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Faculty" textOrigin="CENTER" />
+      <Text boundsType="VISUAL" layoutX="24.0" layoutY="177.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Room Type" textOrigin="CENTER" />
+      <Text boundsType="VISUAL" layoutX="24.0" layoutY="213.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Room" textOrigin="CENTER" />
+      <Text boundsType="VISUAL" layoutX="24.0" layoutY="249.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Capacity" textOrigin="CENTER" />
+      <TextField fx:id="name" layoutX="124.0" layoutY="272.0" prefHeight="26.0" prefWidth="225.0" />
+      <Text boundsType="VISUAL" layoutX="24.0" layoutY="391.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Units" textOrigin="CENTER" />
+      <Text boundsType="VISUAL" layoutX="214.0" layoutY="391.0" strokeType="OUTSIDE" strokeWidth="0.0" text="WTUs" textOrigin="CENTER" />
+      <Text boundsType="VISUAL" layoutX="24.0" layoutY="427.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Start Time" textOrigin="CENTER" />
+      <Text boundsType="VISUAL" layoutX="24.0" layoutY="463.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Duration" textOrigin="CENTER" />
+      <Text boundsType="VISUAL" layoutX="24.0" layoutY="606.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Note" textOrigin="CENTER" />
+      <Text boundsType="VISUAL" layoutX="24.0" layoutY="338.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Description" textOrigin="CENTER" />
+      <TextArea fx:id="note" layoutX="124.0" layoutY="542.0" prefHeight="180.0" prefWidth="225.0" />
+      <Text boundsType="VISUAL" layoutX="24.0" layoutY="285.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Name" textOrigin="CENTER" />
+      <TextArea fx:id="description" layoutX="124.0" layoutY="308.0" prefHeight="60.0" prefWidth="225.0" />
+      <Button fx:id="addToCalendar" layoutX="124.0" layoutY="733.0" mnemonicParsing="false" text="Add to Calendar" />
+      <Line endX="200.0" layoutX="149.0" layoutY="14.0" strokeWidth="2.0" />
+      <Spinner fx:id="hourStepper" layoutX="124.0" layoutY="414.0" prefHeight="26.0" prefWidth="64.0" />
+      <Spinner fx:id="minStepper" layoutX="199.0" layoutY="414.0" prefHeight="26.0" prefWidth="64.0" />
+      <Spinner fx:id="length" layoutX="124.0" layoutY="450.0" prefHeight="26.0" prefWidth="100.0" />
+      <Text boundsType="VISUAL" layoutX="192.0" layoutY="427.0" strokeType="OUTSIDE" strokeWidth="0.0" text=":" textOrigin="CENTER" />
+      <Text boundsType="VISUAL" layoutX="228.0" layoutY="463.0" strokeType="OUTSIDE" strokeWidth="0.0" text="min" textOrigin="CENTER" />
+      <Spinner fx:id="capacityStepper" disable="true" layoutX="124.0" layoutY="236.0" prefHeight="26.0" prefWidth="60.0" />
+      <CheckBox fx:id="m" contentDisplay="RIGHT" layoutX="124.0" layoutY="486.0" mnemonicParsing="false" text="M" />
+      <CheckBox fx:id="t" contentDisplay="RIGHT" layoutX="169.0" layoutY="486.0" mnemonicParsing="false" text="T" />
+      <CheckBox fx:id="f" contentDisplay="RIGHT" layoutX="304.0" layoutY="486.0" mnemonicParsing="false" text="F" />
+      <CheckBox fx:id="r" contentDisplay="RIGHT" layoutX="259.0" layoutY="486.0" mnemonicParsing="false" text="R" />
+      <CheckBox fx:id="w" contentDisplay="RIGHT" layoutX="214.0" layoutY="486.0" mnemonicParsing="false" text="W" />
+      <CheckBox contentDisplay="RIGHT" layoutX="169.0" layoutY="512.0" mnemonicParsing="false" text="X" fx:id="x" />
+      <CheckBox fx:id="s" contentDisplay="RIGHT" layoutX="124.0" layoutY="512.0" mnemonicParsing="false" text="S" />
+      <Text boundsType="VISUAL" layoutX="24.0" layoutY="506.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Days" textOrigin="CENTER" />
+      <TextField fx:id="unitStepper" layoutX="124.0" layoutY="378.0" prefHeight="27.0" prefWidth="60.0" />
+      <TextField fx:id="wtuStepper" layoutX="290.0" layoutY="378.0" prefHeight="27.0" prefWidth="60.0" />
+      <ComboBox fx:id="selectNumber" layoutX="125.0" layoutY="55.0" prefHeight="27.0" prefWidth="225.0" promptText="- Select Course Number -" />
+      <Text layoutX="22.0" layoutY="73.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Course #" />
    </children>
 </Pane>
