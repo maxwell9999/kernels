@@ -4,6 +4,7 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 import core.accounts.FacultyMember;
+import core.database.DatabaseCommunicator;
 import core.database.DatabaseObject;
 
 public class Section extends Course implements DatabaseObject {
@@ -88,4 +89,9 @@ public class Section extends Course implements DatabaseObject {
 	{
 		return "sections";
 	}
+	
+	public void addToDatabase() {
+		DatabaseCommunicator.replaceDatabase(this);
+	}
+	
 }

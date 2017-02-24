@@ -13,8 +13,14 @@ import java.util.function.BiPredicate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import core.accounts.FacultyMember;
 import core.database.DatabaseCommunicator;
-import de.ks.fxcontrols.weekview.*;
+import core.resources.Course;
+import core.resources.Room;
+import core.resources.Schedule;
+import core.resources.Section;
+import de.ks.fxcontrols.weekview.WeekView;
+import de.ks.fxcontrols.weekview.WeekViewAppointment;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -83,6 +89,7 @@ public class AddPanelController extends VBox {
 	private WeekView<Object> weekView = null;
     private LocalDate begin, end = null;
     private int scheduleId; 
+    private String daysOfWeek = ""; 
     LinkedList<WeekViewAppointment<Object>> retval;
 
     public AddPanelController() {}
@@ -236,6 +243,42 @@ public class AddPanelController extends VBox {
 		capacity = (Integer) rows.get(0).get("capacity"); 
 		return capacity; 
 	}
+	
+	/**
+	 * Method to add a Section to the database with fields specified in the AddPanel UI
+	 * NOTE: must be called AFTER addAppt() in order for the days of the week to be properly stored
+	 */
+	private void createSection() {
+		Schedule schedule = getSchedule(); 
+		Course course = getCourse(); 
+		FacultyMember instructor = getInstructor(); 
+		Room room = getRoom(); 
+		String startTime = LocalTime.of(hourStepper.getValue(), minStepper.getValue()).toString();; 
+		int duration = length.getValue(); 
+
+		Section section = new Section(schedule, course, instructor, room, startTime, duration, daysOfWeek); 
+		section.addToDatabase();
+	}
+	
+	private Schedule getSchedule() {
+		Schedule schedule = new Schedule(); 
+		return schedule; 
+	}
+	
+	private Course getCourse() {
+		Course course = new Course(); 
+		return course; 
+	}
+	
+	private FacultyMember getInstructor() {
+		FacultyMember facultyMember = new FacultyMember(null, scheduleId, null, null, null, null); 
+		return facultyMember;
+	}
+	
+	private Room getRoom() {
+		Room room = new Room(); 
+		return room; 
+	}
 
     private int[] selectedDays() {
 
@@ -243,24 +286,31 @@ public class AddPanelController extends VBox {
 
 		if (m.isSelected()) {
 			temp[0] = 1;
+			daysOfWeek += "M"; 
 		}
 		if (t.isSelected()) {
 			temp[1] = 2;
+			daysOfWeek += "T"; 
 		}
 		if (w.isSelected()) {
 			temp[2] = 3;
+			daysOfWeek += "W"; 
 		}
 		if (r.isSelected()) {
 			temp[3] = 4;
+			daysOfWeek += "R"; 
 		}
 		if (f.isSelected()) {
 			temp[4] = 5;
+			daysOfWeek += "F"; 
 		}
 		if (s.isSelected()) {
 			temp[5] = 6;
+			daysOfWeek += "S"; 
 		}
 		if (x.isSelected()) {
 			temp[6] = 7;
+			daysOfWeek += "X"; 
 		}
 
 		for(int i : temp) {System.out.print(i);}
