@@ -31,8 +31,7 @@
       <Text boundsType="VISUAL" layoutX="24.0" layoutY="213.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Room" textOrigin="CENTER" />
       <Text boundsType="VISUAL" layoutX="24.0" layoutY="249.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Capacity" textOrigin="CENTER" />
       <TextField fx:id="name" layoutX="124.0" layoutY="272.0" prefHeight="26.0" prefWidth="225.0" />
-      <Text boundsType="VISUAL" layoutX="24.0" layoutY="391.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Units" textOrigin="CENTER" />
-      <Text boundsType="VISUAL" layoutX="214.0" layoutY="391.0" strokeType="OUTSIDE" strokeWidth="0.0" text="WTUs" textOrigin="CENTER" />
+      <Text boundsType="VISUAL" layoutX="23.0" layoutY="391.0" strokeType="OUTSIDE" strokeWidth="0.0" text="WTUs" textOrigin="CENTER" />
       <Text boundsType="VISUAL" layoutX="24.0" layoutY="427.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Start Time" textOrigin="CENTER" />
       <Text boundsType="VISUAL" layoutX="24.0" layoutY="463.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Duration" textOrigin="CENTER" />
       <Text boundsType="VISUAL" layoutX="24.0" layoutY="606.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Note" textOrigin="CENTER" />
@@ -55,8 +54,7 @@
       <CheckBox contentDisplay="RIGHT" layoutX="169.0" layoutY="512.0" mnemonicParsing="false" text="X" fx:id="x" />
       <CheckBox fx:id="s" contentDisplay="RIGHT" layoutX="124.0" layoutY="512.0" mnemonicParsing="false" text="S" />
       <Text boundsType="VISUAL" layoutX="24.0" layoutY="506.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Days" textOrigin="CENTER" />
-      <TextField fx:id="unitStepper" layoutX="124.0" layoutY="378.0" prefHeight="27.0" prefWidth="60.0" />
-      <TextField fx:id="wtuStepper" layoutX="290.0" layoutY="378.0" prefHeight="27.0" prefWidth="60.0" />
+      <TextField fx:id="wtu" layoutX="124.0" layoutY="378.0" prefHeight="27.0" prefWidth="60.0" />
       <ComboBox fx:id="selectNumber" layoutX="125.0" layoutY="55.0" prefHeight="27.0" prefWidth="225.0" promptText="- Select Course Number -" />
       <Text layoutX="22.0" layoutY="73.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Course #" />
       <TextField fx:id="capacity" layoutX="124.0" layoutY="236.0" prefHeight="27.0" prefWidth="60.0" />

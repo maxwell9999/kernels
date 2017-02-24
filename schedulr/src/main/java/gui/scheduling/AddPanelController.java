@@ -52,9 +52,7 @@ public class AddPanelController extends VBox {
 	@FXML 
 	TextField capacity; 
 	@FXML
-	TextField unitStepper;
-	@FXML
-	TextField wtuStepper;
+	TextField wtu;
 	@FXML
 	TextArea description;
 	@FXML
