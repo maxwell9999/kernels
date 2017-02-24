@@ -4,13 +4,18 @@ import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.function.BiPredicate;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import core.database.DatabaseCommunicator;
 import de.ks.fxcontrols.weekview.*;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -81,6 +86,10 @@ public class AddPanelController extends VBox {
 
     @FXML
     public void initialize() {
+    	
+    	populateCourses(); 
+    	populateFaculty(); 
+    	populateRoomTypes(); 
 
         SpinnerValueFactory<Integer> hSValFac = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 23, 0, 1);
         hourStepper.setValueFactory(hSValFac);
@@ -99,6 +108,12 @@ public class AddPanelController extends VBox {
                 weekView.recreateEntries(addAppt(begin, end, retval));
             }
         });
+        
+        selectRoomType.setOnAction(new EventHandler<ActionEvent>() {
+        	public void handle(ActionEvent event) {
+        		populateRoomNumbers(selectRoomType.getValue()); 
+        	}
+        });
 
     }
 
@@ -109,7 +124,43 @@ public class AddPanelController extends VBox {
 		this.end = end;
 		this.retval = retval;
 	}
+	
+	private void populateCourses() {
+		List<HashMap<String, Object>> rows = DatabaseCommunicator.queryDatabase("SELECT department, number FROM courses;"); 
+		List<String> courses = new ArrayList<String>(); 
+		for (HashMap<String, Object> row : rows) {
+			courses.add(row.get("department").toString() + row.get("number").toString()); 
+		}
+		selectClass.setItems(FXCollections.observableArrayList(courses)); 
+	}
 
+	private void populateFaculty() {
+		List<HashMap<String, Object>> rows = DatabaseCommunicator.queryDatabase("SELECT first_name, last_name FROM users WHERE login!='admin';"); 
+		List<String> faculty = new ArrayList<String>(); 
+		for (HashMap<String, Object> row : rows) {
+			faculty.add(row.get("first_name").toString() + row.get("last_name".toString())); 
+		}
+		selectFaculty.setItems(FXCollections.observableArrayList(faculty)); 
+	}
+	
+	private void populateRoomTypes() {
+		List<HashMap<String, Object>> rows = DatabaseCommunicator.queryDatabase("SELECT type FROM rooms;"); 
+		List<String> roomTypes = new ArrayList<String>(); 
+		for (HashMap<String, Object> row : rows) {
+			roomTypes.add(row.get("type").toString()); 
+		}
+		selectRoomType.setItems(FXCollections.observableArrayList(roomTypes)); 
+	}
+	
+	private void populateRoomNumbers(String type) {
+		List<HashMap<String, Object>> rows = DatabaseCommunicator.queryDatabase("SELECT number FROM rooms WHERE type='" + type + "';"); 
+		List<String> roomNumbers = new ArrayList<String>(); 
+		for (HashMap<String, Object> row : rows) {
+			roomNumbers.add(row.get("number").toString()); 
+		}
+		selectRoom.setItems(FXCollections.observableArrayList(roomNumbers)); 
+	}
+	
     private int[] selectedDays() {
 
     	int[] temp = new int[7];
