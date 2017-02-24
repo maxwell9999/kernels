@@ -88,6 +88,7 @@ public class AddPanelController extends VBox {
     public AddPanelController() {}
 
     @FXML
+    //TODO refactor 
     public void initialize() {
     	
     	populateDepartments(); 
@@ -115,9 +116,13 @@ public class AddPanelController extends VBox {
         //TODO make sure naming works
         selectNumber.setOnAction(new EventHandler<ActionEvent>() {
         	public void handle(ActionEvent event) {
-        		section.setText("" + getSectionNumber(selectDepartment.getValue(), 
-        				Integer.parseInt(selectNumber.getValue())));
-        		name.setText(getCourseName(selectDepartment.getValue(), Integer.parseInt(selectNumber.getValue())));
+        		// courseData format: sectionNumber, name, wtu
+        		String courseData = getCourseData(selectDepartment.getValue(), Integer.parseInt(selectNumber.getValue())); 
+        		String[] fields = courseData.split(", "); 
+
+        		section.setText(fields[1]);
+        		name.setText(fields[2]);
+        		wtu.setText(fields[3]);
         	}
         });
         
@@ -196,13 +201,22 @@ public class AddPanelController extends VBox {
 		selectRoom.setItems(FXCollections.observableArrayList(roomNumbers)); 
 	}
 	
+	/**
+	 * Method to get auto-fill data (section number, name, and wtu) for a course 
+	 * @param department the department the course in contained in
+	 * @param number the number describing the course 
+	 * @return String in format of "sectionNumber, name, wtu"
+	 */
 	//TODO(Courtney) make sure this works and write tests
-	private String getCourseName(String department, int number) {
-		String name; 
+	private String getCourseData(String department, int number) {
+		String name;
+		int wtu; 
 		List<HashMap<String, Object>> rows = DatabaseCommunicator.queryDatabase(
-				"SELECT name FROM courses WHERE department='" + department + "' AND number=" + number + ";");
+				"SELECT name, wtu FROM courses WHERE department='" + department + "' AND number=" + number + ";");
 		name = (String) rows.get(0).get("name"); 
-		return name; 
+		wtu = (Integer) rows.get(0).get("wtu"); 
+		long sectionNumber = getSectionNumber(department, number); 
+		return sectionNumber + ", " + name + ", " + wtu; 
 	}
 
 	//TODO(Courtney) Write tests 
