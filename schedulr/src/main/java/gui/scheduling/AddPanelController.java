@@ -217,11 +217,11 @@ public class AddPanelController extends VBox {
 	//TODO(Courtney) make sure this works and write tests
 	private String getCourseData(String department, int number) {
 		String name;
-		int wtu; 
+		double wtu; 
 		List<HashMap<String, Object>> rows = DatabaseCommunicator.queryDatabase(
 				"SELECT name, wtu FROM courses WHERE department='" + department + "' AND number=" + number + ";");
 		name = (String) rows.get(0).get("name"); 
-		wtu = (Integer) rows.get(0).get("wtu"); 
+		wtu = (Double) rows.get(0).get("wtu"); 
 		long sectionNumber = getSectionNumber(department, number); 
 		return sectionNumber + ", " + name + ", " + wtu; 
 	}
