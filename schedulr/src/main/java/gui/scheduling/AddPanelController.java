@@ -84,6 +84,7 @@ public class AddPanelController extends VBox {
 
 	private WeekView<Object> weekView = null;
     private LocalDate begin, end = null;
+    private int scheduleId; 
     LinkedList<WeekViewAppointment<Object>> retval;
 
     public AddPanelController() {}
@@ -113,10 +114,12 @@ public class AddPanelController extends VBox {
             }
         });
         
+        //TODO make sure naming works
         selectNumber.setOnAction(new EventHandler<ActionEvent>() {
         	public void handle(ActionEvent event) {
         		section.setText("" + getSectionNumber(selectDepartment.getValue(), 
         				Integer.parseInt(selectNumber.getValue())));
+        		name.setText(getCourseName(selectDepartment.getValue(), Integer.parseInt(selectNumber.getValue())));
         	}
         });
         
@@ -195,12 +198,21 @@ public class AddPanelController extends VBox {
 		selectRoom.setItems(FXCollections.observableArrayList(roomNumbers)); 
 	}
 	
+	//TODO(Courtney) make sure this works and write tests
+	private String getCourseName(String department, int number) {
+		String name; 
+		List<HashMap<String, Object>> rows = DatabaseCommunicator.queryDatabase(
+				"SELECT name FROM courses WHERE department='" + department + "' AND number=" + number + ";");
+		name = (String) rows.get(0).get("name"); 
+		return name; 
+	}
+
 	//TODO(Courtney) Write tests 
 	private long getSectionNumber(String department, int number) {
 		long sectionNumber; 
 		List<HashMap<String, Object>> rows = DatabaseCommunicator.queryDatabase(
-				"SELECT COUNT(*) FROM courses WHERE department='" + department + "' AND number=" + number + ";"); 
-		sectionNumber = (Long) rows.get(0).get("COUNT(*)"); 
+				"SELECT COUNT(*) FROM sections WHERE department='" + department + "' AND number=" + number + "AND schedule_id=" + scheduleId + ";"); 
+		sectionNumber = (Long) rows.get(0).get("COUNT(*)") + 1; 
 		System.out.println("Section number = " + sectionNumber);
 		return sectionNumber; 
 	}
@@ -287,6 +299,10 @@ public class AddPanelController extends VBox {
 	        retval.add(timedAppointment);
         }
         return retval;
+	}
+	
+	public void setScheduleId(int scheduleId) {
+		this.scheduleId = scheduleId; 
 	}
 /*
 	private LinkedList<WeekViewAppointment<Object>> editAppt(LocalDate begin, LocalDate end, LinkedList<WeekViewAppointment<Object>> retval) {
