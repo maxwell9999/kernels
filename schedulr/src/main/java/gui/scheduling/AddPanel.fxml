@@ -47,7 +47,6 @@
       <Spinner fx:id="length" layoutX="124.0" layoutY="450.0" prefHeight="26.0" prefWidth="100.0" />
       <Text boundsType="VISUAL" layoutX="192.0" layoutY="427.0" strokeType="OUTSIDE" strokeWidth="0.0" text=":" textOrigin="CENTER" />
       <Text boundsType="VISUAL" layoutX="228.0" layoutY="463.0" strokeType="OUTSIDE" strokeWidth="0.0" text="min" textOrigin="CENTER" />
-      <Spinner fx:id="capacityStepper" disable="true" layoutX="124.0" layoutY="236.0" prefHeight="26.0" prefWidth="60.0" />
       <CheckBox fx:id="m" contentDisplay="RIGHT" layoutX="124.0" layoutY="486.0" mnemonicParsing="false" text="M" />
       <CheckBox fx:id="t" contentDisplay="RIGHT" layoutX="169.0" layoutY="486.0" mnemonicParsing="false" text="T" />
       <CheckBox fx:id="f" contentDisplay="RIGHT" layoutX="304.0" layoutY="486.0" mnemonicParsing="false" text="F" />
@@ -60,5 +59,6 @@
       <TextField fx:id="wtuStepper" layoutX="290.0" layoutY="378.0" prefHeight="27.0" prefWidth="60.0" />
       <ComboBox fx:id="selectNumber" layoutX="125.0" layoutY="55.0" prefHeight="27.0" prefWidth="225.0" promptText="- Select Course Number -" />
       <Text layoutX="22.0" layoutY="73.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Course #" />
+      <TextField fx:id="capacity" layoutX="124.0" layoutY="236.0" prefHeight="27.0" prefWidth="60.0" />
    </children>
 </Pane>

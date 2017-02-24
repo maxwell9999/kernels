@@ -49,6 +49,8 @@ public class AddPanelController extends VBox {
 	TextField section;
 	@FXML
 	TextField name;
+	@FXML 
+	TextField capacity; 
 	@FXML
 	TextField unitStepper;
 	@FXML
@@ -111,12 +113,26 @@ public class AddPanelController extends VBox {
             }
         });
         
+        selectNumber.setOnAction(new EventHandler<ActionEvent>() {
+        	public void handle(ActionEvent event) {
+        		section.setText("" + getSectionNumber(selectDepartment.getValue(), 
+        				Integer.parseInt(selectNumber.getValue())));
+        	}
+        });
+        
         selectRoomType.setOnAction(new EventHandler<ActionEvent>() {
         	public void handle(ActionEvent event) {
         		populateRoomNumbers(selectRoomType.getValue()); 
         	}
         });
-        
+
+        selectRoom.setOnAction(new EventHandler<ActionEvent>() {
+        	public void handle(ActionEvent event) {
+        		String[] room = selectRoom.getValue().split("-"); 
+        		capacity.setText("" + getCapacity(Integer.parseInt(room[0]), Integer.parseInt(room[1])));
+        	}
+        });
+
         selectDepartment.setOnAction(new EventHandler<ActionEvent>() {
         	public void handle(ActionEvent event) {
         		populateCourseNumbers(selectDepartment.getValue()); 
@@ -132,6 +148,7 @@ public class AddPanelController extends VBox {
 		this.end = end;
 		this.retval = retval;
 	}
+	
 	
 	private void populateDepartments() {
 		List<HashMap<String, Object>> rows = DatabaseCommunicator.queryDatabase("SELECT DISTINCT department FROM courses;"); 
@@ -170,14 +187,32 @@ public class AddPanelController extends VBox {
 	}
 	
 	private void populateRoomNumbers(String type) {
-		List<HashMap<String, Object>> rows = DatabaseCommunicator.queryDatabase("SELECT number FROM rooms WHERE type='" + type + "';"); 
+		List<HashMap<String, Object>> rows = DatabaseCommunicator.queryDatabase("SELECT building, number FROM rooms WHERE type='" + type + "';"); 
 		List<String> roomNumbers = new ArrayList<String>(); 
 		for (HashMap<String, Object> row : rows) {
-			roomNumbers.add(row.get("number").toString()); 
+			roomNumbers.add(row.get("building").toString() + "-" + row.get("number").toString()); 
 		}
 		selectRoom.setItems(FXCollections.observableArrayList(roomNumbers)); 
 	}
 	
+	//TODO(Courtney) Write tests 
+	private long getSectionNumber(String department, int number) {
+		long sectionNumber; 
+		List<HashMap<String, Object>> rows = DatabaseCommunicator.queryDatabase(
+				"SELECT COUNT(*) FROM courses WHERE department='" + department + "' AND number=" + number + ";"); 
+		sectionNumber = (Long) rows.get(0).get("COUNT(*)"); 
+		System.out.println("Section number = " + sectionNumber);
+		return sectionNumber; 
+	}
+	
+	private int getCapacity(int building, int number) {
+		int capacity; 
+		List<HashMap<String, Object>> rows = DatabaseCommunicator.queryDatabase(
+				"SELECT capacity FROM rooms WHERE building=" + building + " AND number=" + number + ";"); 
+		capacity = (Integer) rows.get(0).get("capacity"); 
+		return capacity; 
+	}
+
     private int[] selectedDays() {
 
     	int[] temp = new int[7];
