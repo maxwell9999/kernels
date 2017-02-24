@@ -78,7 +78,6 @@ public class StudentFeedbackController {
 		List<Integer> years = new ArrayList<Integer>(); 
 		for (HashMap<String, Object> row : rows) {
 			years.add(Integer.parseInt(row.get("year").toString())); 
-			System.out.println("adding " + row.get("year").toString() + " to years");
 		}
 		yearBox.setItems(FXCollections.observableArrayList(years)); 
 	}
