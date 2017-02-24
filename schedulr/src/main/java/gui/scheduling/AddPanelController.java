@@ -127,9 +127,9 @@ public class AddPanelController extends VBox {
         		String courseData = getCourseData(selectDepartment.getValue(), Integer.parseInt(selectNumber.getValue())); 
         		String[] fields = courseData.split(", "); 
 
-        		section.setText(fields[1]);
-        		name.setText(fields[2]);
-        		wtu.setText(fields[3]);
+        		section.setText(fields[0]);
+        		name.setText(fields[1]);
+        		wtu.setText(fields[2]);
         	}
         });
         
@@ -230,7 +230,7 @@ public class AddPanelController extends VBox {
 	private long getSectionNumber(String department, int number) {
 		long sectionNumber; 
 		List<HashMap<String, Object>> rows = DatabaseCommunicator.queryDatabase(
-				"SELECT COUNT(*) FROM sections WHERE department='" + department + "' AND number=" + number + "AND schedule_id=" + scheduleId + ";"); 
+				"SELECT COUNT(*) FROM sections WHERE department='" + department + "' AND course_number=" + number + " AND schedule_id=" + 1 + ";"); 
 		sectionNumber = (Long) rows.get(0).get("COUNT(*)") + 1; 
 		System.out.println("Section number = " + sectionNumber);
 		return sectionNumber; 
