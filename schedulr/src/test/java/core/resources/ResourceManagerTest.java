@@ -60,7 +60,6 @@ public class ResourceManagerTest extends TestCase{
 				"ABC", temp.getDepartment());
 		assertEquals(123, temp.getNumber()); 
 		
-		//TODO add test for edit
 		temp.setNotes("This is a happy note");
 		temp.updateCourse();
 		
@@ -94,8 +93,6 @@ public class ResourceManagerTest extends TestCase{
 		assertEquals("Testing first room building...", 0, list.get(0).getBuilding());
 		assertEquals("Testing first room number...", 9904, list.get(0).getNumber());
 		
-		//TODO Modify this test. Need to select a subset of rooms to sort
-		//NOTE this test will fail once the database is populated
 		assertEquals("Testing building sort...", 9904, list.get(list.size() - 2).getNumber());
 		assertEquals("Testing room sort...", 9905, list.get(list.size() - 1).getNumber());
 		
