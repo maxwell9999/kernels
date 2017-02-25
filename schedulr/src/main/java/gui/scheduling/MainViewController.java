@@ -22,6 +22,7 @@ import javafx.scene.layout.VBox;
 
 public class MainViewController extends VBox {
 
+	//TODO Remove the change weeks buttons (if possible), prevent drag and drop features
     @FXML //  fx:id="addPanelButton"
     private Button addPanelButton; // Value injected by FXMLLoader
     @FXML

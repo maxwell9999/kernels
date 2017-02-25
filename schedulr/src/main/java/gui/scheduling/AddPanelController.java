@@ -105,16 +105,8 @@ public class AddPanelController extends VBox {
     	populateDepartments(); 
     	populateFaculty(); 
     	populateRoomTypes(); 
-    	
-    	
-    	//set up GUI steppers
-    	hourStepper.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 23, 0, 1));
-        hourStepper.setEditable(true);
-
-        minStepper.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 59, 0, 1));
-        minStepper.setEditable(true);
-
-        length.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(50, 360, 50, 60));
+  
+    	initializeSpinners();
 
         addToCalendar.setOnAction(new addToCalendarHandler());
         selectNumber.setOnAction(new selectNumberHandler());
@@ -173,6 +165,21 @@ public class AddPanelController extends VBox {
 			faculty.add(row.get("first_name").toString() + row.get("last_name".toString())); 
 		}
 		selectFaculty.setItems(FXCollections.observableArrayList(faculty)); 
+	}
+	
+	/**
+	 * Sets up the spinners with correct data
+	 */
+	private void initializeSpinners() {
+    	
+    	//set up GUI steppers
+    	hourStepper.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 23, 0, 1));
+        hourStepper.setEditable(true);
+
+        minStepper.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 59, 0, 1));
+        minStepper.setEditable(true);
+
+        length.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(50, 360, 50, 60));
 	}
 	
 	/**
