@@ -95,69 +95,38 @@ public class AddPanelController extends VBox {
     public AddPanelController() {}
 
     @FXML
-    //TODO refactor 
+    //TODO refactor
+    /**
+     * Initializes the scene, runs at the beginning of initialization
+     */
     public void initialize() {
     	
+    	//Populate all of the fields
     	populateDepartments(); 
     	populateFaculty(); 
     	populateRoomTypes(); 
-
-        SpinnerValueFactory<Integer> hSValFac = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 23, 0, 1);
-        hourStepper.setValueFactory(hSValFac);
+    	
+    	
+    	//set up GUI steppers
+    	hourStepper.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 23, 0, 1));
         hourStepper.setEditable(true);
 
-        SpinnerValueFactory<Integer> mSValFac = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 59, 0, 1);
-        minStepper.setValueFactory(mSValFac);
+        minStepper.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 59, 0, 1));
         minStepper.setEditable(true);
 
-    	SpinnerValueFactory<Integer> lengthValFac = new SpinnerValueFactory.IntegerSpinnerValueFactory(50, 360, 50, 60);
-        length.setValueFactory(lengthValFac);
+        length.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(50, 360, 50, 60));
 
-        addToCalendar.setOnAction(new EventHandler<ActionEvent>() {
-
-            public void handle(ActionEvent event) {
-            	
-            	LinkedList<WeekViewAppointment<Object>> appts = addAppt(begin, end, retval);
-            	Section curSection = createSection();
-            	
-            	if(checkTeacherConflicts(curSection.getInstructor())) {
-            		weekView.recreateEntries(appts);
-            		curSection.addToDatabase();
-            	}
-            }
-        });
+        addToCalendar.setOnAction(new addToCalendarHandler());
+        selectNumber.setOnAction(new selectNumberHandler());
         
-        //TODO make sure naming works
-        selectNumber.setOnAction(new EventHandler<ActionEvent>() {
-        	public void handle(ActionEvent event) {
-        		// courseData format: sectionNumber, name, wtu
-        		String courseData = getCourseData(selectDepartment.getValue(), Integer.parseInt(selectNumber.getValue())); 
-        		String[] fields = courseData.split(", "); 
+        //Show the list of rooms when the person clicks the room drop down
+        selectRoomType.setOnAction(new selectRoomTypeHandler());
 
-        		section.setText(fields[0]);
-        		name.setText(fields[1]);
-        		wtu.setText(fields[2]);
-        	}
-        });
-        
-        selectRoomType.setOnAction(new EventHandler<ActionEvent>() {
-        	public void handle(ActionEvent event) {
-        		populateRoomNumbers(selectRoomType.getValue()); 
-        	}
-        });
+        //When a room is selected, autofill the capacity
+        selectRoom.setOnAction(new selectRoomHandler());
 
-        selectRoom.setOnAction(new EventHandler<ActionEvent>() {
-        	public void handle(ActionEvent event) {
-        		String[] room = selectRoom.getValue().split("-"); 
-        		capacity.setText("" + getCapacity(Integer.parseInt(room[0]), Integer.parseInt(room[1])));
-        	}
-        });
-
-        selectDepartment.setOnAction(new EventHandler<ActionEvent>() {
-        	public void handle(ActionEvent event) {
-        		populateCourseNumbers(selectDepartment.getValue()); 
-        	}
-        });
+        //Automatically generate a course number
+        selectDepartment.setOnAction(new selectDepartmentHandler());
 
     }
 
@@ -169,7 +138,9 @@ public class AddPanelController extends VBox {
 		this.retval = retval;
 	}
 	
-	
+	/**
+	 * Generates a list of the departments and put it into a dropdown
+	 */
 	private void populateDepartments() {
 		List<HashMap<String, Object>> rows = DatabaseCommunicator.queryDatabase("SELECT DISTINCT department FROM courses;"); 
 		List<String> departments = new ArrayList<String>(); 
@@ -179,6 +150,10 @@ public class AddPanelController extends VBox {
 		selectDepartment.setItems(FXCollections.observableArrayList(departments)); 
 	}
 	
+	/**
+	 * Generates a course number based on the depratment
+	 * @param department Department where the course is being added
+	 */
 	private void populateCourseNumbers(String department) {
 		List<HashMap<String, Object>> rows = DatabaseCommunicator.queryDatabase("SELECT number FROM courses WHERE department='" + department + "';"); 
 		List<String> numbers = new ArrayList<String>(); 
@@ -188,6 +163,9 @@ public class AddPanelController extends VBox {
 		selectNumber.setItems(FXCollections.observableArrayList(numbers)); 
 	}
 
+	/**
+	 * Fills the dropdown with all of the faulty members
+	 */
 	private void populateFaculty() {
 		List<HashMap<String, Object>> rows = DatabaseCommunicator.queryDatabase("SELECT first_name, last_name FROM users WHERE login!='admin';"); 
 		List<String> faculty = new ArrayList<String>(); 
@@ -197,6 +175,9 @@ public class AddPanelController extends VBox {
 		selectFaculty.setItems(FXCollections.observableArrayList(faculty)); 
 	}
 	
+	/**
+	 * Gets all of the possible room types from the database and populates them all into a dropdown menu.
+	 */
 	private void populateRoomTypes() {
 		List<HashMap<String, Object>> rows = DatabaseCommunicator.queryDatabase("SELECT DISTINCT type FROM rooms;"); 
 		List<String> roomTypes = new ArrayList<String>(); 
@@ -206,6 +187,10 @@ public class AddPanelController extends VBox {
 		selectRoomType.setItems(FXCollections.observableArrayList(roomTypes)); 
 	}
 	
+	/**
+	 * Checks the type of the room denoted by the scheduler and returns a list of rooms that match that room type
+	 * @param type The type of classroom (ie. smart room)
+	 */
 	private void populateRoomNumbers(String type) {
 		List<HashMap<String, Object>> rows = DatabaseCommunicator.queryDatabase("SELECT building, number FROM rooms WHERE type='" + type + "';"); 
 		List<String> roomNumbers = new ArrayList<String>(); 
@@ -268,26 +253,39 @@ public class AddPanelController extends VBox {
 		return section;
 	}
 	
+	/**
+	 * @return a new schedule object
+	 */
 	private Schedule getSchedule() {
 		Schedule schedule = new Schedule(); 
 		return schedule; 
 	}
-	
+	/**
+	 * @return a new course object
+	 */
 	private Course getCourse() {
 		Course course = new Course(); 
 		return course; 
 	}
-	
+	/**
+	 * @return a new FacultyMember object
+	 */
 	private FacultyMember getInstructor() {
 		FacultyMember facultyMember = new FacultyMember(null, scheduleId, null, null, null, null); 
 		return facultyMember;
 	}
-	
+	/**
+	 * @return a new room object
+	 */
 	private Room getRoom() {
 		Room room = new Room(); 
 		return room; 
 	}
 
+	/**
+	 * Selects the days of the week
+	 * @return The days selected 
+	 */
     private int[] selectedDays() {
 
     	int[] temp = new int[7];
@@ -327,6 +325,14 @@ public class AddPanelController extends VBox {
     	return temp;
     }
 
+    //TODO This java comment
+    /**
+     * 
+     * @param begin 
+     * @param end 
+     * @param retval 
+     * @return
+     */
 	private LinkedList<WeekViewAppointment<Object>> addAppt(LocalDate begin, LocalDate end, LinkedList<WeekViewAppointment<Object>> retval) {
 
         LocalDate firstDayOfWeek = begin;
@@ -372,13 +378,34 @@ public class AddPanelController extends VBox {
         return retval;
 	}
 	
+	/**
+	 * Sets the schedule ID for the class
+	 * @param scheduleId schedule ID to use
+	 */
 	public void setScheduleId(int scheduleId) {
 		this.scheduleId = scheduleId; 
 	}
 	
 	//TODO(Courtney) You said that you could do this with a query super easily
-	private boolean checkTeacherConflicts(FacultyMember teacher) {
-		return false;
+	/**
+	 * Given faculty member and a time, query the database to see if there are teacher conflicts with any other classes at that time
+	 * @param section Current section object to be added
+	 * @return returns true if there are no conflicts
+	 */
+	private boolean checkTeacherConflicts(Section section) {
+		FacultyMember teacher = section.getInstructor();
+		return true;
+	}
+	
+	//TODO(Courtney) You said that you could do this with a query super easily
+	/**
+	 * Given a room and a time, query the database to see if that room is already booked at that time
+	 * @param section Current section object to be added
+	 * @return returns true if there are no conflicts
+	 */
+	private boolean checkRoomConflicts(Section section) {
+		Room room = section.getRoom();
+		return true;
 	}
 /*
 	private LinkedList<WeekViewAppointment<Object>> editAppt(LocalDate begin, LocalDate end, LinkedList<WeekViewAppointment<Object>> retval) {
@@ -468,4 +495,61 @@ public class AddPanelController extends VBox {
         }
         return retval;
 	}*/
+
+
+	class addToCalendarHandler implements EventHandler<ActionEvent> {
+
+		/**
+		 * When add is clicked, check for teacher conflicts, if none, then add the sections to the database and update the view
+		 */
+		public void handle(ActionEvent event) {
+
+			LinkedList<WeekViewAppointment<Object>> appts = addAppt(begin, end, retval);
+			Section curSection = createSection();
+
+			if(checkTeacherConflicts(curSection) && checkRoomConflicts(curSection)) {
+				weekView.recreateEntries(appts);
+				//TODO uncomment when we want to add to database
+				//curSection.addToDatabase();
+			}
+		}
+	}
+
+	class selectNumberHandler implements EventHandler<ActionEvent> {
+		
+		public void handle(ActionEvent event) {
+			// courseData format: sectionNumber, name, wtu
+			String courseData = getCourseData(selectDepartment.getValue(), Integer.parseInt(selectNumber.getValue())); 
+			String[] fields = courseData.split(", "); 
+
+			section.setText(fields[0]);
+			name.setText(fields[1]);
+			wtu.setText(fields[2]);
+		}
+	}
+
+	//Show the list of rooms when the person clicks the room drop down
+	class selectRoomTypeHandler implements EventHandler<ActionEvent> {
+		
+		public void handle(ActionEvent event) {
+			populateRoomNumbers(selectRoomType.getValue()); 
+		}
+	}
+
+	//When a room is selected, autofill the capacity
+	class selectRoomHandler implements EventHandler<ActionEvent> {
+		
+		public void handle(ActionEvent event) {
+			String[] room = selectRoom.getValue().split("-"); 
+			capacity.setText("" + getCapacity(Integer.parseInt(room[0]), Integer.parseInt(room[1])));
+		}
+	}
+
+	//Automatically generate a coulrse number
+	class selectDepartmentHandler implements EventHandler<ActionEvent> {
+		
+		public void handle(ActionEvent event) {
+			populateCourseNumbers(selectDepartment.getValue()); 
+		}
+	}
 }
