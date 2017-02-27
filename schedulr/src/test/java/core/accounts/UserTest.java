@@ -2,7 +2,10 @@ package core.accounts;
 
 import static org.junit.Assert.*;
 
+import org.junit.After;
 import org.junit.Test;
+
+import core.database.DatabaseCommunicator;
 
 public class UserTest {
 
@@ -34,6 +37,12 @@ public class UserTest {
 		assertEquals("Candyland", user.getOfficeLocation());
 		
 		AccountManager.removeUser("Test_User");
+	}
+	
+	@After
+	public void cleanUp()
+	{
+		DatabaseCommunicator.deleteDatabase("users", "login='Test_User'");
 	}
 
 }

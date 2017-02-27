@@ -16,7 +16,7 @@ public class AccountManagerTest extends TestCase{
 	@Test
 	public void testUserAddEditRemove()
 	{
-		AccountManager.addUser("Test_User", 99999, "Test", "User", "testUser@gmail.com", "", User.DEPARTMENT_SCHEDULER);
+		AccountManager.addUser("Test_User", 99999, "Test", "User", "testUser@gmail.com", "", User.SCHEDULER);
 		AccountManager.addUser("Test_User12", 99999, "AAA", "User", "testUser@gmail.com", "", User.FACULTY_MEMBER);
 		List<HashMap<String, Object>> list;
 
@@ -31,10 +31,10 @@ public class AccountManagerTest extends TestCase{
 		test = AccountManager.getUser("Test_User");
 		
 		test = AccountManager.getUser("Test_User12");
-		AccountManager.changeRole(test, User.DEPARTMENT_SCHEDULER);
+		AccountManager.changeRole(test, User.SCHEDULER);
 		list = DatabaseCommunicator.queryDatabase("SELECT email FROM users WHERE login='Test_User12';");
 		test = AccountManager.getUser("Test_User");
-		assertEquals(User.DEPARTMENT_SCHEDULER, test.getRole());
+		assertEquals(User.SCHEDULER, test.getRole());
 				
 		AccountManager.removeUser("Test_User");
 		list = DatabaseCommunicator.queryDatabase("SELECT empl_id FROM users WHERE login='Test_User';");
@@ -96,10 +96,10 @@ public class AccountManagerTest extends TestCase{
 	}
 	
 	public void testGetUser() {
-		AccountManager.addUser("Test_User1", 99999, "Test", "AAAAA", "testUser@gmail.com", "", User.DEPARTMENT_SCHEDULER);
+		AccountManager.addUser("Test_User1", 99999, "Test", "AAAAA", "testUser@gmail.com", "", User.SCHEDULER);
 		User test = AccountManager.getUser("Test_User1");
 		assertTrue(test instanceof DepartmentScheduler);
-		assertEquals(User.DEPARTMENT_SCHEDULER, test.getRole());
+		assertEquals(User.SCHEDULER, test.getRole());
 		assertEquals(99999, test.getEmplId());
 		assertEquals("testUser@gmail.com", test.getEmail());
 		assertEquals("AAAAA", test.getLastName());

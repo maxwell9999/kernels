@@ -6,8 +6,8 @@ import core.database.DatabaseCommunicator;
 import core.database.DatabaseObject;
 
 public abstract class User implements DatabaseObject {
-	protected static int DEPARTMENT_SCHEDULER = 1; 
-	protected static int FACULTY_MEMBER = 2; 
+	public static int SCHEDULER = 1; 
+	public static int FACULTY_MEMBER = 2; 
 	
 	private String login; 
 	private int emplId; 
@@ -93,22 +93,30 @@ public abstract class User implements DatabaseObject {
 		return "users"; 
 	}
 	
+	/**
+	 * Method to update user information in database
+	 */
 	public void updateUser()
 	{
 		DatabaseCommunicator.editDatabase(this, "login='" + login + "', empl_id=" + emplId + ", last_name='" + lastName + "', "
 				+ "first_name='" + firstName + "', email='" + email + "', office_location='" + officeLocation + "', role=" + role);
 	}
 	
+	/**
+	 * Method to change user's password in database.
+	 * @param pass new password to replace existing password in database
+	 */
 	public void changePassword(String pass) {
 		String hashed = BCrypt.hashpw(pass, BCrypt.gensalt());
 		DatabaseCommunicator.editDatabase(this, "pass_hash='" + hashed + "'");
 		DatabaseCommunicator.editDatabase(this, "reset_password=0");
 	}
 	
+	//TODO fill in this empty function
 	public void forgotPassword() {
 		
 	}
-	
+
 	public String getKeyIdentifier()
 	{
 		return "login='" + login + "'";

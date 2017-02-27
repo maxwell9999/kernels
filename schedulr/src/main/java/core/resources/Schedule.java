@@ -36,10 +36,15 @@ public class Schedule implements DatabaseObject {
 		this.year = year;
 	}
 	
-	
 	public int getScheduleId() {
 		List<HashMap<String, Object>> scheduleAttributes = DatabaseCommunicator.queryDatabase(
 				"SELECT id FROM schedules WHERE year=" + this.year + " AND term='" + this.term + "';");
+		return Integer.parseInt(scheduleAttributes.get(0).get("id").toString()); 
+	}
+	
+	public static int getScheduleId(int year, String term) {
+		List<HashMap<String, Object>> scheduleAttributes = DatabaseCommunicator.queryDatabase(
+				"SELECT id FROM schedules WHERE year=" + year + " AND term='" + term + "';");
 		return Integer.parseInt(scheduleAttributes.get(0).get("id").toString()); 
 	}
 
@@ -48,12 +53,16 @@ public class Schedule implements DatabaseObject {
 	}
 	
 	public String getValues() {
-		return this.getYear() + ", '" + this.getTerm() + "'; ";
+		return this.getYear() + ", '" + this.getTerm() + "'";
 	}
 	
 	public String getTable()
 	{
 		return "schedules";
+	}
+	
+	public void addToDatabase() {
+		DatabaseCommunicator.replaceDatabase(this);
 	}
 	
 	public String getKeyIdentifier() {

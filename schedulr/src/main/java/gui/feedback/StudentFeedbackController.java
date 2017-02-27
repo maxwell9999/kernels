@@ -1,14 +1,19 @@
 package gui.feedback;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 import core.database.DatabaseCommunicator;
 import core.feedback.Feedback;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -23,6 +28,8 @@ import javafx.stage.Stage;
  */
 public class StudentFeedbackController {
  
+	@FXML private ChoiceBox yearBox; 
+	@FXML private ChoiceBox termBox; 
 	@FXML private TextField usernameField;
     @FXML private RadioButton button1;
     @FXML private RadioButton button2;
@@ -42,6 +49,9 @@ public class StudentFeedbackController {
      */
 	@FXML
     public void initialize() { 
+		populateYears(); 
+		populateTerms(); 
+		
     	button1.setToggleGroup(group);
     	button2.setToggleGroup(group);
     	button3.setToggleGroup(group);
@@ -65,6 +75,25 @@ public class StudentFeedbackController {
     	});
     }
 	
+	private void populateYears() {
+		List<HashMap<String, Object>> rows = DatabaseCommunicator.queryDatabase("SELECT year from schedules;"); 
+		List<Integer> years = new ArrayList<Integer>(); 
+		for (HashMap<String, Object> row : rows) {
+			years.add(Integer.parseInt(row.get("year").toString())); 
+		}
+		yearBox.setItems(FXCollections.observableArrayList(years)); 
+	}
+
+	private void populateTerms() {
+		List<HashMap<String, Object>> rows = DatabaseCommunicator.queryDatabase("SELECT term from schedules;"); 
+		List<String> terms = new ArrayList<String>(); 
+		for (HashMap<String, Object> row : rows) {
+			terms.add(row.get("term").toString()); 
+			System.out.println("adding " + row.get("term").toString() + " to terms");
+		}
+		termBox.setItems(FXCollections.observableArrayList(terms)); 
+	}
+	
 	/**
      * onAction button for saving feedback.
      * @param event Necessary field for onAction events.
@@ -78,9 +107,11 @@ public class StudentFeedbackController {
 		if (noteField.getText().length() > 256) {
 			lengthError.setText("Max count: 256 characters");
 		} else {
+			int year = Integer.parseInt(yearBox.getValue().toString()); 
+			String term = termBox.getValue().toString(); 
 			String username = usernameField.getText();
 			String note = noteField.getText();
-			Feedback feedback = new Feedback(username, note, buttonToggled);
+			Feedback feedback = new Feedback(year, term, username, note, buttonToggled);
 			feedback.addToDatabase();
 			System.out.println(username + " rated it a " + buttonToggled + " and said " + note);
 			Stage stage = (Stage)button1.getScene().getWindow();
