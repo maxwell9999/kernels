@@ -33,5 +33,10 @@
             <Font name="Optima Regular" size="18.0" />
          </font>
       </Label>
+      <Label fx:id="lengthError" layoutX="13.0" layoutY="374.0" textFill="#f50505">
+         <font>
+            <Font name="Optima Regular" size="13.0" />
+         </font>
+      </Label>
    </children>
 </Pane>
