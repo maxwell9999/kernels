@@ -72,6 +72,8 @@ public class AddPanelController extends VBox {
 	CheckBox s = new CheckBox();
 	@FXML
 	CheckBox x = new CheckBox();
+	@FXML
+	Button closeButton = new Button();
 
 	private WeekView<Object> weekView = null;
     private LocalDate begin, end = null;
@@ -97,17 +99,19 @@ public class AddPanelController extends VBox {
 
             public void handle(ActionEvent event) {
                 weekView.recreateEntries(addAppt(begin, end, retval));
+                closeButton.fire();
             }
         });
 
     }
 
-	public void initData(String panelTitle, WeekView<Object> weekView, LocalDate begin, LocalDate end, LinkedList<WeekViewAppointment<Object>> retval) {
+	public void initData(String panelTitle, WeekView<Object> weekView, LocalDate begin, LocalDate end, LinkedList<WeekViewAppointment<Object>> retval, Button closeButton) {
 		this.panelTitle.setText(panelTitle);
 		this.weekView = weekView;
 		this.begin = begin;
 		this.end = end;
 		this.retval = retval;
+		this.closeButton = closeButton;
 	}
 
     private int[] selectedDays() {
@@ -228,49 +232,5 @@ public class AddPanelController extends VBox {
 	        retval.add(timedAppointment);
         }
         return retval;
-	}
-
-	private LinkedList<WeekViewAppointment<Object>> rmAppt(LocalDate begin, LocalDate end, LinkedList<WeekViewAppointment<Object>> retval) {
-
-        LocalDate firstDayOfWeek = begin;
-
-        int[] days = selectedDays();
-        int j = 1;
-
-        for (int i : days) {
-        	if (i < 1 || i > 7) {
-        		j++;
-        		if (j == 7) {
-        			System.out.println("No days selected.");
-        		}
-        		continue;
-        	}
-        	i--;
-        	LocalDate current = firstDayOfWeek.plusDays(i);
-        	LocalTime time = LocalTime.of(hourStepper.getValue(), minStepper.getValue());
-        	Duration duration = Duration.ofMinutes(length.getValue());
-			LocalDateTime localDateTime = LocalDateTime.of(current, time);
-
-	        BiPredicate<LocalDate, LocalTime> newTimePossiblePredicate = (newDate, newTime) -> {
-	            if (newTime == null) {
-	              return true;
-	            }
-	            if (newTime.getHour() >= 0 && newTime.getHour() <= 24) {
-	              return true;
-	            } else {
-	              log.info("Wrong time {}", newTime);
-	              return false;
-	            }
-	          };
-
-	        WeekViewAppointment<Object> timedAppointment = new WeekViewAppointment<>(name.getText() + " " + i + " " + length.getValue() + "m", localDateTime, duration);
-	        log.info("Creating new appointment beginning at {} {}", current, time);
-	        timedAppointment.setChangeStartCallback((newDate, newTime) -> {
-	          log.info("{} now starts on {} {}", timedAppointment.getTitle(), newDate, newTime);
-	        });
-	        timedAppointment.setNewTimePossiblePredicate(newTimePossiblePredicate);
-	        retval.add(timedAppointment);
-        }
-        return retval;
-	}*/
+	} */
 }

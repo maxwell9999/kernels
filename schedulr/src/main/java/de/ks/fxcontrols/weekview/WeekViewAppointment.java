@@ -31,6 +31,7 @@ public class WeekViewAppointment<T> implements Comparable<WeekViewAppointment> {
   protected String styleClass;
 
   protected String title;
+  protected Boolean isFocused;
 
   protected LocalDate startDate;
   protected LocalTime startTime;
@@ -47,6 +48,7 @@ public class WeekViewAppointment<T> implements Comparable<WeekViewAppointment> {
     this.startDate = startDate;
     this.startTime = null;
     this.duration = duration;
+    this.isFocused = false;
   }
 
   public WeekViewAppointment(String title, LocalDateTime start, Duration duration) {
@@ -54,6 +56,7 @@ public class WeekViewAppointment<T> implements Comparable<WeekViewAppointment> {
     this.startDate = start.toLocalDate();
     this.startTime = start.toLocalTime();
     this.duration = duration;
+    this.isFocused = false;
   }
 
   public Control getControl() {
@@ -130,6 +133,14 @@ public class WeekViewAppointment<T> implements Comparable<WeekViewAppointment> {
     if (changeStartCallback != null) {
       changeStartCallback.accept(date, time);
     }
+  }
+
+  public boolean getFocused() {
+	  return isFocused;
+  }
+
+  public void setFocused(Boolean hasFocus) {
+	  isFocused = hasFocus;
   }
 
   public Duration getDuration() {
