@@ -31,11 +31,11 @@ import javafx.stage.Stage;
  * @version February 14, 2017
  */
 public class ResourceController {
+	
 	@FXML private Button addNewCourse;
 	@FXML private Button addNewRoom;
 	@FXML private Button addNewFaculty;
 
-	
 	@FXML private Button confirm;
 	@FXML private ChoiceBox department;
 	@FXML private Label courseDepartment;
@@ -52,12 +52,14 @@ public class ResourceController {
 	
 	// List of courses in database.
 	List<Course> courses = new ArrayList<Course>();
-	//TODO(Sarah): Set up room tab once back-end is done
+	// List of rooms in database.
 	List<Room> rooms = new ArrayList<Room>();
 	// List of users in database
 	List<User> faculty = new ArrayList<User>();
 
-
+	/**
+	 *  Called when controller is initialized to populate GUI.
+	 */
 	public void initialize() {
 		populateCourses();
 		populateRooms();
@@ -71,10 +73,10 @@ public class ResourceController {
 	public void populateCourses() {
 		//Back-end connection to populate courseList
 		courses = ResourceManager.getCourseList();
-		
-		facultyContainer.getChildren().clear();
+		courseContainer.getChildren().clear();
 		for(int i = 0; i < courses.size(); i++) {
 			Pane newPane = null;
+			
 			FXMLLoader loader = null;
 			try {
 				loader = new FXMLLoader(getClass().getResource("courseEntry.fxml"));
@@ -103,36 +105,26 @@ public class ResourceController {
 	/**
 	 * Updates the room list from the database.
 	 */
-	//TODO(Sarah): Update this.
 	@FXML
 	public void populateRooms() {
 		//Back-end connection to populate roomList
-		List<HashMap<String, Object>> roomMaps = ResourceManager.getRoomList();
+		rooms = ResourceManager.getRoomList("");
 
-		rooms = new ArrayList<Room>();
-		
-		System.out.println(rooms.size());
-		
-		for (HashMap<String, Object> room : roomMaps) {
-//			String login = (String) room.get("login");
-//			Room Room = ResourceManager.getRoom(login);
-			
-		}
-		
-		Room addRoom = new Room();
-		addRoom.setBuilding(144);
-		addRoom.setNumber(255);
-		rooms.add(addRoom);
-	
 		roomContainer.getChildren().clear();
 		for(int i = 0; i < rooms.size(); i++) {
 			Pane newPane = null;
+			FXMLLoader loader = null;
 			try {
-				newPane = (Pane) FXMLLoader.load(getClass().getResource("roomEntry.fxml"));
+				loader = new FXMLLoader(getClass().getResource("roomEntry.fxml"));
+				newPane = (Pane) loader.load();
 			} 
 			catch (IOException e) {
 				e.printStackTrace();
 			}
+
+			RoomEntryController roomEntryController = loader.<RoomEntryController>getController();
+			roomEntryController.setRoom(rooms.get(i));
+			roomEntryController.setResourceController(this);
             roomContainer.getChildren().add(newPane);
             Label building = (Label) newPane.lookup("#buildingNumber");
             building.setText(Integer.toString(rooms.get(i).getBuilding()));
@@ -148,12 +140,10 @@ public class ResourceController {
 	@FXML
 	public void populateFaculty() {
 		//Back-end connection to populate courseList
-		List<HashMap<String, Object>> userMaps = AccountManager.getUserList();
+		List<User> userList = AccountManager.getUserList();
 		faculty = new ArrayList<User>();
-		for (HashMap<String, Object> userMap : userMaps) {
-			String login = (String) userMap.get("login");
-			User user = AccountManager.getUser(login);
-			faculty.add(user);
+		for (User currentUser : userList) {
+			faculty.add(currentUser);
 		}
 		
 		facultyContainer.getChildren().clear();
@@ -172,13 +162,11 @@ public class ResourceController {
             resourceController.setUser(faculty.get(i));
             resourceController.setResourceController(this);
             
-
             // Populates GUI.
             facultyContainer.getChildren().add(newPane);
             Label lastName = (Label) newPane.lookup("#lastName");
             Label firstName = (Label) newPane.lookup("#firstName");
             Label login = (Label) newPane.lookup("#login");
-            
             lastName.setText(faculty.get(i).getLastName());
             firstName.setText(faculty.get(i).getFirstName());
             login.setText(faculty.get(i).getLogin());
@@ -193,8 +181,7 @@ public class ResourceController {
 	@FXML
     private void handleButtonClick(ActionEvent event) {
         if (event.getSource() == addNewCourse) {
-        	// Edit courses popup
-        	System.out.println(getClass().getResource("addCourse.fxml"));
+        	// Add course popup
         	FXMLLoader loader = new FXMLLoader(getClass().getResource("addCourse.fxml"));
             Scene newScene;
             try {
@@ -213,8 +200,8 @@ public class ResourceController {
             inputStage.showAndWait();
         }
         else if (event.getSource() == addNewRoom) {
-        	// Edit room popup
-        	FXMLLoader loader = new FXMLLoader(getClass().getResource("editroom.fxml"));
+        	// Add room popup
+        	FXMLLoader loader = new FXMLLoader(getClass().getResource("AddRoom.fxml"));
             Scene newScene;
             try {
                 newScene = new Scene((Parent)loader.load());
@@ -224,6 +211,8 @@ public class ResourceController {
                 return;
             }
             
+            AddRoomController addRoomController = loader.<AddRoomController>getController();
+            addRoomController.setResourceController(this);
             Stage primaryStage = (Stage) addNewRoom.getScene().getWindow();
             Stage inputStage = new Stage();
             inputStage.initOwner(primaryStage);
@@ -231,7 +220,7 @@ public class ResourceController {
             inputStage.showAndWait();
         }
         else if (event.getSource() == addNewFaculty) {
-        	// Edit room popup
+        	// Add Faculty popup
         	FXMLLoader loader = new FXMLLoader(getClass().getResource("AddAccountView.fxml"));
             Scene newScene;
             try {

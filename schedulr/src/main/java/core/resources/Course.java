@@ -1,5 +1,6 @@
 package core.resources;
 
+import core.database.DatabaseCommunicator;
 import core.database.DatabaseObject;
 
 public class Course implements DatabaseObject{
@@ -27,12 +28,12 @@ public class Course implements DatabaseObject{
 	
 	public Course()
 	{
-		this.department = null;
+		this.department = "";
 		this.number = 0;
-		this.name = null;
+		this.name = "";
 		this.wtu = 0;
 		this.lectHours = 0;
-		this.notes = null;
+		this.notes = "";
 		this.labHours = 0;
 		this.actHours = 0;
 	}
@@ -102,16 +103,25 @@ public class Course implements DatabaseObject{
 	}
 
 	public String getKeys() {
-		return "department, number, name, wtu, lect_hours, notes, lab_hours, act_hours";
+		return "department, number, name, wtu, lect_hours, lab_hours, act_hours, notes";
 	}
 
 	public String getValues() {
 		return "'" + department + "', " + number + ", '" + name + "', " + wtu + ", " + 
-				lectHours + ", " + notes + ", " + labHours + ", " + actHours;
+				lectHours + ", " + labHours + ", " + actHours + ", '" + notes +"'";
 	}
 	
 	public String getTable()
 	{
 		return "courses";
+	}
+	
+	public void updateCourse()
+	{
+		DatabaseCommunicator.replaceDatabase(this);
+	}
+
+	public String getKeyIdentifier() {
+		return "department='" + department + "' AND number=" + number;
 	}
 }

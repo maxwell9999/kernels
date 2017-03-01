@@ -12,7 +12,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import core.accounts.AccountManager;
+import core.accounts.User;
 import core.accounts.UserAuthenticator;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -68,7 +71,11 @@ public class LoginViewController {
         		String fxmlFile = "ResetPasswordView.fxml";
         		Stage stage = new Stage();
         		Pane myPane = null;
-        		myPane = FXMLLoader.load(getClass().getResource(fxmlFile));
+        		FXMLLoader loader = null;
+    			loader = new FXMLLoader(getClass().getResource(fxmlFile));
+    			myPane = (Pane) loader.load();
+        		ResetPasswordController resetController = loader.<ResetPasswordController>getController();
+        		resetController.setUser(AccountManager.getUser(userName));
         		Scene scene = new Scene(myPane);
         		stage.setScene(scene);
         		stage.show();

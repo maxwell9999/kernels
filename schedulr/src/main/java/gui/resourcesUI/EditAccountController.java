@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import core.accounts.AccountManager;
+import core.accounts.DepartmentScheduler;
 import core.accounts.User;
 import core.database.DatabaseCommunicator;
 import javafx.collections.FXCollections;
@@ -24,9 +25,8 @@ import javafx.stage.Stage;
  */
 public class EditAccountController {
 
-	//TODO(Simko): Are these values correct? They do not seem to be working
-	private static final int SCHEDULER = 1; 
-	private static final int FACULTY_MEMBER = 0; 
+	private static final int SCHEDULER = 2; 
+	private static final int FACULTY_MEMBER = 1; 
     private static final Logger log = LoggerFactory.getLogger(EditAccountController.class);
     private boolean error = false;
     @FXML private TextField username;
@@ -58,8 +58,7 @@ public class EditAccountController {
                 email.setText(currentUser.getEmail());
                 office.setText(currentUser.getOfficeLocation());
                 if (currentUser.getRole() == SCHEDULER)
-                	checkbox.setSelected(true);
-                
+                	checkbox.setSelected(true);                
                 username.setEditable(false);
                 employeeID.setEditable(false);
             }
@@ -67,20 +66,28 @@ public class EditAccountController {
     }
 
     /**
-     * onAction function for removing or saving an account.
+     * onAction function for saving an account.
      * @param event Necessary field for onAction events.
      */
     @FXML
     private void saveAccount(ActionEvent event) {
-    		
-    		// TODO(Sarah): What if we remove the user, and then add a new one completely? Hard to save ONLY new info - but what if info is incorrect? Then info has been deleted.
-    		String newValues = "first_name='" + firstName.getText() + "', last_name='" + lastName.getText() + "', email='" + 
-    				email.getText() + "', office_location='" + office.getText() + "', role=" + (checkbox.isSelected() ? SCHEDULER : FACULTY_MEMBER);
-    		AccountManager.editUser(currentUser.getLogin(), newValues);
-    		resourceController.populateFaculty();
-    		Stage currentStage = (Stage) checkbox.getScene().getWindow();
-            currentStage.close();
-    	
+    		if (email.getText().equals("")) {
+    			errorMessage.setText("*Fields Required.");
+    		} else {
+	    		currentUser.setFirstName(firstName.getText());
+	    		currentUser.setLastName(lastName.getText());
+	    		currentUser.setEmail(email.getText());
+	    		currentUser.setOfficeLocation(office.getText());
+	    		if (checkbox.isSelected()) {
+	    			currentUser.setRole(SCHEDULER);
+	    		} else {
+	    			currentUser.setRole(FACULTY_MEMBER);
+	    		}
+	    		currentUser.updateUser();
+	    		resourceController.populateFaculty();
+	    		Stage currentStage = (Stage) checkbox.getScene().getWindow();
+	            currentStage.close();
+    		}
     }
     
     /**

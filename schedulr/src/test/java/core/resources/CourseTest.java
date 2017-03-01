@@ -1,6 +1,7 @@
 package core.resources;
 
 import junit.framework.TestCase;
+
 import org.junit.Test;
 
 
@@ -12,12 +13,12 @@ public class CourseTest extends TestCase{
 	public void testEmptyConstructor() {
 		assertTrue("Testing Course empty constructor...", 
 				course instanceof Course);
-		assertNull(course.getDepartment()); 
+		assertEquals("", course.getDepartment()); 
 		assertEquals(0, course.getNumber()); 
-		assertNull(course.getName()); 
+		assertEquals("", course.getName()); 
 		assertEquals(0.0, course.getWtu()); 
 		assertEquals(0, course.getLectHours()); 
-		assertNull(course.getNotes()); 
+		assertEquals("", course.getNotes()); 
 		assertEquals(0, course.getLabHours());	
 		assertEquals(0, course.getActHours());	
 		
@@ -71,6 +72,7 @@ public class CourseTest extends TestCase{
 		assertEquals(3, course.getLectHours()); 
 		assertNull(course.getNotes()); 
 		assertEquals(3, course.getLabHours());	
+		assertEquals("department='CPE' AND number=101", course.getKeyIdentifier());
 	}
 	
 	@Test

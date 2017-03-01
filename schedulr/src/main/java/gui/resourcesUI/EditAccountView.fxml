@@ -6,6 +6,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
 <TitledPane animated="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="467.0" prefWidth="274.0" text="Edit Faculty Member" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.resourcesUI.EditAccountController">
   <content>
@@ -31,7 +32,10 @@
             <Label layoutX="80.0" layoutY="126.0" text="*" textFill="RED" />
             <Label layoutX="74.0" layoutY="189.0" text="*" textFill="RED" />
             <Label layoutX="44.0" layoutY="244.0" text="*" textFill="RED" />
-            <Label fx:id="errorMessage" layoutX="80.0" layoutY="387.0" prefHeight="17.0" prefWidth="106.0" text="*Fields Required" textAlignment="CENTER" />
+            <Label fx:id="errorMessage" layoutX="80.0" layoutY="387.0" prefHeight="17.0" prefWidth="106.0" textAlignment="CENTER" textFill="RED">
+               <font>
+                  <Font name="Optima Regular" size="13.0" />
+               </font></Label>
       </children>
     </AnchorPane>
   </content>

@@ -1,6 +1,7 @@
 package core.resources;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -17,7 +18,6 @@ import core.database.DatabaseObject;
  * number
  * capacity
  * notes
- * equipment
  * primary = (building, number)
  * @author Simko
  *
@@ -28,13 +28,11 @@ public class ResourceManager
 	/**
      * Query method to add new room to database
      */
-	public static void addRoom(int building, int number, int capacity, String type, String notes, String equipment)
+	public static void addRoom(int building, int number, int capacity, String type, String notes)
 	{
-		String fieldString = "building, number, capacity, type, notes, equipment";
-		String valueString = building + ", " + number + ", " + capacity + ", '" + type + "', '" + 
-				notes + "', '" + equipment + "'" ;
-		
-		DatabaseCommunicator.insertDatabase("rooms", fieldString, valueString);
+
+		Room newRoom = new Room(building, number, capacity, type, notes);
+		newRoom.updateRoom();
 	}
 	
 	/**
@@ -48,13 +46,11 @@ public class ResourceManager
 	/**
      * Query method to add new course to database
      */
-	public static void addCourse(String department, int number, String name, int wtu, int lect_hours, String notes, int lab_hours)
+
+	public static void addCourse(String department, int number, String name, double wtu, int lectHours, int labHours, int actHours, String notes)
 	{
-		String fieldString = "department, number, name, wtu, lect_hours, notes, lab_hours";
-		String valueString = "'" + department + "', " + number + ", '" + name + "', " + wtu + ", " + 
-				lect_hours + ", " + notes + ", " + lab_hours;
-		
-		DatabaseCommunicator.insertDatabase("courses", fieldString, valueString);
+		Course newCourse = new Course(department, number, name, wtu, lectHours, notes, labHours, actHours);
+		newCourse.updateCourse();
 	}
 	
 	/**
@@ -84,9 +80,7 @@ public class ResourceManager
 		course.setLectHours(Integer.parseInt(attributeMap.get("lect_hours").toString()));
 		course.setLabHours(Integer.parseInt(attributeMap.get("lab_hours").toString()));
 		course.setActHours(Integer.parseInt(attributeMap.get("act_hours").toString()));
-		if (attributeMap.get("notes") != null) {
-			course.setNotes(attributeMap.get("notes").toString());
-		}
+		course.setNotes(attributeMap.get("notes").toString());
 	
 		return course; 
 	}
@@ -103,16 +97,10 @@ public class ResourceManager
 		room.setCapacity(Integer.parseInt(attributeMap.get("capacity").toString()));
 		room.setType(attributeMap.get("type").toString());
 		room.setNotes(attributeMap.get("notes").toString());
-		room.setEquipment(attributeMap.get("equipment").toString());
 		
 		return room; 
 	}
 	
-
-	/**
-	 * Imports courses from a properly formatted course file
-	 * @param courseFile file to import contents from
-	 */
 	public static void importCourses(File file)
 	{
 		try {
@@ -190,13 +178,13 @@ public class ResourceManager
 			name = map.get("name").toString();
 			notes = (String) map.get("notes");
 			num = (Integer) map.get("number");
-			lect_hours = 0;//(Integer) map.get("lect_hours");
-			lab_hours = 0;//(Integer) map.get("lab_hours");
-			act_hours = 0;//(Integer) map.get("act_hours");
+			lect_hours = (Integer) map.get("lect_hours");
+			lab_hours = (Integer) map.get("lab_hours");
+			act_hours = (Integer) map.get("act_hours");
 			wtu = (Double) map.get("wtu");
 			courseList.add(new Course(dept, num, name, wtu, lect_hours, notes, lab_hours, act_hours));
 		}
-//		Collections.sort(courseList, new CourseComparator());
+		Collections.sort(courseList, new CourseComparator());
 		return courseList;
 	}
 	
@@ -204,11 +192,24 @@ public class ResourceManager
 	 * Returns a sorted room list, sorted by building and number
 	 * @return sorted List of rooms
 	 */
-	public static List<HashMap<String, Object>> getRoomList()
-	{
-		List<HashMap<String, Object>> classMap = DatabaseCommunicator.queryDatabase("SELECT building,number FROM rooms;");
-//		Collections.sort(classMap, new RoomComparator());
-		return classMap;
+	public static List<Room> getRoomList(String identifier) {
+		String notes, type;
+		int building, number, capacity;
+		
+		List<Room> roomList = new ArrayList<Room>();
+		// handle where clause
+		List<HashMap<String, Object>> rooms = DatabaseCommunicator.queryDatabase("SELECT * FROM rooms;");
+		for(HashMap<String, Object> map: rooms)
+		{
+			building = (Integer) map.get("building");
+			number = (Integer) map.get("number"); 
+			type = (String) map.get("type");
+			capacity = (Integer) map.get("capacity");
+			notes = (String) map.get("lect_hours");
+			roomList.add(new Room(building, number, capacity, type, notes));
+		}
+		Collections.sort(roomList, new RoomComparator());
+		return roomList;
 	}
 	
 	/**
@@ -217,18 +218,18 @@ public class ResourceManager
 	 * @author Simko
 	 *
 	 */
-    class RoomComparator implements Comparator<Map<String, Object>>
+    private static class RoomComparator implements Comparator<Room>
     {
     	/**
     	 * Compares the buildings first then room number, putting them in order.
     	 */
-    	public int compare(Map<String, Object> Resource1, Map<String, Object> Resource2) 
+    	public int compare(Room Resource1, Room Resource2) 
     	{
-    		if (((Integer) Resource1.get("building")) == ((Integer) Resource2.get("building")))
+    		if (Resource1.getBuilding() == Resource2.getBuilding())
     		{
-    			return (Integer) Resource1.get("number") - (Integer) Resource2.get("number");
+    			return Resource1.getNumber() - Resource2.getNumber();
     		}
-    		return (Integer) Resource1.get("building") - (Integer) Resource2.get("building");
+    		return Resource1.getBuilding() - Resource2.getBuilding();
     	}
 	}
     
@@ -238,7 +239,7 @@ public class ResourceManager
 	 * @author Simko
 	 *
 	 */
-    private class CourseComparator implements Comparator<Course>
+    private static class CourseComparator implements Comparator<Course>
     {
     	/**
     	 * Compares the last names, returning a negative number if the first name comes before the second.

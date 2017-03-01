@@ -9,6 +9,7 @@ import java.util.List;
 
 import junit.framework.TestCase;
 
+import org.junit.After;
 import org.junit.Test;
 
 import core.database.DatabaseCommunicator;
@@ -19,7 +20,8 @@ public class ResourceManagerTest extends TestCase{
 	@Test
 	public void testRoomAddEditGetRemove()
 	{
-		ResourceManager.addRoom(99, 9904, 1, "lecture", null, null);
+		ResourceManager.addRoom(99, 9904, 1, "lecture", "");
+
 		List<HashMap<String, Object>> list;
 
 		list = DatabaseCommunicator.queryDatabase("SELECT capacity FROM rooms WHERE building=99 AND number=9904;");
@@ -27,11 +29,17 @@ public class ResourceManagerTest extends TestCase{
 				1, Integer.parseInt(list.get(0).get("capacity").toString()));
 		
 		Room temp = ResourceManager.getRoom(99, 9904);
-		assertEquals("Testing Room Get...", 
-				99, temp.getBuilding());
+		assertEquals("Testing Room Get...", 99, temp.getBuilding());
 		assertEquals(9904, temp.getNumber()); 
 		
-		//TODO add test for edit
+		temp.setNotes("This is a note");
+		temp.updateRoom();
+		
+		//Get the room from the database again
+		temp = ResourceManager.getRoom(99, 9904);
+		assertEquals("Testing Room Get...", 99, temp.getBuilding());
+		assertEquals(9904, temp.getNumber()); 
+		assertEquals("Testing editing note...", "This is a note", temp.getNotes()); 
 		
 		ResourceManager.removeRoom(99, 9904);
 		list = DatabaseCommunicator.queryDatabase("SELECT * FROM rooms WHERE building=99 AND number=9904;");
@@ -41,7 +49,7 @@ public class ResourceManagerTest extends TestCase{
 	
 	public void testCourseAddEditGetRemove()
 	{
-		ResourceManager.addCourse("ABC", 123, "Test Course", 4, 6, null, 0);
+		ResourceManager.addCourse("ABC", 123, "Test Course", 4, 6, 0, 0, "");
 		List<HashMap<String, Object>> list;
 
 		list = DatabaseCommunicator.queryDatabase("SELECT name FROM courses WHERE department='ABC' AND number=123;");
@@ -54,6 +62,14 @@ public class ResourceManagerTest extends TestCase{
 		assertEquals(123, temp.getNumber()); 
 		
 		//TODO add test for edit
+		temp.setNotes("This is a happy note");
+		temp.updateCourse();
+		
+		//Get the course from the database again
+		temp = ResourceManager.getCourse("ABC", 123); 
+		assertEquals("Testing Course Get...", "ABC", temp.getDepartment());
+		assertEquals(123, temp.getNumber());
+		assertEquals("Testing edit note", "This is a happy note", temp.getNotes());
 		
 		ResourceManager.removeCourse("ABC", 123);
 		list = DatabaseCommunicator.queryDatabase("SELECT name FROM courses WHERE department='ABC' AND number=123;");
@@ -65,42 +81,44 @@ public class ResourceManagerTest extends TestCase{
 	@Test
 	public void testGetRoomList()
 	{
-		List<HashMap<String, Object>> list = ResourceManager.getRoomList();
+		List<Room> list = ResourceManager.getRoomList("");
 		int numRooms = list.size();
 		assertNotNull("Testing that list exists", list);
 		
-		ResourceManager.addRoom(0, 9904, 1, "lecture", null, null);
-		ResourceManager.addRoom(99, 9904, 1, "lecture", null, null);
-		ResourceManager.addRoom(99, 9905, 1, "lecture", null, null);
-		list = ResourceManager.getRoomList();
+		ResourceManager.addRoom(0, 9904, 1, "lecture", "");
+		ResourceManager.addRoom(99, 9904, 1, "lecture", "");
+		ResourceManager.addRoom(99, 9905, 1, "lecture", "");
+
+		list = ResourceManager.getRoomList("");
 		
 		assertEquals("Testing number of rooms", numRooms + 3, list.size());
-		assertEquals("Testing first room building...", 0, list.get(0).get("building"));
-		assertEquals("Testing first room number...", 9904, list.get(0).get("number"));
+		assertEquals("Testing first room building...", 0, list.get(0).getBuilding());
+		assertEquals("Testing first room number...", 9904, list.get(0).getNumber());
 		
-		//TODO NOTE this test will fail once the database is populated
-		assertEquals("Testing building sort...", 9904, list.get(list.size() - 2).get("number"));
-		assertEquals("Testing room sort...", 9905, list.get(list.size() - 1).get("number"));
+		//TODO Modify this test. Need to select a subset of rooms to sort
+		//NOTE this test will fail once the database is populated
+		assertEquals("Testing building sort...", 9904, list.get(list.size() - 2).getNumber());
+		assertEquals("Testing room sort...", 9905, list.get(list.size() - 1).getNumber());
 		
 		ResourceManager.removeRoom(0, 9904);
 		ResourceManager.removeRoom(99, 9904);
 		ResourceManager.removeRoom(99, 9905);
-		list = ResourceManager.getRoomList();
+		list = ResourceManager.getRoomList("");
 		assertEquals("Testing number of rooms...", numRooms, list.size());
 	}
 	
 	@Test
 	public void testGetCourseList()
 	{
-		ResourceManager man = new ResourceManager();
-		List<Course> list = man.getCourseList();
+		List<Course> list = ResourceManager.getCourseList();
 		int numCourse = list.size();
 		assertNotNull("Testing that list exists", list);
 		
-		ResourceManager.addCourse("AAA", 123, "Test Course", 4, 6, null, 0);
-		ResourceManager.addCourse("AAA", 124, "Test Course", 4, 6, null, 1);
-		ResourceManager.addCourse("ZZZ", 123, "Test Course", 4, 6, null, 0);
-		list = man.getCourseList();
+		ResourceManager.addCourse("AAA", 123, "Test Course", 4, 6, 0, 0, "");
+		ResourceManager.addCourse("AAA", 124, "Test Course", 4, 6, 0, 1, "");
+		ResourceManager.addCourse("ZZZ", 123, "Test Course", 4, 6, 0, 0, "");
+		list = ResourceManager.getCourseList();
+
 		assertEquals("Testing number of courses", numCourse + 3, list.size());
 		assertEquals("Testing first course dept...", "AAA", list.get(0).getDepartment());
 		assertEquals("Testing first course number...", 123, list.get(0).getNumber());
@@ -113,7 +131,7 @@ public class ResourceManagerTest extends TestCase{
 		ResourceManager.removeCourse("AAA", 123);
 		ResourceManager.removeCourse("AAA", 124);
 		ResourceManager.removeCourse("ZZZ", 123);
-		list = man.getCourseList();
+		list = ResourceManager.getCourseList();
 		assertEquals("Testing number of courses...", numCourse, list.size());
 	}
 	
@@ -144,5 +162,16 @@ public class ResourceManagerTest extends TestCase{
 		assertFalse(DatabaseCommunicator.resourceExists("courses", "department='ZZZ' AND number=999"));
 	}
 	
-	
+	@After
+	public void cleanUp()
+	{
+		DatabaseCommunicator.deleteDatabase("rooms", "building=0 and number=9904");
+		DatabaseCommunicator.deleteDatabase("rooms", "building=99 and number=9904");
+		DatabaseCommunicator.deleteDatabase("rooms", "building=99 and number=9905");
+		DatabaseCommunicator.deleteDatabase("courses", "department='ABC' and number=123");
+		DatabaseCommunicator.deleteDatabase("courses", "department='AAA' and number=123");
+		DatabaseCommunicator.deleteDatabase("courses", "department='AAA' and number=124");
+		DatabaseCommunicator.deleteDatabase("courses", "department='ZZZ' and number=123");
+		DatabaseCommunicator.deleteDatabase("courses", "department='ZZZ' and number=999");
+	}	
 }

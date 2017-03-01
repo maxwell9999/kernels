@@ -20,7 +20,6 @@ public class RoomTest extends TestCase{
 		assertEquals(0, room.getCapacity());
 		assertNull(room.getType()); 
 		assertNull(room.getNotes()); 
-		assertNull(room.getEquipment()); 
 		
 	}
 	
@@ -45,18 +44,11 @@ public class RoomTest extends TestCase{
 		room.setNotes("Alienware Lab reserved for advanced graphics classes.");
 		assertEquals("Testing Room setNotes...",
 				"Alienware Lab reserved for advanced graphics classes.", room.getNotes());
-		
-		room.setEquipment("35 Alienware PC's");
-		assertEquals("Testing Room setEquipment",
-				"35 Alienware PC's", room.getEquipment());
-		
-	
-
 	}
 	
 	@Test
 	public void testNonEmptyConstructor() {
-		room = new Room(14, 247, 30, "SmallLecture", "Chairs are old.", "Projector");
+		room = new Room(14, 247, 30, "SmallLecture", "Chairs are old.");
 		assertTrue("Testing Room non-empty constructor...", 
 				room instanceof Room);
 		assertEquals(14, room.getBuilding()); 
@@ -64,10 +56,8 @@ public class RoomTest extends TestCase{
 		assertEquals(30, room.getCapacity()); 
 		assertEquals("SmallLecture", room.getType()); 
 		assertEquals("Chairs are old.", room.getNotes()); 
-		assertEquals("Projector", room.getEquipment());
+		assertEquals("building='14' AND number=247", room.getKeyIdentifier());
 	}
-
-	
 	
 }
 
