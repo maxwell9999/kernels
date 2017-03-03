@@ -24,14 +24,14 @@ public class AccountManager
      * @param office office location of user (building-room)
      * @param role denotes user privileges (1 = Department Scheduler, 0 = Faculty Member)
      */
-	public static void addUser(String username, int emplID, String first, String last, String email, String office, int role)
+	public static void addUser(String username, int emplID, String first, String last, String email, String office, int role, double minWtu, double maxWtu)
 	{
 		String hashed = BCrypt.hashpw(emplID + "", BCrypt.gensalt());
 		User newUser;
 		if (role == User.SCHEDULER)
 			newUser = new DepartmentScheduler(username, emplID, first, last, email, office);
 		else
-			newUser = new FacultyMember(username, emplID, first, last, email, office);
+			newUser = new FacultyMember(username, emplID, first, last, email, office, minWtu, maxWtu);
 		DatabaseCommunicator.insertDatabase(newUser, newUser.getKeys() + ", pass_hash", newUser.getValues() + ", '" + hashed + "'");
 	}
 	
@@ -54,6 +54,8 @@ public class AccountManager
 		String firstName, lastName, email, officeLocation; 
 		int emplId;  
 		int role;
+		double minWtu = 0;
+		double maxWtu = 0;
 		
 		List<HashMap<String, Object>> userAttributes = DatabaseCommunicator.queryDatabase("SELECT * FROM users WHERE login='" + login + "';");
 		HashMap<String, Object> map = userAttributes.get(0); 
@@ -67,7 +69,11 @@ public class AccountManager
 		if (role == User.SCHEDULER)
 			user = new DepartmentScheduler(login, emplId, firstName, lastName, email, officeLocation);
 		else
-			user = new FacultyMember(login, emplId, firstName, lastName, email, officeLocation);
+		{
+			minWtu = (double) map.get("min_wtu");
+			minWtu = (double) map.get("max_wtu");
+			user = new FacultyMember(login, emplId, firstName, lastName, email, officeLocation, minWtu, maxWtu);
+		}
 
 		return user; 
 	}
@@ -93,6 +99,8 @@ public class AccountManager
 		String login, firstName, lastName, email, officeLocation; 
 		int emplId;  
 		int role;
+		double minWtu = 0;
+		double maxWtu = 0;
 		
 		List<User> userList = new ArrayList<User>();
 		List<HashMap<String, Object>> userMap = DatabaseCommunicator.queryDatabase("SELECT * FROM users;");
@@ -110,7 +118,11 @@ public class AccountManager
 			if (role == User.SCHEDULER)
 				userList.add(new DepartmentScheduler(login, emplId, firstName, lastName, email, officeLocation));
 			else
-				userList.add(new FacultyMember(login, emplId, firstName, lastName, email, officeLocation));
+			{
+				minWtu = (double) map.get("min_wtu");
+				maxWtu = (double) map.get("max_wtu");
+				userList.add(new FacultyMember(login, emplId, firstName, lastName, email, officeLocation, minWtu, maxWtu));
+			}
 
 		}
 

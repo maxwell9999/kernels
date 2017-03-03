@@ -10,7 +10,7 @@ public class FacultyMemberTest extends TestCase {
 		
 	@Test
 	public void testNonEmptyConstructor() {
-		FacultyMember facultyMember = new FacultyMember("Test_User", 99999, "Test", "User", "testUser@gmail.com", "99-999"); 
+		FacultyMember facultyMember = new FacultyMember("Test_User", 99999, "Test", "User", "testUser@gmail.com", "99-999", 0, 0); 
 		
 		assertTrue("Testing non-empty constructor...", 
 				facultyMember instanceof FacultyMember); 

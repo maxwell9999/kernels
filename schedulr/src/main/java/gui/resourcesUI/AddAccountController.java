@@ -31,6 +31,8 @@ public class AddAccountController {
     @FXML private TextField lastName;
     @FXML private TextField email;
     @FXML private TextField office;
+    @FXML private TextField maxWtuText;
+    @FXML private TextField minWtuText;
     @FXML private CheckBox checkbox;
     @FXML private Label errorMessage;
     
@@ -57,6 +59,8 @@ public class AddAccountController {
     	String emailString = email.getText();
     	String officeString = office.getText();
     	Boolean scheduler = checkbox.isSelected();
+    	double maxWtu = Double.parseDouble(maxWtuText.getText());
+    	double minWtu = Double.parseDouble(minWtuText.getText());
     	
     	if (userNameString.equals("") || employeeIDString.equals("") || 
     			emailString.equals("") || firstNameString.equals("") || lastNameString.equals("")) {
@@ -67,14 +71,19 @@ public class AddAccountController {
     		// Saves account in database.
     		errorMessage.setText("");
             int role = scheduler ? User.SCHEDULER : User.FACULTY_MEMBER;
-            
+           
             if (DatabaseCommunicator.resourceExists("users", "login='" + userNameString + "'")) {
             	errorMessage.setText("Login already exists");
             	errorMessage.setAlignment(Pos.CENTER);
             }
             else {
-	            AccountManager.addUser(userNameString, Integer.parseInt(employeeIDString), 
-	            		firstNameString, lastNameString, emailString, officeString, role);
+                if (role == User.SCHEDULER)
+                {
+                	minWtu = 0;
+                	maxWtu = 0;
+                }
+                	AccountManager.addUser(userNameString, Integer.parseInt(employeeIDString), 
+	            		firstNameString, lastNameString, emailString, officeString, role, minWtu, maxWtu);
 	            resourceController.populateFaculty();
 	            Stage currentStage = (Stage) checkbox.getScene().getWindow();
                 currentStage.close();

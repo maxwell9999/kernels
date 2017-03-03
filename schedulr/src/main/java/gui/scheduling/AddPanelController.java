@@ -10,6 +10,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.function.BiPredicate;
 
+import javax.xml.crypto.Data;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -278,7 +280,7 @@ public class AddPanelController extends VBox {
 	 * @return a new FacultyMember object
 	 */
 	private FacultyMember getInstructor() {
-		FacultyMember facultyMember = new FacultyMember(null, scheduleId, null, null, null, null); 
+		FacultyMember facultyMember = new FacultyMember(null, scheduleId, null, null, null, null, 0, 0); 
 		return facultyMember;
 	}
 	/**
@@ -393,14 +395,29 @@ public class AddPanelController extends VBox {
 		this.scheduleId = scheduleId; 
 	}
 	
-	//TODO(Courtney) You said that you could do this with a query super easily
 	/**
 	 * Given faculty member and a time, query the database to see if there are teacher conflicts with any other classes at that time
 	 * @param section Current section object to be added
 	 * @return returns true if there are no conflicts
 	 */
 	private boolean checkTeacherConflicts(Section section) {
+		int wtu = 0;
 		FacultyMember teacher = section.getInstructor();
+		List<HashMap<String, Object>> classList = DatabaseCommunicator.queryDatabase(
+				"SELECT SUM(C.wtu) FROM courses C INNER JOIN sections S ON C.department = S.department" +
+				"AND C.number = S.course_number WHERE S.instructor='" + teacher.getLogin() + 
+				"' AND S.schedule_id=" + scheduleId + ";");
+		if (classList != null)
+		{
+			wtu = (Integer) (classList.get(0).get("SUM(C.wtu)"));
+		}
+		//TODO MAX WTU?
+		if (wtu > 15)
+		{
+			return false;
+		}
+		
+		//TODO(Courtney)Check if teacher is already booked in the time slot
 		return true;
 	}
 	
