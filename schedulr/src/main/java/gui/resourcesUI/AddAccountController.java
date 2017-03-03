@@ -4,6 +4,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import core.accounts.AccountManager;
+import core.accounts.DepartmentScheduler;
+import core.accounts.FacultyMember;
 import core.accounts.User;
 import core.database.DatabaseCommunicator;
 import javafx.event.ActionEvent;
@@ -61,6 +63,7 @@ public class AddAccountController {
     	Boolean scheduler = checkbox.isSelected();
     	double maxWtu = Double.parseDouble(maxWtuText.getText());
     	double minWtu = Double.parseDouble(minWtuText.getText());
+    	User user;
     	
     	if (userNameString.equals("") || employeeIDString.equals("") || 
     			emailString.equals("") || firstNameString.equals("") || lastNameString.equals("")) {
@@ -70,9 +73,19 @@ public class AddAccountController {
     	if (!error) {
     		// Saves account in database.
     		errorMessage.setText("");
+    		if (scheduler)
+    		{
+    			user = new DepartmentScheduler(userNameString, Integer.parseInt(employeeIDString), 
+	            		firstNameString, lastNameString, emailString, officeString);
+    		}
+    		else
+    		{
+    			user = new FacultyMember(userNameString, Integer.parseInt(employeeIDString), 
+	            		firstNameString, lastNameString, emailString, officeString, minWtu, maxWtu);
+    		}
             int role = scheduler ? User.SCHEDULER : User.FACULTY_MEMBER;
            
-            if (DatabaseCommunicator.resourceExists("users", "login='" + userNameString + "'")) {
+            if (DatabaseCommunicator.resourceExists(user)) {
             	errorMessage.setText("Login already exists");
             	errorMessage.setAlignment(Pos.CENTER);
             }

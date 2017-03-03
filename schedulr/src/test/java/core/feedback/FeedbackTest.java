@@ -15,10 +15,10 @@ public class FeedbackTest {
 		
 		Feedback feedback = new Feedback(9999, "XX", "TestUser", "This schedule rocks!", 5);
 		feedback.addToDatabase();
-		assertTrue("Testing adding feedback to database...", DatabaseCommunicator.resourceExists("feedback", "username='TestUser'"));
+		assertTrue("Testing adding feedback to database...", DatabaseCommunicator.resourceExists(feedback));
 		
 		DatabaseCommunicator.deleteDatabase("feedback", "username='TestUser'");
-		assertFalse("Testing removing feedback to database...", DatabaseCommunicator.resourceExists("feedback", "username='TestUser'"));
+		assertFalse("Testing removing feedback to database...", DatabaseCommunicator.resourceExists(feedback));
 	}
 	
 	@Test
@@ -38,7 +38,7 @@ public class FeedbackTest {
 		assertEquals("Testing average...", 4, Feedback.getAverageRating(scheduleId), .1);
 		
 		DatabaseCommunicator.deleteDatabase("feedback", "username='TestUser'");
-		assertFalse("Testing removing feedback to database...", DatabaseCommunicator.resourceExists("feedback", "username='TestUser'"));
+		assertFalse("Testing removing feedback to database...", DatabaseCommunicator.resourceExists(feedback));
 	}
 	
 	@After

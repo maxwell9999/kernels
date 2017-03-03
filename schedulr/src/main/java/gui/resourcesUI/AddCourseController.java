@@ -6,6 +6,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 import core.database.DatabaseCommunicator;
+import core.resources.Course;
 import core.resources.ResourceManager;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -66,13 +67,17 @@ public class AddCourseController {
 	        	String typeString = type.getValue().toString(); 
 	        	int labHours = 0;
 	        	String notesString = notes.getText();
+	        	int lectHours = 0; 
+        		int actHours = 0; 
+	        	
+	        	Course course = new Course(departmentString, courseNum, courseName, unitsInt, lectHours, 
+	        			notes.getText(), actHours, labHours);
 	        	
 	        	// Adds the course to the database if it does not already exist.
-	        	if (DatabaseCommunicator.resourceExists("courses", "department='" + departmentString + "' AND number=" + courseNum)) {
+	        	if (DatabaseCommunicator.resourceExists(course)) {
+	        		errorLabel.setText("Course already exists.");
 	        	}
 	        	else {
-	        		int lectHours = 0; 
-	        		int actHours = 0; 
 	        		
 	        		if (typeString.equals(LECTURE)) {
 	        			lectHours = hoursInt;
@@ -93,11 +98,7 @@ public class AddCourseController {
 		        	stage.close();
 	        	}
         	} catch (Exception e) {
-        		if (DatabaseCommunicator.resourceExists("courses", "department='" + departmentString + "' AND number=" + courseNum)) {
-        			errorLabel.setText("Course already exists.");
-        		} else {
-        			errorLabel.setText("All fields are required.");
-        		}
+        		errorLabel.setText("All fields are required.");
         	}
         }
 	}
