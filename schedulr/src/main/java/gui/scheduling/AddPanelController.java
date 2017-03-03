@@ -36,6 +36,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 
 public class AddPanelController extends VBox {
 
@@ -61,8 +62,6 @@ public class AddPanelController extends VBox {
 	TextField capacity; 
 	@FXML
 	TextField wtu;
-	@FXML
-	TextArea description;
 	@FXML
 	TextArea note = new TextArea();
 	@FXML
@@ -97,7 +96,6 @@ public class AddPanelController extends VBox {
     public AddPanelController() {}
 
     @FXML
-    //TODO refactor
     /**
      * Initializes the scene, runs at the beginning of initialization
      */
@@ -126,6 +124,7 @@ public class AddPanelController extends VBox {
 
 	public void initData(String panelTitle, WeekView<Object> weekView, LocalDate begin, LocalDate end, LinkedList<WeekViewAppointment<Object>> retval) {
 		this.panelTitle.setText(panelTitle);
+		this.panelTitle.setTextAlignment(TextAlignment.CENTER);
 		this.weekView = weekView;
 		this.begin = begin;
 		this.end = end;
