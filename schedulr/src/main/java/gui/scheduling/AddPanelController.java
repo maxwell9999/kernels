@@ -96,7 +96,6 @@ public class AddPanelController extends VBox {
     public AddPanelController() {}
 
     @FXML
-    //TODO refactor
     /**
      * Initializes the scene, runs at the beginning of initialization
      */

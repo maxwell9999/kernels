@@ -35,7 +35,7 @@
       <TextField fx:id="yearField" layoutX="162.0" layoutY="211.0" prefHeight="27.0" prefWidth="96.0" />
       <Label layoutX="127.0" layoutY="216.0" text="Year" />
       <Label layoutX="337.0" layoutY="216.0" text="Term" />
-      <Button fx:id="createScheduleButton" layoutX="270.0" layoutY="275.0" mnemonicParsing="false" text="Create" />
+      <Button fx:id="createScheduleButton" layoutX="270.0" layoutY="275.0" mnemonicParsing="false" onAction="#createScheduleAction" text="Create" />
       <ChoiceBox fx:id="termSelector" layoutX="376.0" layoutY="211.0" prefHeight="27.0" prefWidth="96.0" />
    </children>
 </Pane>
