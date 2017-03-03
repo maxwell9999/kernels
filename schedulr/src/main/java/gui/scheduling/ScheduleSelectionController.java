@@ -9,13 +9,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import core.database.DatabaseCommunicator;
+import core.resources.Schedule;
 import gui.accountsUI.LoginViewController;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 public class ScheduleSelectionController {
@@ -54,6 +58,14 @@ public class ScheduleSelectionController {
     	String term = termBox.getValue().toString(); 
     	
     	// TODO Load the schedule
+    	
+    	//TODO fix this so the editor knows which schedule it's editing 
+    	/*FXMLLoader loader = null;
+		loader = new FXMLLoader(getClass().getResource("MainView.fxml"));
+    	Parent root = loader.load();
+    	MainViewController mainViewController = loader.<MainViewController>getController();
+		mainViewController.setScheduleId(Schedule.getScheduleId(year, term));
+		*/
     	
     	Stage currentStage = (Stage) openButton.getScene().getWindow(); 
     	currentStage.close(); 

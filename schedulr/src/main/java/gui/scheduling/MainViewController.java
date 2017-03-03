@@ -39,6 +39,7 @@ public class MainViewController extends VBox {
     private SplitPane splitPane;
 
     private boolean open;
+    private int scheduleId; 
 
     private WeekView<Object> weekView;
     private LocalDate begin, end;
@@ -118,6 +119,10 @@ public class MainViewController extends VBox {
         GridPane calendarView = (GridPane) calendar;
         calendarPane.setPrefSize(800, 600);
         calendarPane.getChildren().add(calendarView);
+    }
+    
+    public void setScheduleId(int id) {
+    	this.scheduleId = id; 
     }
 
 
