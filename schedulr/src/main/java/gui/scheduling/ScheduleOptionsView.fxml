@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.effect.SepiaTone?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Text layoutY="89.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Schedulr" textAlignment="CENTER" wrappingWidth="600.0">
+         <font>
+            <Font name="Optima Regular" size="46.0" />
+         </font>
+      </Text>
+      <Line endX="250.0" layoutX="299.0" layoutY="132.0" startX="-250.0">
+         <effect>
+            <SepiaTone />
+         </effect>
+         <cursor>
+            <Cursor fx:constant="CROSSHAIR" />
+         </cursor>
+      </Line>
+      <Button layoutX="223.0" layoutY="255.0" mnemonicParsing="false" text="Create New Schedule" />
+      <Button layoutX="222.0" layoutY="200.0" mnemonicParsing="false" text="Edit Existing Schedule" />
+   </children>
+</Pane>
