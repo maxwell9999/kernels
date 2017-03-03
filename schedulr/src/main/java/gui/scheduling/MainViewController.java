@@ -132,6 +132,51 @@ public class MainViewController extends VBox {
     public void setScheduleId(int id) {
     	this.scheduleId = id; 
     }
+    
+    @FXML
+	private void createMenuItemClicked(ActionEvent event) throws IOException {
+    	
+    	Stage stage = new Stage();
+		Pane myPane = null;
+		FXMLLoader loader = null;
+		AddScheduleController controller = new AddScheduleController();
+		loader = new FXMLLoader(controller.getClass().getResource("AddScheduleView.fxml"));
+		myPane = (Pane) loader.load();
+		Scene scene = new Scene(myPane);
+		stage.setScene(scene);
+		stage.show();
+		
+	}
+    
+    @FXML
+	private void openMenuItemClicked(ActionEvent event) throws IOException {
+    	
+    	Stage stage = new Stage();
+		Pane myPane = null;
+		FXMLLoader loader = null;
+		ScheduleSelectionController controller = new ScheduleSelectionController();
+		loader = new FXMLLoader(controller.getClass().getResource("ScheduleSelectionView.fxml"));
+		myPane = (Pane) loader.load(); 
+		Scene scene = new Scene(myPane);
+		stage.setScene(scene);
+		stage.show();
+		
+	}
+    
+    @FXML
+	private void saveMenuItemClicked(ActionEvent event) throws IOException {
+    	/*
+    	Stage stage = new Stage();
+		Pane myPane = null;
+		FXMLLoader loader = null;
+		ResourceController controller = new ResourceController();
+		loader = new FXMLLoader(controller.getClass().getResource("resources.fxml"));
+		myPane = (Pane) loader.load();
+		Scene scene = new Scene(myPane);
+		stage.setScene(scene);
+		stage.show();
+		*/
+	}
 
     @FXML
 	private void resourceMenuItemClicked(ActionEvent event) throws IOException {
