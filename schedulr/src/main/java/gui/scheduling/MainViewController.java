@@ -4,13 +4,16 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.LinkedList;
 
+import core.accounts.AccountManager;
 import de.ks.fxcontrols.weekview.WeekView;
 import de.ks.fxcontrols.weekview.WeekViewAppointment;
+import gui.accountsUI.ResetPasswordController;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.SplitPane;
@@ -19,6 +22,11 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+
+import gui.resourcesUI.*;
+import gui.feedback.*;
+import gui.preferences.PreferencesController;
 
 public class MainViewController extends VBox {
 
@@ -119,6 +127,66 @@ public class MainViewController extends VBox {
         calendarPane.setPrefSize(800, 600);
         calendarPane.getChildren().add(calendarView);
     }
-
-
+    
+    @FXML
+	private void resourceMenuItemClicked(ActionEvent event) throws IOException {
+    	
+    	Stage stage = new Stage();
+		Pane myPane = null;
+		FXMLLoader loader = null;
+		ResourceController controller = new ResourceController();
+		loader = new FXMLLoader(controller.getClass().getResource("resources.fxml"));
+		myPane = (Pane) loader.load();
+		Scene scene = new Scene(myPane);
+		stage.setScene(scene);
+		stage.show();
+		
+	}
+    
+    @FXML
+	private void preferenceMenuItemClicked(ActionEvent event) throws IOException {
+    	
+    	Stage stage = new Stage();
+		Pane myPane = null;
+		FXMLLoader loader = null;
+		PreferencesController controller = new PreferencesController();
+		loader = new FXMLLoader(controller.getClass().getResource("PreferencesChoiceView.fxml"));
+		myPane = (Pane) loader.load();
+		Scene scene = new Scene(myPane);
+		stage.setScene(scene);
+		stage.show();	
+	}
+    
+    @FXML
+	private void importMenuItemClicked(ActionEvent event) throws IOException {
+    	
+    	//TODO(Sarah): Implement this			
+	}
+    
+    @FXML
+	private void feedbackMenuItemClicked(ActionEvent event) throws IOException {
+    	
+    	Stage stage = new Stage();
+		Pane myPane = null;
+		FXMLLoader loader = null;
+		StudentFeedbackController controller = new StudentFeedbackController();
+		loader = new FXMLLoader(controller.getClass().getResource("StudentFeedback.fxml"));
+		myPane = (Pane) loader.load();
+		Scene scene = new Scene(myPane);
+		stage.setScene(scene);
+		stage.show();
+		
+    }  
+       
+    @FXML
+	private void editAccountMenuItemClicked(ActionEvent event) throws IOException {
+    	
+    	//TODO(Sarah): Implement this	
+	}
+    
+    @FXML
+	private void aboutMenuItemClicked(ActionEvent event) throws IOException {
+    	
+    	//TODO(Sarah): Implement this	
+	}
 }
