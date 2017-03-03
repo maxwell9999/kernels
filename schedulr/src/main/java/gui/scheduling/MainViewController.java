@@ -26,6 +26,7 @@ import javafx.stage.Stage;
 
 import gui.resourcesUI.*;
 import gui.feedback.*;
+import gui.preferences.PreferencesController;
 
 public class MainViewController extends VBox {
 
@@ -144,7 +145,15 @@ public class MainViewController extends VBox {
     @FXML
 	private void preferenceMenuItemClicked(ActionEvent event) throws IOException {
     	
-    	//TODO(Sarah): Implement this	
+    	Stage stage = new Stage();
+		Pane myPane = null;
+		FXMLLoader loader = null;
+		PreferencesController controller = new PreferencesController();
+		loader = new FXMLLoader(controller.getClass().getResource("PreferencesChoiceView.fxml"));
+		myPane = (Pane) loader.load();
+		Scene scene = new Scene(myPane);
+		stage.setScene(scene);
+		stage.show();	
 	}
     
     @FXML
