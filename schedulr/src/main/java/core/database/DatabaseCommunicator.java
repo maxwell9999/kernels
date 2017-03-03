@@ -43,6 +43,7 @@ public class DatabaseCommunicator
 				connection.close();
 				
 			} catch (Exception e) {
+				System.out.println(query);
 				e.printStackTrace();
 			}
 		}

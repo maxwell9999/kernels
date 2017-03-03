@@ -13,12 +13,13 @@ public class FeedbackTest {
 	@Test
 	public void testAddFeedback() {
 		
+		int size = DatabaseCommunicator.queryDatabase("select * from feedback").size();
 		Feedback feedback = new Feedback(9999, "XX", "TestUser", "This schedule rocks!", 5);
 		feedback.addToDatabase();
-		assertTrue("Testing adding feedback to database...", DatabaseCommunicator.resourceExists(feedback));
+		assertEquals("Testing adding feedback to database...", size + 1, DatabaseCommunicator.queryDatabase("select * from feedback").size());
 		
 		DatabaseCommunicator.deleteDatabase("feedback", "username='TestUser'");
-		assertFalse("Testing removing feedback to database...", DatabaseCommunicator.resourceExists(feedback));
+		assertEquals("Testing removing feedback to database...", size, DatabaseCommunicator.queryDatabase("select * from feedback").size());
 	}
 	
 	@Test
