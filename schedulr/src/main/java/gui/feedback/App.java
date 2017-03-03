@@ -17,7 +17,7 @@ public class App extends Application
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		System.out.println(getClass());
-		System.out.println(getClass().getResource("AddAccountView.fxml"));
+		System.out.println(getClass().getResource("StudentFeedback.fxml"));
 		Parent root = FXMLLoader.load(getClass().getResource("StudentFeedback.fxml"));
         Scene scene = new Scene(root, 600, 500);
 		/*Parent root = FXMLLoader.load(getClass().getResource("resources.fxml"));

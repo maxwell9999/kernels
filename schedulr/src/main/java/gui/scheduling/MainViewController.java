@@ -1,20 +1,24 @@
 package gui.scheduling;
 
 import java.io.IOException;
-import java.net.URL;
 import java.time.LocalDate;
 import java.util.LinkedList;
-import java.util.ResourceBundle;
 
-import javafx.event.*;
+import de.ks.fxcontrols.weekview.WeekView;
+import de.ks.fxcontrols.weekview.WeekViewAppointment;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
-import javafx.scene.layout.*;
-import de.ks.fxcontrols.*;
-import javafx.scene.Scene;
-import javafx.scene.control.*;
-import de.ks.fxcontrols.weekview.*;
+import javafx.geometry.Pos;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.SplitPane;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 
 public class MainViewController extends VBox {
 

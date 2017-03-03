@@ -12,12 +12,14 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
+import javafx.stage.Stage;
 
 /**
  * UI for student feedback.
@@ -36,6 +38,7 @@ public class StudentFeedbackController {
     @FXML private RadioButton button5;
     //TODO(Sarah): Make it have a 256 character limit - if not pop up error message 
 	@FXML private TextArea noteField;
+	@FXML private Label lengthError;
 	// Keeps track of which Radio Button has been selected.
 	int buttonToggled = 0;
 	// Toggle group for all Radio Buttons.
@@ -54,7 +57,6 @@ public class StudentFeedbackController {
     	button3.setToggleGroup(group);
     	button4.setToggleGroup(group);
     	button5.setToggleGroup(group);
-    	    	
     	// Gets currently selected Radio Button.
     	group.selectedToggleProperty().addListener(new ChangeListener<Toggle>(){
     	    public void changed(ObservableValue<? extends Toggle> ov,
@@ -78,7 +80,6 @@ public class StudentFeedbackController {
 		List<Integer> years = new ArrayList<Integer>(); 
 		for (HashMap<String, Object> row : rows) {
 			years.add(Integer.parseInt(row.get("year").toString())); 
-			System.out.println("adding " + row.get("year").toString() + " to years");
 		}
 		yearBox.setItems(FXCollections.observableArrayList(years)); 
 	}
@@ -103,13 +104,20 @@ public class StudentFeedbackController {
     {
 		// Add database code here. 
 		// Note: button selected is in buttonToggled field above.
-		int year = Integer.parseInt(yearBox.getValue().toString()); 
-		String term = termBox.getValue().toString(); 
-		String username = usernameField.getText();
-		String note = noteField.getText();
-		Feedback feedback = new Feedback(year, term, username, note, buttonToggled);
-		feedback.addToDatabase();
-		System.out.println(username + " rated it a " + buttonToggled + " and said " + note);
+		if (noteField.getText().length() > 256) {
+			lengthError.setText("Max count: 256 characters");
+		} else {
+			int year = Integer.parseInt(yearBox.getValue().toString()); 
+			String term = termBox.getValue().toString(); 
+			String username = usernameField.getText();
+			String note = noteField.getText();
+			Feedback feedback = new Feedback(year, term, username, note, buttonToggled);
+			feedback.addToDatabase();
+			System.out.println(username + " rated it a " + buttonToggled + " and said " + note);
+			Stage stage = (Stage)button1.getScene().getWindow();
+        	stage.close();
+		}
+		
     }
 
 }
