@@ -52,7 +52,7 @@
       <ComboBox fx:id="selectNumber" layoutX="127.0" layoutY="95.0" prefHeight="27.0" prefWidth="225.0" promptText="- Select Course Number -" />
       <Text layoutX="24.0" layoutY="113.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Course #" />
       <TextField fx:id="capacity" layoutX="126.0" layoutY="276.0" prefHeight="27.0" prefWidth="60.0" />
-      <Text fx:id="panelTitle" boundsType="VISUAL" layoutX="187.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="" textOrigin="CENTER" wrappingWidth="1.6503904480487108">
+      <Text fx:id="panelTitle" boundsType="VISUAL" layoutX="187.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="" textOrigin="CENTER">
          <font>
             <Font size="16.0" />
          </font></Text>
