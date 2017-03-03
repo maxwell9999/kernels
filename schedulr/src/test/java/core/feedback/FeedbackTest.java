@@ -12,12 +12,8 @@ public class FeedbackTest {
 
 	@Test
 	public void testAddFeedback() {
-		int year = 9999; 
-		String term = "SP"; 
-		Schedule schedule = new Schedule(term, year); 
-		schedule.addToDatabase();
 		
-		Feedback feedback = new Feedback(9999, "SP", "TestUser", "This schedule rocks!", 5);
+		Feedback feedback = new Feedback(9999, "XX", "TestUser", "This schedule rocks!", 5);
 		feedback.addToDatabase();
 		assertTrue("Testing adding feedback to database...", DatabaseCommunicator.resourceExists("feedback", "username='TestUser'"));
 		

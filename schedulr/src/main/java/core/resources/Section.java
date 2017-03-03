@@ -2,6 +2,7 @@ package core.resources;
 
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.logging.Logger;
 
 import core.accounts.FacultyMember;
 import core.database.DatabaseCommunicator;
@@ -24,6 +25,7 @@ public class Section extends Course implements DatabaseObject {
 	public Section(Schedule schedule, Course course, FacultyMember instructor, Room room, String startTime, int duration, String daysOfWeek) {
 		super(course.getDepartment(), course.getNumber(), course.getName(), course.getWtu(), course.getLectHours(), 
 				course.getNotes(), course.getLabHours(), course.getActHours()); 
+		this.schedule = schedule;
 		this.instructor = instructor; 
 		this.room = room;
 		this.startTime = startTime; 
@@ -78,9 +80,14 @@ public class Section extends Course implements DatabaseObject {
 	//TODO fix formatting of start time to match database
 	//TODO null in test
 	public String getValues() {
-		return "'" + this.getDepartment() + "', " + this.getNumber() + ", " + room.getBuilding() + ", " + room.getNumber() + ", '" + 
+		System.out.println("'" + this.getDepartment() + "', " + this.getNumber() + ", " + room.getBuilding() + ", " + room.getNumber() + ", '" + 
 				instructor.getLogin() + "', '" + 
 				(this.getStartTime()+":00") + "', '" + 
+				this.daysOfWeek + "', " + 
+				schedule.getScheduleId()) ;
+		return "'" + this.getDepartment() + "', " + this.getNumber() + ", " + room.getBuilding() + ", " + room.getNumber() + ", '" + 
+				instructor.getLogin() + "', '" + 
+				(this.getStartTime()) + "', '" + 
 				this.daysOfWeek + "', " + 
 				schedule.getScheduleId() ;
 	}

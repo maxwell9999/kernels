@@ -16,8 +16,8 @@ public class AccountManagerTest extends TestCase{
 	@Test
 	public void testUserAddEditRemove()
 	{
-		AccountManager.addUser("Test_User", 99999, "Test", "User", "testUser@gmail.com", "", User.SCHEDULER);
-		AccountManager.addUser("Test_User12", 99999, "AAA", "User", "testUser@gmail.com", "", User.FACULTY_MEMBER);
+		AccountManager.addUser("Test_User", 99999, "Test", "User", "testUser@gmail.com", "", User.SCHEDULER, 0, 0);
+		AccountManager.addUser("Test_User12", 99999, "AAA", "User", "testUser@gmail.com", "", User.FACULTY_MEMBER, 3.0, 4.0);
 		List<HashMap<String, Object>> list;
 
 		list = DatabaseCommunicator.queryDatabase("SELECT empl_id FROM users WHERE login='Test_User';");
@@ -47,7 +47,7 @@ public class AccountManagerTest extends TestCase{
 	@Test
 	public void testResetPassword()
 	{
-		AccountManager.addUser("Test_User", 99999, "Test", "User", "testUser@gmail.com", "", 1);
+		AccountManager.addUser("Test_User", 99999, "Test", "User", "testUser@gmail.com", "", 1, 0, 0);
 		List<HashMap<String, Object>> list = DatabaseCommunicator.queryDatabase("SELECT pass_hash,reset_password FROM users WHERE login='Test_User';");
 		assertTrue("Testing empl_id password", BCrypt.checkpw("99999", list.get(0).get("pass_hash").toString()));
 		assertEquals("Testing Reset Password = 1", 1, Integer.parseInt(list.get(0).get("reset_password").toString()));
@@ -71,9 +71,9 @@ public class AccountManagerTest extends TestCase{
 		assertNotNull("Testing that list exists", userList);
 		
 		
-		AccountManager.addUser("Test_User1", 99999, "Test", "AAAAA", "testUser@gmail.com", "", 1);
-		AccountManager.addUser("Test_User2", 99999, "Test", "ZZZZZ", "testUser@gmail.com", "", 1);
-		AccountManager.addUser("Test_User3", 99999, "AAA", "AAAAA", "testUser@gmail.com", "", 1);
+		AccountManager.addUser("Test_User1", 99999, "Test", "AAAAA", "testUser@gmail.com", "", 1, 0, 0);
+		AccountManager.addUser("Test_User2", 99999, "Test", "ZZZZZ", "testUser@gmail.com", "", 1, 0, 0);
+		AccountManager.addUser("Test_User3", 99999, "AAA", "AAAAA", "testUser@gmail.com", "", 1, 0, 0);
 		userList = AccountManager.getUserList();
 		assertEquals("Testing number of users", numUsers + 3, userList.size());
 		assertEquals("Testing first user sorted", "Test_User3", userList.get(0).getLogin());
@@ -96,7 +96,7 @@ public class AccountManagerTest extends TestCase{
 	}
 	
 	public void testGetUser() {
-		AccountManager.addUser("Test_User1", 99999, "Test", "AAAAA", "testUser@gmail.com", "", User.SCHEDULER);
+		AccountManager.addUser("Test_User1", 99999, "Test", "AAAAA", "testUser@gmail.com", "", User.SCHEDULER, 0, 0);
 		User test = AccountManager.getUser("Test_User1");
 		assertTrue(test instanceof DepartmentScheduler);
 		assertEquals(User.SCHEDULER, test.getRole());

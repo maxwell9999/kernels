@@ -11,9 +11,8 @@ public class DatabaseCommunicatorTest extends TestCase{
 	
 	@Test
 	public void testResourceExists() {
-		//TODO add new user and check if that user exists rather than checking admin
-		AccountManager.addUser("Test_User", 99999, "Test", "User", "testUser@gmail.com", "", 0);
-		assertTrue("Testing admin account exists...", 
+		AccountManager.addUser("Test_User", 99999, "Test", "User", "testUser@gmail.com", "", 0, 0, 0);
+		assertTrue("Testing account exists...", 
 				DatabaseCommunicator.resourceExists("users", "login='Test_User'")); 
 		AccountManager.removeUser("Test_User");
 
