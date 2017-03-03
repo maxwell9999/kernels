@@ -31,7 +31,8 @@ public class AddAccountController {
     @FXML private TextField lastName;
     @FXML private TextField email;
     @FXML private TextField office;
-    @FXML private TextField wtu;
+    @FXML private TextField maxWtuText;
+    @FXML private TextField minWtuText;
     @FXML private CheckBox checkbox;
     @FXML private Label errorMessage;
     
@@ -58,7 +59,8 @@ public class AddAccountController {
     	String emailString = email.getText();
     	String officeString = office.getText();
     	Boolean scheduler = checkbox.isSelected();
-    	double targetWtu = Double.parseDouble(wtu.getText());
+    	double maxWtu = Double.parseDouble(maxWtuText.getText());
+    	double minWtu = Double.parseDouble(minWtuText.getText());
     	
     	if (userNameString.equals("") || employeeIDString.equals("") || 
     			emailString.equals("") || firstNameString.equals("") || lastNameString.equals("")) {
@@ -77,10 +79,11 @@ public class AddAccountController {
             else {
                 if (role == User.SCHEDULER)
                 {
-                	targetWtu = 0;
+                	minWtu = 0;
+                	maxWtu = 0;
                 }
                 	AccountManager.addUser(userNameString, Integer.parseInt(employeeIDString), 
-	            		firstNameString, lastNameString, emailString, officeString, role, targetWtu);
+	            		firstNameString, lastNameString, emailString, officeString, role, minWtu, maxWtu);
 	            resourceController.populateFaculty();
 	            Stage currentStage = (Stage) checkbox.getScene().getWindow();
                 currentStage.close();

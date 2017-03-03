@@ -8,24 +8,29 @@ import core.database.DatabaseCommunicator;
 public class FacultyMember extends User{  
 	//private static final int FACULTY_MEMBER_ROLE = 1; 
 
-	private double targetWtu;
+	private double minWtu;
+	private double maxWtu;
 	
-	public FacultyMember(String login, int emplId, String firstName, String lastName, String email, String officeLocation, double wtu) {
+	public FacultyMember(String login, int emplId, String firstName, String lastName, String email, String officeLocation, double minWtu, double maxWtu) {
 		super(login, emplId, firstName, lastName, email, officeLocation, FACULTY_MEMBER); 
-		targetWtu = wtu;
+		minWtu = minWtu;
+		maxWtu = maxWtu;
 	}
 	
-	public void setWtu(double wtu) {
-		this.targetWtu= wtu;
+	public void setMinWtu(double wtu) {
+		this.minWtu= wtu;
 	}
 	
-	public double getTargetWtu() {
-		List<HashMap<String, Object>> wtu = DatabaseCommunicator.queryDatabase("Select taget_wtu from users where login='" + super.getLogin() + "';");
-		if (wtu != null)
-		{
-			return (double) wtu.get(0).get("target_wtu");
-		}
-		return 0;
+	public double getMinWtu() {
+		return minWtu;
+	}
+	
+	public void setMaxWtu(double wtu) {
+		this.maxWtu= wtu;
+	}
+	
+	public double getMaxWtu() {
+		return maxWtu;
 	}
 	
 	/**
@@ -36,6 +41,6 @@ public class FacultyMember extends User{
 	{
 		DatabaseCommunicator.editDatabase(this, "login='" + super.getLogin() + "', empl_id=" + super.getEmplId() + ", last_name='" + super.getLastName() + "', "
 				+ "first_name='" + super.getFirstName() + "', email='" + super.getEmail() + "', office_location='" + super.getOfficeLocation() + "', role=" + getRole()
-				+ "target_wtu=" + targetWtu);
+				+ ", min_wtu=" + minWtu + ", max_wtu=" + maxWtu);
 	}
 }

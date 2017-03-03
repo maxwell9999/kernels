@@ -19,7 +19,7 @@ public class SectionTest extends TestCase {
 	public void testNonEmptyConstructor() {
 		Schedule schedule = new Schedule(); 
 		Course course = new Course("CPE", 101, "Fundamentals of CS 1", 5.0, 3, null, 3, 0);
-		FacultyMember instructor = new FacultyMember("Test_User", 99999, "Test", "User", "testUser@gmail.com", "", 0);
+		FacultyMember instructor = new FacultyMember("Test_User", 99999, "Test", "User", "testUser@gmail.com", "", 0, 0);
 		Room room = new Room(99, 9904, 1, "lecture", null); 
 		
 		Section section = new Section(schedule, course, instructor, room, "09:10:00", 1, "MWF"); 
@@ -61,14 +61,14 @@ public class SectionTest extends TestCase {
 		
 		Schedule schedule = new Schedule(); 
 		Course course = new Course("CPE", 101, "Fundamentals of CS 1", 5.0, 3, null, 3, 0);
-		FacultyMember instructor = new FacultyMember("Test_User", 99999, "Test", "User", "testUser@gmail.com", "", 0);
+		FacultyMember instructor = new FacultyMember("Test_User", 99999, "Test", "User", "testUser@gmail.com", "", 0, 0);
 		Room room = new Room(99, 9904, 1, "lecture", null); 
 		
 		
 		Section section = new Section(schedule, course, instructor, room, "09:10:00", 1, "MWF"); 
 		assertEquals(instructor, section.getInstructor());
 		
-		FacultyMember instructor2 = new FacultyMember("Test_User2", 99999, "Test", "User", "testUser@gmail.com", "", 0);
+		FacultyMember instructor2 = new FacultyMember("Test_User2", 99999, "Test", "User", "testUser@gmail.com", "", 0, 0);
 		section.setInstructor(instructor2);
 		assertEquals(instructor2, section.getInstructor());
 	}
@@ -78,7 +78,7 @@ public class SectionTest extends TestCase {
 		
 		Schedule schedule = new Schedule(); 
 		Course course = new Course("CPE", 101, "Fundamentals of CS 1", 5.0, 3, null, 3, 0);
-		FacultyMember instructor = new FacultyMember("Test_User", 99999, "Test", "User", "testUser@gmail.com", "", 0);
+		FacultyMember instructor = new FacultyMember("Test_User", 99999, "Test", "User", "testUser@gmail.com", "", 0, 0);
 		Room room = new Room(99, 9904, 1, "lecture", null); 
 		
 		Section section = new Section(schedule, course, instructor, room, "09:10:00", 1, "MWF"); 
@@ -92,7 +92,7 @@ public class SectionTest extends TestCase {
 	public void testTime() {
 		Schedule schedule = new Schedule(); 
 		Course course = new Course("CPE", 101, "Fundamentals of CS 1", 5.0, 3, null, 3, 0);
-		FacultyMember instructor = new FacultyMember("Test_User", 99999, "Test", "User", "testUser@gmail.com", "", 0);
+		FacultyMember instructor = new FacultyMember("Test_User", 99999, "Test", "User", "testUser@gmail.com", "", 0, 0);
 		Room room = new Room(99, 9904, 1, "lecture", null); 
 		
 		Section section = new Section(schedule, course, instructor, room, "09:10:00", 1, "MWF"); 
@@ -109,7 +109,7 @@ public class SectionTest extends TestCase {
 	public void testDaysOfWeek() {
 		Schedule schedule = new Schedule(); 
 		Course course = new Course("CPE", 101, "Fundamentals of CS 1", 5.0, 3, null, 3, 0);
-		FacultyMember instructor = new FacultyMember("Test_User", 99999, "Test", "User", "testUser@gmail.com", "", 0);
+		FacultyMember instructor = new FacultyMember("Test_User", 99999, "Test", "User", "testUser@gmail.com", "", 0, 0);
 		Room room = new Room(99, 9904, 1, "lecture", null); 
 		
 		Section section = new Section(schedule, course, instructor, room, "09:10:00", 1, "MWF");
@@ -124,7 +124,7 @@ public class SectionTest extends TestCase {
 	public void testDatabaseObject() {
 		Schedule schedule = new Schedule(); 
 		Course course = new Course("CPE", 101, "Fundamentals of CS 1", 5.0, 3, null, 3, 0);
-		FacultyMember instructor = new FacultyMember("Test_User", 99999, "Test", "User", "testUser@gmail.com", "", 0);
+		FacultyMember instructor = new FacultyMember("Test_User", 99999, "Test", "User", "testUser@gmail.com", "", 0, 0);
 		Room room = new Room(99, 9904, 1, "lecture", null); 
 		
 		Section section = new Section(schedule, course, instructor, room, "09:10:00", 1, "MWF");
@@ -138,7 +138,7 @@ public class SectionTest extends TestCase {
 	public void testAddToDatabase() {
 		Schedule schedule = new Schedule("XX", 9999); 
 		Course course = new Course("CPE", 101, "Fundamentals of CS 1", 5.0, 3, "", 3, 0);
-		FacultyMember instructor = new FacultyMember("test", 12345, "Test", "User", "testUser@gmail.com", "", 0);
+		FacultyMember instructor = new FacultyMember("test", 12345, "Test", "User", "testUser@gmail.com", "", 0, 0);
 		Room room = new Room(14, 255, 1, "lecture", ""); 
 		
 		assertFalse(DatabaseCommunicator.resourceExists("sections", "department='ZZZ' AND instructor='Test_User'"));

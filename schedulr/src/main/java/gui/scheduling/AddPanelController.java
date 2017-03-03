@@ -280,7 +280,7 @@ public class AddPanelController extends VBox {
 	 * @return a new FacultyMember object
 	 */
 	private FacultyMember getInstructor() {
-		FacultyMember facultyMember = new FacultyMember(null, scheduleId, null, null, null, null, 0); 
+		FacultyMember facultyMember = new FacultyMember(null, scheduleId, null, null, null, null, 0, 0); 
 		return facultyMember;
 	}
 	/**
