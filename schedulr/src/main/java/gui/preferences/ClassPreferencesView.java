@@ -1,4 +1,4 @@
-package gui.accountsUI;
+package gui.preferences;
 
 import java.util.*;
 import javafx.application.*;

@@ -11,6 +11,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
@@ -60,7 +62,7 @@ public class MainWindow extends Application{
 
         consumer.accept(retval);
         this.retval = retval;
-      }
+    }
 
 	/**
 	 * @param args
