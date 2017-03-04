@@ -1,21 +1,24 @@
 package gui.scheduling;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import core.database.DatabaseCommunicator;
 import core.resources.Schedule;
 import gui.accountsUI.LoginViewController;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
 public class AddScheduleController {
@@ -24,6 +27,7 @@ public class AddScheduleController {
     @FXML private TextField yearField;
     @FXML private ChoiceBox termSelector;
     @FXML private Button createScheduleButton; 
+    @FXML private Label errorLabel; 
     
     @FXML 
     public void initialize() {
@@ -32,16 +36,23 @@ public class AddScheduleController {
     }
     
     @FXML
-    private void createScheduleAction(ActionEvent event) throws IOException {
+    private void createScheduleAction(ActionEvent event) throws IOException, SQLException {
     	int year = Integer.parseInt(yearField.getText()); 
     	String term = termSelector.getValue().toString(); 
     	Schedule schedule = new Schedule(term, year); 
     	
-    	//TODO (Simko) IF the schedule does NOT already exist...
-    	schedule.addToDatabase();
-    	
-    	Stage currentStage = (Stage) createScheduleButton.getScene().getWindow(); 
-    	currentStage.close(); 
+    	if (!DatabaseCommunicator.scheduleExists("draft", year, term)) { 
+    		DatabaseCommunicator.createNewSchedule("draft", year, term);
+    		Stage currentStage = (Stage) createScheduleButton.getScene().getWindow(); 
+        	currentStage.close(); 
+    	}
+    	else {
+    		// ERROR
+    		errorLabel.setText("Schedule already exists");
+    		errorLabel.setTextAlignment(TextAlignment.CENTER);
+    		yearField.setText("");
+    	}
     }
+    
     
 }

@@ -1,7 +1,9 @@
 package core.database;
 
+import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -86,6 +88,38 @@ public class DatabaseCommunicator
 		if (list.size() == 0)
 			return false;
 		return Integer.parseInt(list.get(0).get("count(*)").toString()) == 1; 
+	}
+	
+	/**
+     * Method to add a new table to the database to hold sections for the specified schedule
+     * Table names are in the format status_year_term in all caps
+     * @param status must either be DRAFT or PUB
+     * @param year the year the schedule is for
+     * @param term the term the schedule is for; must be F, W, SP, or SU
+     */
+public static void createNewSchedule(String status, int year, String term) {
+    	String tableName = status.toUpperCase() + "_" + year + "_" + term.toUpperCase(); 
+    	String statement = "CREATE TABLE " + tableName + " ( "
+    			+ "`section_id` int(11) NOT NULL AUTO_INCREMENT,"
+    			+ " `department` varchar(4) NOT NULL,"
+    			+ "`course_number` int(11) NOT NULL,"
+    			+ "`building` int(11) NOT NULL,"
+    			+ " `room_number` int(11) NOT NULL,"
+    			+ "`instructor` varchar(20) NOT NULL,"
+    			+ " `start_hour` time NOT NULL,"
+    			+ "`days_of_week` varchar(4) NOT NULL,"
+    			+ " `schedule_id` int(11) NOT NULL,"
+    			+ " PRIMARY KEY (`section_id`)"
+    			+ ");";
+    	databaseAction(statement); 
+    }
+	
+	public static boolean scheduleExists(String status, int year, String term) throws SQLException {
+		String tableName = status.toUpperCase() + "_" + year + "_" + term.toUpperCase(); 
+		Connection connection = connect(); 
+		DatabaseMetaData dmd = connection.getMetaData(); 
+		ResultSet rs = dmd.getTables(null, null, tableName, null); 
+		return rs.next(); 
 	}
 	
 	

@@ -58,6 +58,7 @@ public class ScheduleSelectionController {
     	String term = termBox.getValue().toString(); 
     	
     	// TODO Load the schedule
+    	loadSchedule(year, term); 
     	
     	//TODO fix this so the editor knows which schedule it's editing 
     	/*FXMLLoader loader = null;
@@ -70,6 +71,10 @@ public class ScheduleSelectionController {
     	Stage currentStage = (Stage) openButton.getScene().getWindow(); 
     	currentStage.close(); 
 
+    }
+    
+    private void loadSchedule(int year, String term) {
+    //TODO	
     }
     
 	//Show the list of rooms when the person clicks the room drop down

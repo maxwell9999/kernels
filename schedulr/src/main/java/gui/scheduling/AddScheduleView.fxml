@@ -37,5 +37,6 @@
       <Label layoutX="337.0" layoutY="216.0" text="Term" />
       <Button fx:id="createScheduleButton" layoutX="270.0" layoutY="275.0" mnemonicParsing="false" onAction="#createScheduleAction" text="Create" />
       <ChoiceBox fx:id="termSelector" layoutX="376.0" layoutY="211.0" prefHeight="27.0" prefWidth="96.0" />
+      <Label fx:id="errorLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="50.0" layoutY="328.0" prefHeight="17.0" prefWidth="500.0" textAlignment="CENTER" textFill="#f51313" />
    </children>
 </Pane>
