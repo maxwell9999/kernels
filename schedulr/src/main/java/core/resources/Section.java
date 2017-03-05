@@ -108,4 +108,9 @@ public class Section extends Course implements DatabaseObject {
 				"' AND start_hour='" + this.getStartTime() + "'";
 	}
 	
+	public String getTable()
+	{
+		return "sections";
+	}
+	
 }

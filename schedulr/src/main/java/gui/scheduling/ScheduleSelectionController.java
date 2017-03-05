@@ -59,6 +59,7 @@ public class ScheduleSelectionController {
     	int year = Integer.parseInt(yearBox.getValue().toString()); 
     	String term = termBox.getValue().toString(); 
     	
+    	
     	// TODO Load the schedule
     	loadSchedule(year, term); 
     	
@@ -66,8 +67,9 @@ public class ScheduleSelectionController {
     	MainWindow window = new MainWindow();
     	window.start(new Stage());
     	FXMLLoader loader = new FXMLLoader(getClass().getResource("MainView.fxml"));
-    	MainViewController mainViewController = loader.<MainViewController>getController();
-		mainViewController.setScheduleId(Schedule.getScheduleId(year, term));
+    	//MainWindow.mainViewController = loader.<MainViewController>getController();
+    	//System.out.println(Schedule.getScheduleId(year, term));
+    	window.getController().setScheduleId(Schedule.getScheduleId(year, term));
     	Stage currentStage = (Stage) openButton.getScene().getWindow(); 
     	currentStage.close(); 
 

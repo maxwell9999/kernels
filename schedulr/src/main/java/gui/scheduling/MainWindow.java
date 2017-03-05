@@ -23,19 +23,21 @@ import de.ks.fxcontrols.weekview.WeekViewAppointment;
 public class MainWindow extends Application{
 	private static final Logger log = LoggerFactory.getLogger(MainWindow.class);
 
-    LocalDate begin, end;
-    LinkedList<WeekViewAppointment<Object>> retval;
+    private LocalDate begin, end;
+    private LinkedList<WeekViewAppointment<Object>> retval;
+    private WeekView<Object> weekView;
+    private MainViewController mainViewCtrl;
 
     public void start(Stage primaryStage) throws IOException {
         BasicConfigurator.configure();
 
         primaryStage.setTitle("Schedulr");
 
-        WeekView<Object> weekView = new WeekView<>("Today");
+        weekView = new WeekView<>("Today");
         weekView.setAppointmentResolver(this::getNextEntries);
         //weekView.setOnAppointmentCreation((date, time) -> log.info("Creating new ddappointment beginning at {} {}", date, time));
 
-        MainViewController mainViewCtrl = new MainViewController(weekView, begin, end, retval);
+        mainViewCtrl = new MainViewController(weekView, begin, end, retval);
 
     	FXMLLoader loader = new FXMLLoader(getClass().getResource("MainView.fxml"));
     	loader.setController(mainViewCtrl);
@@ -70,6 +72,10 @@ public class MainWindow extends Application{
 	public static void main(String[] args) {
 		launch(args);
 
+	}
+	
+	public MainViewController getController() {
+		return mainViewCtrl;
 	}
 
 }
