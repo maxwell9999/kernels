@@ -26,7 +26,7 @@ public class MainWindow extends Application{
     private LocalDate begin, end;
     private LinkedList<WeekViewAppointment<Object>> retval;
     private WeekView<Object> weekView;
-    private MainViewController mainViewCtrl;
+    private static MainViewController mainViewCtrl;
 
     public void start(Stage primaryStage) throws IOException {
         BasicConfigurator.configure();
@@ -48,11 +48,24 @@ public class MainWindow extends Application{
         primaryStage.setScene(createScene(root));
 
         primaryStage.show();
+        selectSchedule(); 
     }
 
     private Scene createScene(Pane mainPane) {
         Scene scene = new Scene(mainPane);
       return scene;
+    }
+    
+    private void selectSchedule() throws IOException {
+    	Stage stage = new Stage();
+		Pane myPane = null;
+		FXMLLoader loader = null;
+		ScheduleSelectionController controller = new ScheduleSelectionController();
+		loader = new FXMLLoader(controller.getClass().getResource("ScheduleSelectionView.fxml"));
+		myPane = (Pane) loader.load();
+		Scene scene = new Scene(myPane);
+		stage.setScene(scene);
+		stage.show();
     }
 
     private void getNextEntries(LocalDate begin, LocalDate end, Consumer<List<WeekViewAppointment<Object>>> consumer) {
@@ -74,7 +87,7 @@ public class MainWindow extends Application{
 
 	}
 	
-	public MainViewController getController() {
+	public static MainViewController getController() {
 		return mainViewCtrl;
 	}
 

@@ -78,6 +78,7 @@ public class MainViewController extends VBox {
         	public void handle(ActionEvent event) {
         		titleString = "Add a Class";
         		handleClassButtonPress(event);
+        		System.out.println("SCHEDULEID=" + scheduleId);
         	}
         });
         editPanelButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -136,6 +137,18 @@ public class MainViewController extends VBox {
     	this.scheduleId = id; 
     }
     
+    private void selectSchedule() throws IOException {
+    	Stage stage = new Stage();
+		Pane myPane = null;
+		FXMLLoader loader = null;
+		ScheduleSelectionController controller = new ScheduleSelectionController();
+		loader = new FXMLLoader(controller.getClass().getResource("ScheduleSelectionView.fxml"));
+		myPane = (Pane) loader.load();
+		Scene scene = new Scene(myPane);
+		stage.setScene(scene);
+		stage.show();
+    }
+
     @FXML
 	private void createMenuItemClicked(ActionEvent event) throws IOException {
     	

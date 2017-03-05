@@ -113,6 +113,7 @@ public static void createNewSchedule(String status, int year, String term) {
     			+ " PRIMARY KEY (`section_id`)"
     			+ ");";
     	databaseAction(statement); 
+    	// TODO add to schedules table
     }
 	
 	public static boolean scheduleExists(String status, int year, String term) throws SQLException {

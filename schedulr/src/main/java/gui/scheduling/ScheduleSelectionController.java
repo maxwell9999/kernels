@@ -64,12 +64,10 @@ public class ScheduleSelectionController {
     	loadSchedule(year, term); 
     	
     	//TODO fix this so the editor knows which schedule it's editing 
-    	MainWindow window = new MainWindow();
-    	window.start(new Stage());
     	FXMLLoader loader = new FXMLLoader(getClass().getResource("MainView.fxml"));
     	//MainWindow.mainViewController = loader.<MainViewController>getController();
     	//System.out.println(Schedule.getScheduleId(year, term));
-    	window.getController().setScheduleId(Schedule.getScheduleId(year, term));
+    	MainWindow.getController().setScheduleId(Schedule.getScheduleId(year, term));
     	Stage currentStage = (Stage) openButton.getScene().getWindow(); 
     	currentStage.close(); 
 
