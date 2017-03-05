@@ -86,7 +86,9 @@ public class editRoomController {
 	        	String roomTypeString = roomType.getValue().toString();
 	        	String notesString = notes.getText();
 	        	
-	        	if (DatabaseCommunicator.resourceExists("rooms", "building=" + buildingInt + " AND number=" + roomInt)) {
+	        	Room room = new Room(buildingInt, roomInt, capacityInt, roomTypeString, notesString);
+	        	
+	        	if (DatabaseCommunicator.resourceExists(room)) {
 	        		
 	        		room.setBuilding(buildingInt);
 	        		room.setNumber(roomInt);

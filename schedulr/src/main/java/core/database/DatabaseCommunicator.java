@@ -45,6 +45,7 @@ public class DatabaseCommunicator
 				connection.close();
 				
 			} catch (Exception e) {
+				System.out.println(query);
 				e.printStackTrace();
 			}
 		}
@@ -83,8 +84,8 @@ public class DatabaseCommunicator
 		databaseAction(update);
 	}
 	
-	public static boolean resourceExists(String tableName, String uniqueIdentifier) {
-		List<HashMap<String, Object>> list = queryDatabase("SELECT count(*) FROM " + tableName + " WHERE " + uniqueIdentifier + ";");
+	public static boolean resourceExists(DatabaseObject object) {
+		List<HashMap<String, Object>> list = queryDatabase("SELECT count(*) FROM " + object.getTable() + " WHERE " + object.getKeyIdentifier() + ";");
 		if (list.size() == 0)
 			return false;
 		return Integer.parseInt(list.get(0).get("count(*)").toString()) == 1; 

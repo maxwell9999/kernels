@@ -1,6 +1,8 @@
 package gui.preferences;
 
 import java.util.*;
+
+import core.database.DatabaseCommunicator;
 import javafx.application.*;
 import javafx.beans.Observable;
 import javafx.beans.property.BooleanProperty;
@@ -55,18 +57,13 @@ public class ClassPreferencesView extends Application{
     ableToTeachCol.prefWidthProperty().bind(tableView.widthProperty().multiply(0.245));
     wantToTeachCol.prefWidthProperty().bind(tableView.widthProperty().multiply(0.245));
 
-    // TODO: Populate from database.
-    final List<Course> items=Arrays.asList(
-      new Course("CPE 101", "3"), 
-      new Course("CPE 102", "4"), 
-      new Course("CPE 103", "5"), 
-      new Course("CPE 225", "6"), 
-      new Course("CPE 300", "7"),
-      new Course("CPE 307", "3"), 
-      new Course("CPE 308", "4"), 
-      new Course("CPE 309", "5"), 
-      new Course("CPE 349", "6"), 
-      new Course("CPE 357", "7"));
+    List<Course> items = new ArrayList<Course>();
+    List<HashMap<String, Object>> courseList = DatabaseCommunicator.queryDatabase("select * from courses;");
+    
+    for (int courseIndex = 0; courseIndex < courseList.size(); courseIndex++)
+    {
+    	items.add(new Course(courseList.get(courseIndex).get("department") + " "  + courseList.get(courseIndex).get("number"), (courseIndex + 1) + ""));
+    }
 
     // Makes data observable.
     this.CourseData = FXCollections.observableArrayList(new Callback<Course, Observable[]>() {

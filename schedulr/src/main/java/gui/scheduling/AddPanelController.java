@@ -400,6 +400,12 @@ public class AddPanelController extends VBox {
 	 * @return returns true if there are no conflicts
 	 */
 	private boolean checkTeacherConflicts(Section section) {
+		
+		//TODO(Courtney)Check if teacher is already booked in the time slot
+		return true;
+	}
+	
+	private boolean checkWtu(Section section) {
 		int wtu = 0;
 		FacultyMember teacher = section.getInstructor();
 		List<HashMap<String, Object>> classList = DatabaseCommunicator.queryDatabase(
@@ -410,14 +416,11 @@ public class AddPanelController extends VBox {
 		{
 			wtu = (Integer) (classList.get(0).get("SUM(C.wtu)"));
 		}
-		//TODO MAX WTU?
-		if (wtu > 15)
+		if (wtu > teacher.getMaxWtu())
 		{
-			return false;
+			return true;
 		}
-		
-		//TODO(Courtney)Check if teacher is already booked in the time slot
-		return true;
+		return false;
 	}
 	
 	//TODO(Courtney) You said that you could do this with a query super easily
@@ -531,7 +534,12 @@ public class AddPanelController extends VBox {
 			Section curSection = createSection();
 
 			if(checkTeacherConflicts(curSection) && checkRoomConflicts(curSection)) {
-				weekView.recreateEntries(appts);
+				if (checkWtu(curSection))
+				{
+					//TODO Show warning
+				}
+				else
+					weekView.recreateEntries(appts);
 				//TODO uncomment when we want to add to database
 				//curSection.addToDatabase();
 			}
