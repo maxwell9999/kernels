@@ -5,11 +5,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.apache.log4j.BasicConfigurator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import core.database.DatabaseCommunicator;
 import core.resources.Schedule;
+import de.ks.fxcontrols.weekview.WeekView;
 import gui.accountsUI.LoginViewController;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -61,14 +63,11 @@ public class ScheduleSelectionController {
     	loadSchedule(year, term); 
     	
     	//TODO fix this so the editor knows which schedule it's editing 
-    	
     	MainWindow window = new MainWindow();
     	window.start(new Stage());
     	FXMLLoader loader = new FXMLLoader(getClass().getResource("MainView.fxml"));
     	MainViewController mainViewController = loader.<MainViewController>getController();
 		mainViewController.setScheduleId(Schedule.getScheduleId(year, term));
-		
-    	
     	Stage currentStage = (Stage) openButton.getScene().getWindow(); 
     	currentStage.close(); 
 
