@@ -140,11 +140,11 @@ public class SectionTest extends TestCase {
 		Course course = new Course("CPE", 101, "Fundamentals of CS 1", 5.0, 3, "", 3, 0);
 		FacultyMember instructor = new FacultyMember("test", 12345, "Test", "User", "testUser@gmail.com", "", 0, 0);
 		Room room = new Room(14, 255, 1, "lecture", ""); 
-		
-		assertFalse(DatabaseCommunicator.resourceExists("sections", "department='ZZZ' AND instructor='Test_User'"));
 		Section section = new Section(schedule, course, instructor, room, "09:10:00", 1, "MWF");
+		
+		assertFalse(DatabaseCommunicator.resourceExists(section));
 		section.addToDatabase();
-		assertFalse(DatabaseCommunicator.resourceExists("sections", "department='ZZZ' AND instructor='Test_User'"));
+		assertFalse(DatabaseCommunicator.resourceExists(section));
 		DatabaseCommunicator.deleteDatabase("sections", "department='ZZZ' AND instructor='Test_User'");
 		
 	}

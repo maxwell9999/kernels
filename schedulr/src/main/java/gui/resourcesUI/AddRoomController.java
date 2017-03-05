@@ -16,6 +16,7 @@ import java.io.IOException;
 
 import core.database.DatabaseCommunicator;
 import core.resources.ResourceManager;
+import core.resources.Room;
 
 public class AddRoomController {
 	
@@ -54,7 +55,10 @@ public class AddRoomController {
 	        	String roomTypeString = roomType.getValue().toString();
 	        	String notesString = notes.getText();
 	        	
-	        	if (DatabaseCommunicator.resourceExists("rooms", "building=" + buildingInt + " AND number=" + roomInt)) {
+	        	Room room = new Room(buildingInt, roomInt, capacityInt, roomTypeString,
+	        			notesString);
+	        	
+	        	if (DatabaseCommunicator.resourceExists(room)) {
 	        		roomError.setText("Room already exists.");
 	        	}
 	        	else {
@@ -66,11 +70,7 @@ public class AddRoomController {
 		        	stage.close();
 	        	}
         	} catch (Exception e) {
-        		if (DatabaseCommunicator.resourceExists("rooms", "building=" + buildingInt + " AND number=" + roomInt)) {
-	        		roomError.setText("Room already exists.");
-	        	} else {
-	        		roomError.setText("All fields are required.");
-	        	}
+        		roomError.setText("All fields are required.");
         	}
         }
 	}

@@ -101,4 +101,10 @@ public class Section extends Course implements DatabaseObject {
 		DatabaseCommunicator.replaceDatabase(this);
 	}
 	
+	public String getKeyIdentifier()
+	{
+		return "department='" + this.getDepartment() + "' AND course_number=" + this.getNumber() + " AND instructor='" + instructor.getLogin() + 
+				"' AND start_hour='" + this.getStartTime() + "'";
+	}
+	
 }
