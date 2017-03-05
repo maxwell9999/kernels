@@ -1,7 +1,9 @@
 package core.resources;
 
+import java.sql.ResultSet;
 import java.util.HashMap;
 import java.util.List;
+import java.sql.DatabaseMetaData;
 
 import core.database.DatabaseCommunicator;
 import core.database.DatabaseObject;

@@ -230,7 +230,7 @@ public class AddPanelController extends VBox {
 	private long getSectionNumber(String department, int number) {
 		long sectionNumber; 
 		List<HashMap<String, Object>> rows = DatabaseCommunicator.queryDatabase(
-				"SELECT COUNT(*) FROM sections WHERE department='" + department + "' AND course_number=" + number + " AND schedule_id=" + 1 + ";"); 
+				"SELECT COUNT(*) FROM temp_schedule WHERE department='" + department + "' AND course_number=" + number + " AND schedule_id=" + 1 + ";"); 
 		sectionNumber = (Long) rows.get(0).get("COUNT(*)") + 1; 
 		System.out.println("Section number = " + sectionNumber);
 		return sectionNumber; 
