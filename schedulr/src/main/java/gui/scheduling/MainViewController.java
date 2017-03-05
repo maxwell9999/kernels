@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.util.LinkedList;
 
 import core.accounts.AccountManager;
+import core.accounts.User;
 import de.ks.fxcontrols.weekview.WeekView;
 import de.ks.fxcontrols.weekview.WeekViewAppointment;
 import gui.accountsUI.ResetPasswordController;
@@ -53,6 +54,8 @@ public class MainViewController extends VBox {
     private LocalDate begin, end;
     private LinkedList<WeekViewAppointment<Object>> retval;
     private String titleString;
+    
+    private User user;
 
 	public MainViewController(WeekView<Object> weekView, LocalDate begin, LocalDate end, LinkedList<WeekViewAppointment<Object>> retval) {
 		this.weekView = weekView;
@@ -201,6 +204,7 @@ public class MainViewController extends VBox {
 		FXMLLoader loader = null;
 		PreferencesController controller = new PreferencesController();
 		loader = new FXMLLoader(controller.getClass().getResource("PreferencesChoiceView.fxml"));
+		controller.setCurrentUser(user);
 		myPane = (Pane) loader.load();
 		Scene scene = new Scene(myPane);
 		stage.setScene(scene);
@@ -239,4 +243,8 @@ public class MainViewController extends VBox {
     	
     	//TODO(Sarah): Implement this	
 	}
+    
+    public void setUser(User user) {
+    	this.user = user;
+    }
 }

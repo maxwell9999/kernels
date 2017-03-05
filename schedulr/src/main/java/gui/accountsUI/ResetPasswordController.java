@@ -2,12 +2,16 @@ package gui.accountsUI;
 
 import java.io.IOException;
 
+import core.accounts.AccountManager;
 import core.accounts.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 /**
@@ -58,8 +62,6 @@ public class ResetPasswordController {
         	passwordField.setText("");
         	confirmField.setText("");
         }
-
-        // TODO(Sarah): Will also have it open another application and not go back to login screen.
         
     }
     
