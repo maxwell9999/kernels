@@ -1,20 +1,21 @@
 package gui.scheduling;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import core.resources.Schedule;
 import gui.accountsUI.LoginViewController;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 public class AddScheduleController {
@@ -23,6 +24,12 @@ public class AddScheduleController {
     @FXML private TextField yearField;
     @FXML private ChoiceBox termSelector;
     @FXML private Button createScheduleButton; 
+    
+    @FXML 
+    public void initialize() {
+    	ArrayList<String> terms = new ArrayList<String>(Arrays.asList("F", "W", "SP", "SU")); 
+		termSelector.setItems(FXCollections.observableArrayList(terms)); 
+    }
     
     @FXML
     private void createScheduleAction(ActionEvent event) throws IOException {
