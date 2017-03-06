@@ -16,6 +16,7 @@ import core.resources.Schedule;
 
 public class DatabaseCommunicator 
 {
+	private static final String TEMP_SCHEDULE = "TEMP_SCHEDULE"; 
 	public static List<HashMap<String, Object>> queryDatabase(String query)
 	{
 		ResultSet rs = null;
@@ -105,22 +106,34 @@ public class DatabaseCommunicator
 		// add new table to hold sections
     	String tableName = status.toUpperCase() + "_" + year + "_" + term.toUpperCase(); 
     	String statement = "CREATE TABLE " + tableName + " ( "
-    			+ "`section_id` int(11) NOT NULL AUTO_INCREMENT,"
+    			+ " `section_id` int(11) NOT NULL AUTO_INCREMENT,"
     			+ " `department` varchar(4) NOT NULL,"
-    			+ "`course_number` int(11) NOT NULL,"
-    			+ "`building` int(11) NOT NULL,"
+    			+ " `course_number` int(11) NOT NULL,"
+    			+ " `building` int(11) NOT NULL,"
     			+ " `room_number` int(11) NOT NULL,"
-    			+ "`instructor` varchar(20) NOT NULL,"
+    			+ " `instructor` varchar(20) NOT NULL,"
     			+ " `start_hour` time NOT NULL,"
-    			+ "`days_of_week` varchar(4) NOT NULL,"
+    			+ " `days_of_week` varchar(4) NOT NULL,"
     			+ " `schedule_id` int(11) NOT NULL,"
-    			+ " PRIMARY KEY (`section_id`)"
+    			+ " PRIMARY KEY (`section_id`),"
+    		    + " FOREIGN KEY (schedule_id) REFERENCES schedules(id),"
+    		    + " FOREIGN KEY (department, course_number) REFERENCES courses(department, number),"
+    		    + " FOREIGN KEY (building, room_number) REFERENCES rooms(building, number)"
     			+ ");";
     	databaseAction(statement); 
 
     	// add schedule to table of schedules
     	Schedule newSchedule = new Schedule(term, year);
     	newSchedule.addToDatabase();
+    	
+    	// create view to hold wtus
+    	String viewName = newSchedule.getWtuTableName(); 
+    	statement = "CREATE VIEW " + viewName + " as " + 
+    			"SELECT users.login, COALESCE(SUM(courses.wtu), 0)" + 
+    			"FROM (users left join TEMP_SCHEDULE on users.login=TEMP_SCHEDULE.instructor) left join "
+    			+ "courses on TEMP_SCHEDULE.department=courses.department and "
+    			+ "TEMP_SCHEDULE.course_number=courses.number"
+    			+ "GROUP BY users.login;";
     }
 	
 	public static boolean scheduleExists(String status, int year, String term) throws SQLException {

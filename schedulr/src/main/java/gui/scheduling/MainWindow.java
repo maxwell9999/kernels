@@ -60,8 +60,8 @@ public class MainWindow extends Application{
     	Stage stage = new Stage();
 		Pane myPane = null;
 		FXMLLoader loader = null;
-		ScheduleSelectionController controller = new ScheduleSelectionController();
-		loader = new FXMLLoader(controller.getClass().getResource("ScheduleSelectionView.fxml"));
+		ScheduleMenuController controller = new ScheduleMenuController();
+		loader = new FXMLLoader(controller.getClass().getResource("ScheduleMenuView.fxml"));
 		myPane = (Pane) loader.load();
 		Scene scene = new Scene(myPane);
 		stage.setScene(scene);

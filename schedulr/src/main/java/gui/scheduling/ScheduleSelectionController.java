@@ -58,23 +58,20 @@ public class ScheduleSelectionController {
     private void openScheduleButton(ActionEvent event) throws IOException {
     	int year = Integer.parseInt(yearBox.getValue().toString()); 
     	String term = termBox.getValue().toString(); 
-    	
+    	Schedule schedule = new Schedule(term, year); 
     	
     	// TODO Load the schedule
     	loadSchedule(year, term); 
     	
-    	//TODO fix this so the editor knows which schedule it's editing 
     	FXMLLoader loader = new FXMLLoader(getClass().getResource("MainView.fxml"));
-    	//MainWindow.mainViewController = loader.<MainViewController>getController();
-    	//System.out.println(Schedule.getScheduleId(year, term));
-    	MainWindow.getController().setScheduleId(Schedule.getScheduleId(year, term));
+    	MainWindow.getController().setSchedule(schedule);
     	Stage currentStage = (Stage) openButton.getScene().getWindow(); 
     	currentStage.close(); 
 
     }
     
     private void loadSchedule(int year, String term) {
-    //TODO	
+    //TODO fill this in!
     }
     
 	//Show the list of rooms when the person clicks the room drop down
