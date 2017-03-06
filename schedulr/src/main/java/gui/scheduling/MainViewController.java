@@ -79,7 +79,6 @@ public class MainViewController extends VBox {
 	        		handleClassButtonPress(event);
         		} else {
         			System.out.println("Please select a class to edit.");
-        			return;
         		}
         	}
         });

@@ -76,17 +76,21 @@
 		            <AnchorPane fx:id="calendarPane" minHeight="-1.0" minWidth="-1.0" prefHeight="545.0" prefWidth="430.0">
 		              <children>
 		              </children>
-	            </AnchorPane>
+	            	</AnchorPane>
 	            </children>
             </VBox>
           </content>
         </ScrollPane>
         <AnchorPane>
           <children>
-          	<VBox fx:id="addPane">
-          		<children>
-            	</children>
-            </VBox>
+          	<ScrollPane vbarPolicy="always">
+          		<content>
+          			<VBox fx:id="addPane">
+          				<children>
+            			</children>
+            		</VBox>
+            	</content>
+            </ScrollPane>
  		  </children>
         </AnchorPane>
       </items>
