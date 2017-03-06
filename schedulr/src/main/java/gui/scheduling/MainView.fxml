@@ -7,7 +7,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.layout.HBox?>
 
-<VBox prefHeight="1000.0" prefWidth="1400.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+<VBox prefHeight="1000.0" prefWidth="1400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
   <children>
     <MenuBar VBox.vgrow="NEVER">
       <menus>
@@ -81,18 +81,18 @@
             </VBox>
           </content>
         </ScrollPane>
-        <AnchorPane>
-          <children>
-          	<ScrollPane vbarPolicy="always">
-          		<content>
-          			<VBox fx:id="addPane">
-          				<children>
-            			</children>
-            		</VBox>
-            	</content>
-            </ScrollPane>
- 		  </children>
-        </AnchorPane>
+      	<ScrollPane>
+          <content>
+	        <AnchorPane>
+	          	<children>
+	          			<VBox fx:id="addPane">
+	          				<children>
+	            			</children>
+	            		</VBox>
+	 		  		</children>
+	        	</AnchorPane>
+        	</content>
+     	</ScrollPane>
       </items>
     </SplitPane>
     <HBox id="HBox" alignment="CENTER_LEFT" spacing="5.0" VBox.vgrow="NEVER">
