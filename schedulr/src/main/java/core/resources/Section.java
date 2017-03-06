@@ -102,12 +102,14 @@ public class Section extends Course implements DatabaseObject {
 		DatabaseCommunicator.replaceDatabase(this);
 	}
 	
+	@Override
 	public String getKeyIdentifier()
 	{
 		return "department='" + this.getDepartment() + "' AND course_number=" + this.getNumber() + " AND instructor='" + instructor.getLogin() + 
 				"' AND start_hour='" + this.getStartTime() + "'";
 	}
 	
+	@Override
 	public String getTable()
 	{
 		return "sections";

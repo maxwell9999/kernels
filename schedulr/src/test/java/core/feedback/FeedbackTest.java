@@ -12,14 +12,22 @@ public class FeedbackTest {
 
 	@Test
 	public void testAddFeedback() {
+
+		int year = 9999; 
+		String term = "F"; 
+		Schedule schedule = new Schedule(term, year); 
+		schedule.addToDatabase();
 		
 		int size = DatabaseCommunicator.queryDatabase("select * from feedback").size();
-		Feedback feedback = new Feedback(9999, "XX", "TestUser", "This schedule rocks!", 5);
+
+		Feedback feedback = new Feedback(year, term, "TestUser", "This schedule rocks!", 5);
 		feedback.addToDatabase();
 		assertEquals("Testing adding feedback to database...", size + 1, DatabaseCommunicator.queryDatabase("select * from feedback").size());
 		
 		DatabaseCommunicator.deleteDatabase("feedback", "username='TestUser'");
 		assertEquals("Testing removing feedback to database...", size, DatabaseCommunicator.queryDatabase("select * from feedback").size());
+		
+		DatabaseCommunicator.deleteDatabase("schedules", "year=9999 AND term='F'");
 	}
 	
 	@Test
@@ -40,6 +48,8 @@ public class FeedbackTest {
 		
 		DatabaseCommunicator.deleteDatabase("feedback", "username='TestUser'");
 		assertFalse("Testing removing feedback to database...", DatabaseCommunicator.resourceExists(feedback));
+		
+		DatabaseCommunicator.deleteDatabase("schedules", "year=9999 AND term='F'");
 	}
 	
 	@After
