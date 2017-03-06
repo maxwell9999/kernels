@@ -26,12 +26,10 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-<<<<<<< HEAD
-=======
+
 import gui.resourcesUI.*;
 import gui.feedback.*;
 import gui.preferences.PreferencesController;
->>>>>>> origin/simko
 
 public class MainViewController extends VBox {
 
