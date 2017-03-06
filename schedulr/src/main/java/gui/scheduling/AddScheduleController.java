@@ -14,6 +14,7 @@ import gui.accountsUI.LoginViewController;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
@@ -43,6 +44,8 @@ public class AddScheduleController {
     	
     	if (!DatabaseCommunicator.scheduleExists("draft", year, term)) { 
     		DatabaseCommunicator.createNewSchedule("draft", year, term);
+    		FXMLLoader loader = new FXMLLoader(getClass().getResource("MainView.fxml"));
+        	MainWindow.getController().setSchedule(schedule);
     		Stage currentStage = (Stage) createScheduleButton.getScene().getWindow(); 
         	currentStage.close(); 
     	}

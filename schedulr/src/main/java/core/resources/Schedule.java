@@ -63,6 +63,14 @@ public class Schedule implements DatabaseObject {
 		return "schedules";
 	}
 	
+	public String getTableName(String status) {
+		return status.toUpperCase() + "_" + this.year + "_" + this.term.toUpperCase(); 
+	}
+	
+	public String getWtuTableName() {
+		return "wtus_for_" + this.year + "_" + this.term;
+	}
+	
 	public void addToDatabase() {
 		DatabaseCommunicator.replaceDatabase(this);
 	}

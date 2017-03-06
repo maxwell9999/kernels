@@ -131,7 +131,7 @@ public class SectionTest extends TestCase {
 		
 		assertEquals("department, course_number, building, room_number, instructor, start_hour, days_of_week, schedule_id", section.getKeys());
 		//assertEquals("'CPE', 101, 99, 9904, Test_User, 09:10:100, 'MWF'", section.getValues());
-		assertEquals("sections", section.getTable());
+		//assertEquals("sections", section.getTable());
 	}
 	
 

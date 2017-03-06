@@ -15,9 +15,11 @@ import javax.xml.crypto.Data;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import core.accounts.AccountManager;
 import core.accounts.FacultyMember;
 import core.database.DatabaseCommunicator;
 import core.resources.Course;
+import core.resources.ResourceManager;
 import core.resources.Room;
 import core.resources.Schedule;
 import core.resources.Section;
@@ -89,7 +91,7 @@ public class AddPanelController extends VBox {
 
 	private WeekView<Object> weekView = null;
     private LocalDate begin, end = null;
-    private int scheduleId; 
+    private Schedule schedule; 
     private String daysOfWeek = ""; 
     LinkedList<WeekViewAppointment<Object>> retval;
 
@@ -157,13 +159,13 @@ public class AddPanelController extends VBox {
 	}
 
 	/**
-	 * Fills the dropdown with all of the faulty members
+	 * Fills the dropdown with all of the faulty member logins
 	 */
 	private void populateFaculty() {
-		List<HashMap<String, Object>> rows = DatabaseCommunicator.queryDatabase("SELECT first_name, last_name FROM users WHERE login!='admin';"); 
+		List<HashMap<String, Object>> rows = DatabaseCommunicator.queryDatabase("SELECT login FROM users WHERE login!='admin';"); 
 		List<String> faculty = new ArrayList<String>(); 
 		for (HashMap<String, Object> row : rows) {
-			faculty.add(row.get("first_name").toString() + row.get("last_name".toString())); 
+			faculty.add(row.get("login").toString()); 
 		}
 		selectFaculty.setItems(FXCollections.observableArrayList(faculty)); 
 	}
@@ -180,7 +182,7 @@ public class AddPanelController extends VBox {
         minStepper.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 59, 0, 1));
         minStepper.setEditable(true);
 
-        length.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(50, 360, 50, 60));
+        length.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(50, 360, 50, 30));
 	}
 	
 	/**
@@ -249,39 +251,17 @@ public class AddPanelController extends VBox {
 	 * NOTE: must be called AFTER addAppt() in order for the days of the week to be properly stored
 	 */
 	private Section createSection() {
-		Schedule schedule = getSchedule(); 
-		Course course = getCourse(); 
-		FacultyMember instructor = getInstructor(); 
-		Room room = getRoom(); 
+		Course course = ResourceManager.getCourse(selectDepartment.getValue(), Integer.parseInt(selectNumber.getValue()));
+		FacultyMember instructor = (FacultyMember) AccountManager.getUser(selectFaculty.getValue()); 
+		String[] roomCombo = selectRoom.getValue().split("-"); 
+		Room room = ResourceManager.getRoom(Integer.parseInt(roomCombo[0]), Integer.parseInt(roomCombo[1])); 
 		String startTime = LocalTime.of(hourStepper.getValue(), minStepper.getValue()).toString();; 
 		int duration = length.getValue(); 
 
 		Section section = new Section(schedule, course, instructor, room, startTime, duration, daysOfWeek); 
-		//section.addToDatabase();
 		return section;
 	}
 	
-	/**
-	 * @return a new schedule object
-	 */
-	private Schedule getSchedule() {
-		Schedule schedule = new Schedule(); 
-		return schedule; 
-	}
-	/**
-	 * @return a new course object
-	 */
-	private Course getCourse() {
-		Course course = new Course(); 
-		return course; 
-	}
-	/**
-	 * @return a new FacultyMember object
-	 */
-	private FacultyMember getInstructor() {
-		FacultyMember facultyMember = new FacultyMember(null, scheduleId, null, null, null, null, 0, 0); 
-		return facultyMember;
-	}
 	/**
 	 * @return a new room object
 	 */
@@ -390,8 +370,8 @@ public class AddPanelController extends VBox {
 	 * Sets the schedule ID for the class
 	 * @param scheduleId schedule ID to use
 	 */
-	public void setScheduleId(int scheduleId) {
-		this.scheduleId = scheduleId; 
+	public void setSchedule(Schedule schedule) {
+		this.schedule = schedule; 
 	}
 	
 	/**
@@ -407,11 +387,12 @@ public class AddPanelController extends VBox {
 	
 	private boolean checkWtu(Section section) {
 		int wtu = 0;
+		String tableName = schedule.getTableName("DRAFT"); 
 		FacultyMember teacher = section.getInstructor();
 		List<HashMap<String, Object>> classList = DatabaseCommunicator.queryDatabase(
 				"SELECT SUM(C.wtu) FROM courses C INNER JOIN sections S ON C.department = S.department" +
 				"AND C.number = S.course_number WHERE S.instructor='" + teacher.getLogin() + 
-				"' AND S.schedule_id=" + scheduleId + ";");
+				"' AND S.schedule_id=" + schedule.getScheduleId() + ";");
 		if (classList != null)
 		{
 			wtu = (Integer) (classList.get(0).get("SUM(C.wtu)"));
@@ -427,11 +408,11 @@ public class AddPanelController extends VBox {
 	/**
 	 * Given a room and a time, query the database to see if that room is already booked at that time
 	 * @param section Current section object to be added
-	 * @return returns true if there are no conflicts
+	 * @return returns false if there are no conflicts
 	 */
 	private boolean checkRoomConflicts(Section section) {
 		Room room = section.getRoom();
-		return true;
+		return false;
 	}
 /*
 	private LinkedList<WeekViewAppointment<Object>> editAppt(LocalDate begin, LocalDate end, LinkedList<WeekViewAppointment<Object>> retval) {

@@ -30,5 +30,4 @@ public interface DatabaseObject {
 	 */
 	public String getKeyIdentifier();
 	
-
 }

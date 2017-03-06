@@ -85,7 +85,7 @@ public class Section extends Course implements DatabaseObject {
 				schedule.getScheduleId()) ;
 		return "'" + this.getDepartment() + "', " + this.getNumber() + ", " + room.getBuilding() + ", " + room.getNumber() + ", '" + 
 				instructor.getLogin() + "', '" + 
-				(this.getStartTime()) + "', '" + 
+				this.getStartTime() + "', '" + 
 				this.daysOfWeek + "', " + 
 				schedule.getScheduleId() ;
 	}
@@ -110,7 +110,7 @@ public class Section extends Course implements DatabaseObject {
 	@Override
 	public String getTable()
 	{
-		return "sections";
+		return schedule.getTableName("draft");
 	}
 	
 }
