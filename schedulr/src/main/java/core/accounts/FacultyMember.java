@@ -13,22 +13,37 @@ public class FacultyMember extends User{
 	
 	public FacultyMember(String login, int emplId, String firstName, String lastName, String email, String officeLocation, double minWtu, double maxWtu) {
 		super(login, emplId, firstName, lastName, email, officeLocation, FACULTY_MEMBER); 
-		minWtu = minWtu;
-		maxWtu = maxWtu;
+		this.minWtu = minWtu;
+		this.maxWtu = maxWtu;
 	}
 	
+	/**
+	 * Sets the teacher's minimum WTU target
+	 * @param wtu minimum wtu requirement
+	 */
 	public void setMinWtu(double wtu) {
 		this.minWtu= wtu;
 	}
 	
+	/**
+	 * Gets the teacher's minimum WTU target
+	 * @return the minimum WTU target
+	 */
 	public double getMinWtu() {
 		return minWtu;
 	}
-	
+	/**
+	 * Sets the teacher's max WTU target
+	 * @param wtu max wtu requirement
+	 */
 	public void setMaxWtu(double wtu) {
 		this.maxWtu= wtu;
 	}
 	
+	/**
+	 * Gets the teacher's max WTU target
+	 * @return the max WTU target
+	 */
 	public double getMaxWtu() {
 		return maxWtu;
 	}

@@ -101,6 +101,10 @@ public class ResourceManager
 		return room; 
 	}
 	
+	/**
+	 * import the courses from a properly formatted txt file
+	 * @param file
+	 */
 	public static void importCourses(File file)
 	{
 		try {

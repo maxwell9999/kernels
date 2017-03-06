@@ -77,8 +77,6 @@ public class Section extends Course implements DatabaseObject {
 		return "department, course_number, building, room_number, instructor, start_hour, days_of_week, schedule_id";
 	}
 
-	//TODO fix formatting of start time to match database
-	//TODO null in test
 	public String getValues() {
 		System.out.println("'" + this.getDepartment() + "', " + this.getNumber() + ", " + room.getBuilding() + ", " + room.getNumber() + ", '" + 
 				instructor.getLogin() + "', '" + 
@@ -102,13 +100,14 @@ public class Section extends Course implements DatabaseObject {
 		DatabaseCommunicator.replaceDatabase(this);
 	}
 	
+	@Override
 	public String getKeyIdentifier()
 	{
 		return "department='" + this.getDepartment() + "' AND course_number=" + this.getNumber() + " AND instructor='" + instructor.getLogin() + 
 				"' AND start_hour='" + this.getStartTime() + "'";
 	}
 	
-	//TODO update this method
+	@Override
 	public String getTable()
 	{
 		return schedule.getTableName("draft");

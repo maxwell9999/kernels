@@ -40,12 +40,17 @@ public class ScheduleTest extends TestCase {
 	@Test
 	public void testGetScheduleId(){
 		Schedule schedule = new Schedule("XX", 9999); 
+		Schedule schedule2 = new Schedule("ZZ", 9999); 
+		schedule.addToDatabase();
+		schedule2.addToDatabase();
 		
 		assertEquals("Testing getScheduleId without parameters...", 
-				1, schedule.getScheduleId()); 
+				schedule.getScheduleId() + 1, schedule2.getScheduleId()); 
 		
 		assertEquals("Testing getScheduleId with parameters...",
-				1, Schedule.getScheduleId(9999, "XX")); 
+				Schedule.getScheduleId(9999, "XX") + 1, Schedule.getScheduleId(9999, "ZZ")); 
+		
+		DatabaseCommunicator.deleteDatabase("schedules", "year=9999");
 	}
 	
 	public void testDatabaseObject() {
