@@ -258,7 +258,8 @@ public class MainViewController extends VBox {
     	FileChooser chooser = new FileChooser();
     	chooser.setTitle("Open Resource File");
     	File file = chooser.showOpenDialog(new Stage());
-    	ResourceManager.importCourses(file);		
+    	if (file != null)
+    		ResourceManager.importCourses(file);		
 	}
     
     @FXML
