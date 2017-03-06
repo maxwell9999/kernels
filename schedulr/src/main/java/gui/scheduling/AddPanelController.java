@@ -88,6 +88,8 @@ public class AddPanelController extends VBox {
 	CheckBox s = new CheckBox();
 	@FXML
 	CheckBox x = new CheckBox();
+	@FXML
+	Button closeButton = new Button();
 
 	private WeekView<Object> weekView = null;
     private LocalDate begin, end = null;
@@ -122,15 +124,27 @@ public class AddPanelController extends VBox {
         //Automatically generate a course number
         selectDepartment.setOnAction(new selectDepartmentHandler());
 
+        SpinnerValueFactory<Integer> hSValFac = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 23, 0, 1);
+        hourStepper.setValueFactory(hSValFac);
+        hourStepper.setEditable(true);
+
+        SpinnerValueFactory<Integer> mSValFac = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 59, 0, 1);
+        minStepper.setValueFactory(mSValFac);
+        minStepper.setEditable(true);
+
+    	SpinnerValueFactory<Integer> lengthValFac = new SpinnerValueFactory.IntegerSpinnerValueFactory(50, 360, 50, 60);
+        length.setValueFactory(lengthValFac);
+
     }
 
-	public void initData(String panelTitle, WeekView<Object> weekView, LocalDate begin, LocalDate end, LinkedList<WeekViewAppointment<Object>> retval) {
+	public void initData(String panelTitle, WeekView<Object> weekView, LocalDate begin, LocalDate end, LinkedList<WeekViewAppointment<Object>> retval, Button closeButton) {
 		this.panelTitle.setText(panelTitle);
 		this.panelTitle.setTextAlignment(TextAlignment.CENTER);
 		this.weekView = weekView;
 		this.begin = begin;
 		this.end = end;
 		this.retval = retval;
+		this.closeButton = closeButton;
 	}
 	
 	/**
@@ -457,6 +471,7 @@ public class AddPanelController extends VBox {
 	        retval.add(timedAppointment);
         }
         return retval;
+<<<<<<< HEAD
 	}
 
 	private LinkedList<WeekViewAppointment<Object>> rmAppt(LocalDate begin, LocalDate end, LinkedList<WeekViewAppointment<Object>> retval) {
@@ -563,5 +578,5 @@ public class AddPanelController extends VBox {
 		public void handle(ActionEvent event) {
 			populateCourseNumbers(selectDepartment.getValue()); 
 		}
-	}
+	} 
 }
