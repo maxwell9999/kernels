@@ -12,6 +12,8 @@ import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.ResultSetMetaData;
 import com.mysql.jdbc.Statement;
 
+import core.resources.Schedule;
+
 public class DatabaseCommunicator 
 {
 	public static List<HashMap<String, Object>> queryDatabase(String query)
@@ -98,7 +100,9 @@ public class DatabaseCommunicator
      * @param year the year the schedule is for
      * @param term the term the schedule is for; must be F, W, SP, or SU
      */
-public static void createNewSchedule(String status, int year, String term) {
+	public static void createNewSchedule(String status, int year, String term) {
+		
+		// add new table to hold sections
     	String tableName = status.toUpperCase() + "_" + year + "_" + term.toUpperCase(); 
     	String statement = "CREATE TABLE " + tableName + " ( "
     			+ "`section_id` int(11) NOT NULL AUTO_INCREMENT,"
@@ -113,7 +117,10 @@ public static void createNewSchedule(String status, int year, String term) {
     			+ " PRIMARY KEY (`section_id`)"
     			+ ");";
     	databaseAction(statement); 
-    	// TODO add to schedules table
+
+    	// add schedule to table of schedules
+    	Schedule newSchedule = new Schedule(term, year);
+    	newSchedule.addToDatabase();
     }
 	
 	public static boolean scheduleExists(String status, int year, String term) throws SQLException {
