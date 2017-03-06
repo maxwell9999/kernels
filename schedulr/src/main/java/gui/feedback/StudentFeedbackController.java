@@ -36,7 +36,6 @@ public class StudentFeedbackController {
     @FXML private RadioButton button3;
     @FXML private RadioButton button4;
     @FXML private RadioButton button5;
-    //TODO(Sarah): Make it have a 256 character limit - if not pop up error message 
 	@FXML private TextArea noteField;
 	@FXML private Label lengthError;
 	// Keeps track of which Radio Button has been selected.

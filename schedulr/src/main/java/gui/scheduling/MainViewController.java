@@ -1,11 +1,13 @@
 package gui.scheduling;
 
+import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.LinkedList;
 
 import core.accounts.AccountManager;
 import core.accounts.User;
+import core.resources.ResourceManager;
 import de.ks.fxcontrols.weekview.WeekView;
 import de.ks.fxcontrols.weekview.WeekViewAppointment;
 import gui.accountsUI.ResetPasswordController;
@@ -23,8 +25,8 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-
 import gui.resourcesUI.*;
 import gui.feedback.*;
 import gui.preferences.PreferencesController;
@@ -214,7 +216,10 @@ public class MainViewController extends VBox {
     @FXML
 	private void importMenuItemClicked(ActionEvent event) throws IOException {
     	
-    	//TODO(Sarah): Implement this			
+    	FileChooser chooser = new FileChooser();
+    	chooser.setTitle("Open Resource File");
+    	File file = chooser.showOpenDialog(new Stage());
+    	ResourceManager.importCourses(file);		
 	}
     
     @FXML
@@ -229,7 +234,6 @@ public class MainViewController extends VBox {
 		Scene scene = new Scene(myPane);
 		stage.setScene(scene);
 		stage.show();
-		
     }  
        
     @FXML

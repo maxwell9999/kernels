@@ -77,8 +77,6 @@ public class Section extends Course implements DatabaseObject {
 		return "department, course_number, building, room_number, instructor, start_hour, days_of_week, schedule_id";
 	}
 
-	//TODO fix formatting of start time to match database
-	//TODO null in test
 	public String getValues() {
 		System.out.println("'" + this.getDepartment() + "', " + this.getNumber() + ", " + room.getBuilding() + ", " + room.getNumber() + ", '" + 
 				instructor.getLogin() + "', '" + 
