@@ -150,11 +150,11 @@ public class AccountManager
     	 */
     	public int compare(User user1, User user2) 
     	{
-    		if (user1.getLastName().equals(user2.getLastName()))
+    		if (user1.getLastName().toUpperCase().equals(user2.getLastName().toUpperCase()))
     		{
-    			return user1.getFirstName().compareTo(user2.getFirstName());
+    			return user1.getFirstName().toUpperCase().compareTo(user2.getFirstName().toUpperCase());
     		}
-    		return user1.getLastName().compareTo(user2.getLastName());
+    		return user1.getLastName().toUpperCase().compareTo(user2.getLastName().toUpperCase());
     	}
 	}
 }

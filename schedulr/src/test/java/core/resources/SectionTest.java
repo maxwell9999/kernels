@@ -132,9 +132,9 @@ public class SectionTest extends TestCase {
 		//DatabaseCommunicator.createNewSchedule("test", 9999, "SP");
 		
 		assertEquals("department, course_number, building, room_number, instructor, start_hour, days_of_week, schedule_id", section.getKeys());
-		assertEquals("TEST_9999_SP", section.getTable(schedule, "draft"));
+		assertEquals("DRAFT_9999_SP", section.getTable(schedule, "draft"));
 		assertEquals("department='CPE' AND course_number=101 AND instructor='Test_User' AND start_hour='09:10:00'", section.getKeyIdentifier());
-		assertEquals("draft", section.getTable());
+		assertEquals("DRAFT_9999_SP", section.getTable());
 
 	}
 	
