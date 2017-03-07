@@ -95,6 +95,7 @@ public class AddAccountController {
                 	minWtu = 0;
                 	maxWtu = 0;
                 }
+                System.out.println("MAX WTU RIGHT BEFORE " + maxWtu);
                 	AccountManager.addUser(userNameString, Integer.parseInt(employeeIDString), 
 	            		firstNameString, lastNameString, emailString, officeString, role, minWtu, maxWtu);
 	            resourceController.populateFaculty();
