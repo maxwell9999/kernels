@@ -224,6 +224,7 @@ public class AddPanelController extends VBox {
 				"SELECT name, wtu FROM courses WHERE department='" + department + "' AND number=" + number + ";");
 		name = (String) rows.get(0).get("name"); 
 		wtu = (Double) rows.get(0).get("wtu"); 
+		System.out.println(department + " " + number);
 		long sectionNumber = getSectionNumber(department, number); 
 		return sectionNumber + ", " + name + ", " + wtu; 
 	}
@@ -533,6 +534,8 @@ public class AddPanelController extends VBox {
 			// courseData format: sectionNumber, name, wtu
 			String courseData = getCourseData(selectDepartment.getValue(), Integer.parseInt(selectNumber.getValue())); 
 			String[] fields = courseData.split(", "); 
+			
+			System.out.println(courseData);
 
 			section.setText(fields[0]);
 			name.setText(fields[1]);

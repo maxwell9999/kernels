@@ -65,7 +65,7 @@ public class FacultyMember extends User{
 	
 	@Override
 	public String getValues() {
-		return super.getValues() + ", " + maxWtu + ", " + minWtu;
+		return super.getValues() + ", " + minWtu + ", " + maxWtu;
 	}
 	
 }
