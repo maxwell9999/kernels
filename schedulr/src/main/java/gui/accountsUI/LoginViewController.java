@@ -84,7 +84,12 @@ public class LoginViewController {
     		Stage currentStage = (Stage) facultyLoginButton.getScene().getWindow();
             currentStage.close();
 			MainWindow controller = new MainWindow();
-			controller.start(new Stage());
+			
+			try {
+				controller.start(new Stage());
+			} catch (NullPointerException e) {
+				
+			}
         	errorLabel.setText("");
         	System.out.println("User: " + login.get(0).get("login"));
         	System.out.println("Reset: " + login.get(0).get("reset_password"));

@@ -224,7 +224,6 @@ public class AddPanelController extends VBox {
 				"SELECT name, wtu FROM courses WHERE department='" + department + "' AND number=" + number + ";");
 		name = (String) rows.get(0).get("name"); 
 		wtu = (Double) rows.get(0).get("wtu"); 
-		System.out.println(department + " " + number);
 		long sectionNumber = getSectionNumber(department, number); 
 		return sectionNumber + ", " + name + ", " + wtu; 
 	}
@@ -398,7 +397,7 @@ public class AddPanelController extends VBox {
 				"SELECT SUM(C.wtu) FROM courses C INNER JOIN sections S ON C.department = S.department" +
 				"AND C.number = S.course_number WHERE S.instructor='" + teacher.getLogin() + 
 				"' AND S.schedule_id=" + schedule.getScheduleId() + ";");
-		if (classList != null)
+		if (classList.size() != 0)
 		{
 			wtu = (Integer) (classList.get(0).get("SUM(C.wtu)"));
 		}
@@ -417,7 +416,7 @@ public class AddPanelController extends VBox {
 	 */
 	private boolean checkRoomConflicts(Section section) {
 		Room room = section.getRoom();
-		return false;
+		return true;
 	}
 /*
 	private LinkedList<WeekViewAppointment<Object>> editAppt(LocalDate begin, LocalDate end, LinkedList<WeekViewAppointment<Object>> retval) {
@@ -520,11 +519,11 @@ public class AddPanelController extends VBox {
 			Section curSection = createSection();
 
 			if(checkTeacherConflicts(curSection) && checkRoomConflicts(curSection)) {
-				if (checkWtu(curSection))
-				{
+				//if (checkWtu(curSection))
+				//{
 					//TODO Show warning
-				}
-				else
+				//}
+				//else
 					weekView.recreateEntries(appts);
 				//TODO uncomment when we want to add to database
 				//curSection.addToDatabase();

@@ -82,7 +82,9 @@ public class WeekView<T> extends GridPane {
   public WeekView(String today) {
     title = new WeekTitle(today, weekOfYear, year);
     sceneProperty().addListener((p, o, n) -> {
-      String styleSheetPath = WeekView.class.getResource("weekview.css").toExternalForm();
+    	
+      /*String styleSheetPath = WeekView.class.getResource("weekview.css").toExternalForm();
+      System.out.println(WeekView.class.getResource("weekview.css").toExternalForm());
       if (n != null) {
         ObservableList<String> stylesheets = n.getStylesheets();
         if (!stylesheets.contains(styleSheetPath)) {
@@ -90,7 +92,7 @@ public class WeekView<T> extends GridPane {
         }
       } else {
         o.getStylesheets().remove(styleSheetPath);
-      }
+      }*/
     });
     configureRootPane();
     configureContentPane();
