@@ -31,7 +31,7 @@
             <Label layoutX="80.0" layoutY="119.0" text="*" textFill="RED" />
             <Label layoutX="80.0" layoutY="184.0" text="*" textFill="RED" />
             <Label layoutX="47.0" layoutY="237.0" text="*" textFill="RED" />
-            <Label fx:id="errorMessage" layoutX="80.0" layoutY="390.0" prefHeight="17.0" prefWidth="106.0" textAlignment="CENTER" textFill="RED" />
+            <Label fx:id="errorMessage" layoutX="80.0" layoutY="414.0" prefHeight="17.0" prefWidth="106.0" textAlignment="CENTER" textFill="RED" />
             <Label layoutX="58.0" layoutY="339.0" prefHeight="17.0" prefWidth="67.0" text="Min WTUs" />
             <Label layoutX="162.0" layoutY="339.0" prefHeight="17.0" prefWidth="69.0" text="Max WTUs" />
             <TextField fx:id="minWtuText" layoutX="56.0" layoutY="355.0" prefHeight="27.0" prefWidth="64.0" />
