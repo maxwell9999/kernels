@@ -58,4 +58,14 @@ public class FacultyMember extends User{
 				+ "first_name='" + super.getFirstName() + "', email='" + super.getEmail() + "', office_location='" + super.getOfficeLocation() + "', role=" + getRole()
 				+ ", min_wtu=" + minWtu + ", max_wtu=" + maxWtu);
 	}
+	@Override
+	public String getKeys(){
+		return super.getKeys() + ", min_wtu, max_wtu"; 
+	}
+	
+	@Override
+	public String getValues() {
+		return super.getValues() + ", " + minWtu + ", " + maxWtu;
+	}
+	
 }

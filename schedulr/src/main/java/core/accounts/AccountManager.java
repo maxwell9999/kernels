@@ -26,13 +26,21 @@ public class AccountManager
      */
 	public static void addUser(String username, int emplID, String first, String last, String email, String office, int role, double minWtu, double maxWtu)
 	{
+		DepartmentScheduler sched;
+		FacultyMember faculty;
+		
 		String hashed = BCrypt.hashpw(emplID + "", BCrypt.gensalt());
-		User newUser;
 		if (role == User.SCHEDULER)
-			newUser = new DepartmentScheduler(username, emplID, first, last, email, office);
+		{
+			sched = new DepartmentScheduler(username, emplID, first, last, email, office);
+			DatabaseCommunicator.insertDatabase(sched, sched.getKeys() + ", pass_hash", sched.getValues() + ", '" + hashed + "'");
+
+		}
 		else
-			newUser = new FacultyMember(username, emplID, first, last, email, office, minWtu, maxWtu);
-		DatabaseCommunicator.insertDatabase(newUser, newUser.getKeys() + ", pass_hash", newUser.getValues() + ", '" + hashed + "'");
+		{
+			faculty = new FacultyMember(username, emplID, first, last, email, office, minWtu, maxWtu);
+			DatabaseCommunicator.insertDatabase(faculty, faculty.getKeys() + ", pass_hash", faculty.getValues() + ", '" + hashed + "'");
+		}
 	}
 	
 	/**
@@ -142,11 +150,11 @@ public class AccountManager
     	 */
     	public int compare(User user1, User user2) 
     	{
-    		if (user1.getLastName().equals(user2.getLastName()))
+    		if (user1.getLastName().toUpperCase().equals(user2.getLastName().toUpperCase()))
     		{
-    			return user1.getFirstName().compareTo(user2.getFirstName());
+    			return user1.getFirstName().toUpperCase().compareTo(user2.getFirstName().toUpperCase());
     		}
-    		return user1.getLastName().compareTo(user2.getLastName());
+    		return user1.getLastName().toUpperCase().compareTo(user2.getLastName().toUpperCase());
     	}
 	}
 }

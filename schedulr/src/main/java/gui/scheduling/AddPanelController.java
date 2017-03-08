@@ -247,6 +247,10 @@ public class AddPanelController extends VBox {
 		long sectionNumber; 
 		List<HashMap<String, Object>> rows = DatabaseCommunicator.queryDatabase(
 				"SELECT COUNT(*) FROM TEMP_SCHEDULE WHERE department='" + department + "' AND course_number=" + number + " AND schedule_id=" + 1 + ";"); 
+		if (rows.size() == 0)
+		{
+			return 0;
+		}
 		sectionNumber = (Long) rows.get(0).get("COUNT(*)") + 1; 
 		System.out.println("Section number = " + sectionNumber);
 		return sectionNumber; 
@@ -407,7 +411,7 @@ public class AddPanelController extends VBox {
 				"SELECT SUM(C.wtu) FROM courses C INNER JOIN sections S ON C.department = S.department" +
 				"AND C.number = S.course_number WHERE S.instructor='" + teacher.getLogin() + 
 				"' AND S.schedule_id=" + schedule.getScheduleId() + ";");
-		if (classList != null)
+		if (classList.size() != 0)
 		{
 			wtu = (Integer) (classList.get(0).get("SUM(C.wtu)"));
 		}
@@ -426,7 +430,7 @@ public class AddPanelController extends VBox {
 	 */
 	private boolean checkRoomConflicts(Section section) {
 		Room room = section.getRoom();
-		return false;
+		return true;
 	}
 /*
 	private LinkedList<WeekViewAppointment<Object>> editAppt(LocalDate begin, LocalDate end, LinkedList<WeekViewAppointment<Object>> retval) {
@@ -530,11 +534,11 @@ public class AddPanelController extends VBox {
 			Section curSection = createSection();
 
 			if(checkTeacherConflicts(curSection) && checkRoomConflicts(curSection)) {
-				if (checkWtu(curSection))
-				{
+				//if (checkWtu(curSection))
+				//{
 					//TODO Show warning
-				}
-				else
+				//}
+				//else
 					weekView.recreateEntries(appts);
 				//TODO uncomment when we want to add to database
 				//curSection.addToDatabase();
@@ -548,6 +552,8 @@ public class AddPanelController extends VBox {
 			// courseData format: sectionNumber, name, wtu
 			String courseData = getCourseData(selectDepartment.getValue(), Integer.parseInt(selectNumber.getValue())); 
 			String[] fields = courseData.split(", "); 
+			
+			System.out.println(courseData);
 
 			section.setText(fields[0]);
 			name.setText(fields[1]);

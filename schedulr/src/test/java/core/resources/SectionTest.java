@@ -122,16 +122,20 @@ public class SectionTest extends TestCase {
 	
 	@Test
 	public void testDatabaseObject() {
-		Schedule schedule = new Schedule(); 
+		Schedule schedule = new Schedule("SP", 9999); 
 		Course course = new Course("CPE", 101, "Fundamentals of CS 1", 5.0, 3, null, 3, 0);
 		FacultyMember instructor = new FacultyMember("Test_User", 99999, "Test", "User", "testUser@gmail.com", "", 0, 0);
 		Room room = new Room(99, 9904, 1, "lecture", null); 
 		
 		Section section = new Section(schedule, course, instructor, room, "09:10:00", 1, "MWF");
 		
+		//DatabaseCommunicator.createNewSchedule("test", 9999, "SP");
+		
 		assertEquals("department, course_number, building, room_number, instructor, start_hour, days_of_week, schedule_id", section.getKeys());
-		//assertEquals("'CPE', 101, 99, 9904, Test_User, 09:10:100, 'MWF'", section.getValues());
-		//assertEquals("sections", section.getTable());
+		assertEquals("DRAFT_9999_SP", section.getTable(schedule, "draft"));
+		assertEquals("department='CPE' AND course_number=101 AND instructor='Test_User' AND start_hour='09:10:00'", section.getKeyIdentifier());
+		assertEquals("DRAFT_9999_SP", section.getTable());
+
 	}
 	
 

@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import core.accounts.AccountManager;
 import core.accounts.DepartmentScheduler;
 import core.accounts.User;
+import core.accounts.FacultyMember;
 import core.database.DatabaseCommunicator;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
@@ -37,6 +38,8 @@ public class EditAccountController {
     @FXML private TextField office;
     @FXML private CheckBox checkbox;
     @FXML private Label errorMessage;
+    @FXML private TextField maxWtuText;
+    @FXML private TextField minWtuText;
     
     // Access to ResourceController.
     private ResourceController resourceController;
@@ -57,6 +60,10 @@ public class EditAccountController {
                 lastName.setText(currentUser.getLastName());
                 email.setText(currentUser.getEmail());
                 office.setText(currentUser.getOfficeLocation());
+                double minWtu = ((FacultyMember)currentUser).getMinWtu();
+                minWtuText.setText(Double.toString(minWtu));
+                double maxWtu = ((FacultyMember)currentUser).getMaxWtu();
+                maxWtuText.setText(Double.toString(maxWtu));
                 if (currentUser.getRole() == SCHEDULER)
                 	checkbox.setSelected(true);                
                 username.setEditable(false);
@@ -78,11 +85,16 @@ public class EditAccountController {
 	    		currentUser.setLastName(lastName.getText());
 	    		currentUser.setEmail(email.getText());
 	    		currentUser.setOfficeLocation(office.getText());
+	    		String maxWtu = maxWtuText.getText();
+	    		((FacultyMember)currentUser).setMaxWtu(Double.valueOf(maxWtu));
+	    		String minWtu = minWtuText.getText();
+	    		((FacultyMember)currentUser).setMinWtu(Double.valueOf(minWtu));
 	    		if (checkbox.isSelected()) {
 	    			currentUser.setRole(SCHEDULER);
 	    		} else {
 	    			currentUser.setRole(FACULTY_MEMBER);
 	    		}
+	    		
 	    		currentUser.updateUser();
 	    		resourceController.populateFaculty();
 	    		Stage currentStage = (Stage) checkbox.getScene().getWindow();
