@@ -37,6 +37,7 @@ public class LoginViewController {
     @FXML private Label errorLabel;
     
     private UserAuthenticator auth;
+    private User currentUser;
     
     
     public LoginViewController()
@@ -81,15 +82,13 @@ public class LoginViewController {
         		stage.show();
         	}
         	
+        	currentUser = AccountManager.getUser(userName);
     		Stage currentStage = (Stage) facultyLoginButton.getScene().getWindow();
             currentStage.close();
 			MainWindow controller = new MainWindow();
-			
-			try {
-				controller.start(new Stage());
-			} catch (NullPointerException e) {
-				
-			}
+
+			controller.setUser(currentUser);
+			controller.start(new Stage());
         	errorLabel.setText("");
         	System.out.println("User: " + login.get(0).get("login"));
         	System.out.println("Reset: " + login.get(0).get("reset_password"));

@@ -10,6 +10,7 @@ import org.apache.log4j.BasicConfigurator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import core.accounts.User;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -27,6 +28,8 @@ public class MainWindow extends Application{
     private LinkedList<WeekViewAppointment<Object>> retval;
     private WeekView<Object> weekView;
     private static MainViewController mainViewCtrl;
+    
+    private User user;
 
     public void start(Stage primaryStage) throws IOException {
         BasicConfigurator.configure();
@@ -35,12 +38,13 @@ public class MainWindow extends Application{
 
         weekView = new WeekView<>("Today");
         weekView.setAppointmentResolver(this::getNextEntries);
-        //weekView.setOnAppointmentCreation((date, time) -> log.info("Creating new ddappointment beginning at {} {}", date, time));
+        //weekView.setOnAppointmentCreation((date, time) -> log.info("Creating new appointment beginning at {} {}", date, time));
 
         mainViewCtrl = new MainViewController(weekView, begin, end, retval);
 
     	FXMLLoader loader = new FXMLLoader(getClass().getResource("MainView.fxml"));
     	loader.setController(mainViewCtrl);
+    	mainViewCtrl.setUser(user);
     	Pane root = (Pane) loader.load();
 
         mainViewCtrl.addCalendar(weekView);
@@ -89,6 +93,10 @@ public class MainWindow extends Application{
 	
 	public static MainViewController getController() {
 		return mainViewCtrl;
+	}
+	
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 }
