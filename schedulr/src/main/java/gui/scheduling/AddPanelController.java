@@ -246,7 +246,7 @@ public class AddPanelController extends VBox {
 	private long getSectionNumber(String department, int number) {
 		long sectionNumber; 
 		List<HashMap<String, Object>> rows = DatabaseCommunicator.queryDatabase(
-				"SELECT COUNT(*) FROM temp_schedule WHERE department='" + department + "' AND course_number=" + number + " AND schedule_id=" + 1 + ";"); 
+				"SELECT COUNT(*) FROM TEMP_SCHEDULE WHERE department='" + department + "' AND course_number=" + number + " AND schedule_id=" + 1 + ";"); 
 		sectionNumber = (Long) rows.get(0).get("COUNT(*)") + 1; 
 		System.out.println("Section number = " + sectionNumber);
 		return sectionNumber; 
@@ -572,7 +572,7 @@ public class AddPanelController extends VBox {
 		}
 	}
 
-	//Automatically generate a coulrse number
+	//Automatically generate a course number
 	class selectDepartmentHandler implements EventHandler<ActionEvent> {
 		
 		public void handle(ActionEvent event) {
