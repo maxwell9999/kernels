@@ -1,9 +1,5 @@
 package core.resources;
 
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-import java.util.logging.Logger;
-
 import core.accounts.FacultyMember;
 import core.database.DatabaseCommunicator;
 import core.database.DatabaseObject;
@@ -33,6 +29,14 @@ public class Section extends Course implements DatabaseObject {
 		this.daysOfWeek = daysOfWeek; 
 	}
 
+	public Schedule getSchedule() {
+		return schedule;
+	}
+
+	public void setSchedule(Schedule schedule) {
+		this.schedule = schedule;
+	}
+	
 	public FacultyMember getInstructor() {
 		return instructor;
 	}
@@ -90,14 +94,14 @@ public class Section extends Course implements DatabaseObject {
 				schedule.getScheduleId() ;
 	}
 	
+	public void addToDatabase() {
+        DatabaseCommunicator.replaceDatabase(this);
+	}
+	
 	public String getTable(Schedule schedule, String status)
 	{
 		String tableName = status.toUpperCase() + "_" + schedule.getYear() + "_" + schedule.getTerm().toUpperCase(); 
 		return tableName;  
-	}
-	
-	public void addToDatabase() {
-		DatabaseCommunicator.replaceDatabase(this);
 	}
 	
 	@Override
@@ -110,7 +114,7 @@ public class Section extends Course implements DatabaseObject {
 	@Override
 	public String getTable()
 	{
-		return schedule.getTableName("draft");
+		return "TEMP_SCHEDULE";
 	}
 	
 }
