@@ -58,6 +58,12 @@ public class AccountManagerTest extends TestCase{
 		assertTrue("Testing reset password", BCrypt.checkpw("potato", list.get(0).get("pass_hash").toString()));
 		assertEquals("Testing Reset Password = 0", 0, Integer.parseInt(list.get(0).get("reset_password").toString()));
 		
+		AccountManager.getUser("Test_User").forgotPassword();
+		
+		list = DatabaseCommunicator.queryDatabase("SELECT pass_hash,reset_password FROM users WHERE login='Test_User';");
+		assertTrue("Testing reset password", BCrypt.checkpw("99999", list.get(0).get("pass_hash").toString()));
+		assertEquals("Testing Reset Password = 1", 1, Integer.parseInt(list.get(0).get("reset_password").toString()));
+		
 		AccountManager.removeUser("Test_User");
 		list = DatabaseCommunicator.queryDatabase("SELECT empl_id FROM users WHERE login='Test_User';");
 		assertEquals("Testing User Removal", 0, list.size());

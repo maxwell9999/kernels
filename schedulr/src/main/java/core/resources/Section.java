@@ -1,11 +1,6 @@
 package core.resources;
 
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-import java.util.logging.Logger;
-
 import core.accounts.FacultyMember;
-import core.database.DatabaseCommunicator;
 import core.database.DatabaseObject;
 
 public class Section extends Course implements DatabaseObject {
@@ -102,10 +97,6 @@ public class Section extends Course implements DatabaseObject {
 	{
 		String tableName = status.toUpperCase() + "_" + schedule.getYear() + "_" + schedule.getTerm().toUpperCase(); 
 		return tableName;  
-	}
-	
-	public void addToDatabase() {
-		DatabaseCommunicator.replaceDatabase(this);
 	}
 	
 	@Override
