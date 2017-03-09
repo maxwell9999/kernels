@@ -33,6 +33,14 @@ public class Section extends Course implements DatabaseObject {
 		this.daysOfWeek = daysOfWeek; 
 	}
 
+	public Schedule getSchedule() {
+		return schedule;
+	}
+
+	public void setSchedule(Schedule schedule) {
+		this.schedule = schedule;
+	}
+	
 	public FacultyMember getInstructor() {
 		return instructor;
 	}
@@ -110,7 +118,7 @@ public class Section extends Course implements DatabaseObject {
 	@Override
 	public String getTable()
 	{
-		return schedule.getTableName("draft");
+		return "TEMP_SCHEDULE";
 	}
 	
 }

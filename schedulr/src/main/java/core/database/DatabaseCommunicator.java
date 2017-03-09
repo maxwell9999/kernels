@@ -136,6 +136,7 @@ public class DatabaseCommunicator
     			+ "GROUP BY users.login;";
     }
 	
+	
 	public static boolean scheduleExists(String status, int year, String term) throws SQLException {
 		String tableName = status.toUpperCase() + "_" + year + "_" + term.toUpperCase(); 
 		Connection connection = connect(); 

@@ -143,6 +143,7 @@ public class MainViewController extends VBox {
 	        	Pane addClassPanel = (Pane) loader.load();
 	    	    AddPanelController addPanelCtrl = loader.<AddPanelController>getController();
 	    	    addPanelCtrl.initData(titleString, weekView, begin, end, retval, closeAddPanelButton);
+	    	    addPanelCtrl.setSchedule(schedule);
 
 	    	    addPane.getChildren().add(closeAddPanelButton);
 	    		closeAddPanelButton.setText("Close");
