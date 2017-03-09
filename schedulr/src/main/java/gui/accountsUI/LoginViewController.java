@@ -81,12 +81,10 @@ public class LoginViewController {
         		stage.setScene(scene);
         		stage.show();
         	}
-        	
         	currentUser = AccountManager.getUser(userName);
     		Stage currentStage = (Stage) facultyLoginButton.getScene().getWindow();
             currentStage.close();
 			MainWindow controller = new MainWindow();
-
 			controller.setUser(currentUser);
 			controller.start(new Stage());
         	errorLabel.setText("");

@@ -19,6 +19,7 @@ public class PreferencesController {
     {
 		System.out.println(MainViewController.getUser());
 		user = MainViewController.getUser();
+	
 		// TODO(Sarah): Uncomment once user is being passed around
 		if (user.getRole() == User.FACULTY_MEMBER) {
 			Stage stage = new Stage();
@@ -40,15 +41,24 @@ public class PreferencesController {
 	@FXML
     private void timePreferenceAction(ActionEvent event) throws IOException {
 		// TODO(Sarah): Implement this
+		user = MainViewController.getUser();
 		if (user.getRole() == User.FACULTY_MEMBER) {
-//			Stage stage = new Stage();
-//			Pane myPane = null;
-//			FXMLLoader loader = null;
-//			ClassPreferencesView controller = new ClassPreferencesView();
-//			controller.start(stage);
+			Stage stage = new Stage();
+			Pane myPane = null;
+			FXMLLoader loader = null;
+			TimePreferencesView controller = new TimePreferencesView();
+			controller.start(stage);
+
 		} else if (user.getRole() == User.SCHEDULER) {
 			// TODO(Sarah): Implement this
+			Stage stage = new Stage();
+			Pane myPane = null;
+			FXMLLoader loader = null;
+			TimePreferencesView controller = new TimePreferencesView();
+			controller.start(stage);
 		}
+		
+		
     }
 
 	public void setCurrentUser(User user) {
