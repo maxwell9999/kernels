@@ -95,7 +95,4 @@ public class Preferences implements DatabaseObject {
 	public String getKeyIdentifier() {
 		return "login='" + login + "'";
 	}
-	
-	
-
 }

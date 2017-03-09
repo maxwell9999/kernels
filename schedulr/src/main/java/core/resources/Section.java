@@ -1,6 +1,7 @@
 package core.resources;
 
 import core.accounts.FacultyMember;
+import core.database.DatabaseCommunicator;
 import core.database.DatabaseObject;
 
 public class Section extends Course implements DatabaseObject {
@@ -83,6 +84,10 @@ public class Section extends Course implements DatabaseObject {
 				this.getStartTime() + "', '" + 
 				this.daysOfWeek + "', " + 
 				schedule.getScheduleId() ;
+	}
+	
+	public void addToDatabase() {
+        DatabaseCommunicator.replaceDatabase(this);
 	}
 	
 	public String getTable(Schedule schedule, String status)
