@@ -46,7 +46,8 @@ public class Preferences implements DatabaseObject {
 				output.append(startBlock + "-" + endBlock + ", ");
 			}
 		}
-		output.delete(output.length() - 2, output.length());
+		if (output.length() > 3) 
+			output.delete(output.length() - 2, output.length());
 		return output.toString();
 	}
 	
