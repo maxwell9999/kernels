@@ -104,10 +104,6 @@ public class Section extends Course implements DatabaseObject {
 		return tableName;  
 	}
 	
-	public void addToDatabase() {
-		DatabaseCommunicator.replaceDatabase(this);
-	}
-	
 	@Override
 	public String getKeyIdentifier()
 	{

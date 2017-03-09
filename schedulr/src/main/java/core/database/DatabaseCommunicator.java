@@ -16,7 +16,6 @@ import core.resources.Schedule;
 
 public class DatabaseCommunicator 
 {
-	private static final String TEMP_SCHEDULE = "TEMP_SCHEDULE"; 
 	public static List<HashMap<String, Object>> queryDatabase(String query)
 	{
 		ResultSet rs = null;
@@ -53,6 +52,25 @@ public class DatabaseCommunicator
 			}
 		}
 		return result;
+	}
+
+	private static void databaseAction(String action)
+	{
+		Connection connection = null;
+		Statement stmt = null;
+		
+		connection = connect();
+		if(connection != null)
+		{
+			try {
+			stmt = (Statement) connection.createStatement();
+			stmt.executeUpdate(action);
+			stmt.close();
+			connection.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 	}
 	
 
@@ -97,45 +115,44 @@ public class DatabaseCommunicator
 	/**
      * Method to add a new table to the database to hold sections for the specified schedule
      * Table names are in the format status_year_term in all caps
-     * @param status must either be DRAFT or PUB
+     * @param status must either be DRAFT or PREREG or POSTREG
      * @param year the year the schedule is for
      * @param term the term the schedule is for; must be F, W, SP, or SU
      */
 	public static void createNewSchedule(String status, int year, String term) {
 		
-		// add new table to hold sections
-    	String tableName = status.toUpperCase() + "_" + year + "_" + term.toUpperCase(); 
-    	String statement = "CREATE TABLE " + tableName + " ( "
-    			+ " `section_id` int(11) NOT NULL AUTO_INCREMENT,"
-    			+ " `department` varchar(4) NOT NULL,"
-    			+ " `course_number` int(11) NOT NULL,"
-    			+ " `building` int(11) NOT NULL,"
-    			+ " `room_number` int(11) NOT NULL,"
-    			+ " `instructor` varchar(20) NOT NULL,"
-    			+ " `start_hour` time NOT NULL,"
-    			+ " `days_of_week` varchar(4) NOT NULL,"
-    			+ " `schedule_id` int(11) NOT NULL,"
-    			+ " PRIMARY KEY (`section_id`),"
-    		    + " FOREIGN KEY (schedule_id) REFERENCES schedules(id),"
-    		    + " FOREIGN KEY (department, course_number) REFERENCES courses(department, number),"
-    		    + " FOREIGN KEY (building, room_number) REFERENCES rooms(building, number)"
-    			+ ");";
-    	databaseAction(statement); 
+		createNewScheduleTable(status, year, term);
 
     	// add schedule to table of schedules
     	Schedule newSchedule = new Schedule(term, year);
     	newSchedule.addToDatabase();
-    	
-    	// create view to hold wtus
-    	String viewName = newSchedule.getWtuTableName(); 
-    	statement = "CREATE VIEW " + viewName + " as " + 
-    			"SELECT users.login, COALESCE(SUM(courses.wtu), 0)" + 
-    			"FROM (users left join TEMP_SCHEDULE on users.login=TEMP_SCHEDULE.instructor) left join "
-    			+ "courses on TEMP_SCHEDULE.department=courses.department and "
-    			+ "TEMP_SCHEDULE.course_number=courses.number"
-    			+ "GROUP BY users.login;";
     }
 	
+	
+	public static boolean saveSchedule(int year, String term) throws SQLException {
+		String tableName = "DRAFT_" + year + "_" + term.toUpperCase(); 
+		if (scheduleExists("draft", year, term)) {
+			// wipe the draft table
+			String action = "DELETE FROM " + tableName + ";"; 
+			databaseAction(action); 
+
+			// clone the TEMP_SCHEDULE table
+			action = "INSERT " + tableName + " SELECT * FROM TEMP_SCHEDULE;";
+			databaseAction(action); 
+			return true; 
+		}
+		else {
+			System.err.println("SCHEDULE DOES NOT EXIST.");
+			return false; 
+		}
+
+	}
+	
+	public static void createNewScheduleTable(String status, int year, String term) {
+    	String tableName = status.toUpperCase() + "_" + year + "_" + term.toUpperCase(); 
+    	String statement = "CREATE TABLE " + tableName + " LIKE TEMP_SCHEDULE;"; 
+    	databaseAction(statement);		
+	}
 	
 	public static boolean scheduleExists(String status, int year, String term) throws SQLException {
 		String tableName = status.toUpperCase() + "_" + year + "_" + term.toUpperCase(); 
@@ -143,26 +160,6 @@ public class DatabaseCommunicator
 		DatabaseMetaData dmd = connection.getMetaData(); 
 		ResultSet rs = dmd.getTables(null, null, tableName, null); 
 		return rs.next(); 
-	}
-	
-	
-	private static void databaseAction(String action)
-	{
-		Connection connection = null;
-		Statement stmt = null;
-		
-		connection = connect();
-		if(connection != null)
-		{
-			try {
-			stmt = (Statement) connection.createStatement();
-			stmt.executeUpdate(action);
-			stmt.close();
-			connection.close();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
 	}
 	
 	private static Connection connect()

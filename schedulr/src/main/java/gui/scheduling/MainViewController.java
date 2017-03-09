@@ -2,10 +2,12 @@ package gui.scheduling;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.LinkedList;
 
 import core.accounts.User;
+import core.database.DatabaseCommunicator;
 import core.resources.ResourceManager;
 import core.resources.Schedule;
 import de.ks.fxcontrols.weekview.WeekView;
@@ -196,7 +198,7 @@ public class MainViewController extends VBox {
     @FXML
 	private void openMenuItemClicked(ActionEvent event) throws IOException {
     	
-    	Stage stage = new Stage();
+Stage stage = new Stage();
 		Pane myPane = null;
 		FXMLLoader loader = null;
 		ScheduleSelectionController controller = new ScheduleSelectionController();
@@ -210,18 +212,29 @@ public class MainViewController extends VBox {
     
     @FXML
 	private void saveMenuItemClicked(ActionEvent event) throws IOException {
-    	/*
-    	Stage stage = new Stage();
-		Pane myPane = null;
-		FXMLLoader loader = null;
-		ResourceController controller = new ResourceController();
-		loader = new FXMLLoader(controller.getClass().getResource("resources.fxml"));
-		myPane = (Pane) loader.load();
-		Scene scene = new Scene(myPane);
-		stage.setScene(scene);
-		stage.show();
-		*/
-	}
+    	try {
+    		Stage stage = new Stage(); 
+    		Pane myPane = null; 
+    		FXMLLoader loader = null; 
+    		
+			if (!DatabaseCommunicator.saveSchedule(schedule.getYear(), schedule.getTerm())) {
+				// error
+				loader = new FXMLLoader(this.getClass().getResource("ScheduleSavingError.fxml"));
+			}
+			else {
+				// confirmation
+				loader = new FXMLLoader(this.getClass().getResource("ScheduleSavingConfirmation.fxml"));
+			}
+
+			myPane = (Pane) loader.load(); 
+			Scene scene = new Scene(myPane);
+			stage.setScene(scene);
+			stage.show();
+    	}
+    	catch (SQLException e) {
+    		e.printStackTrace();
+    	}
+    }
 
     @FXML
 	private void resourceMenuItemClicked(ActionEvent event) throws IOException {
