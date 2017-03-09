@@ -119,21 +119,21 @@ public class TimePreferencesView extends Application{
 			if(ableBool){
 				able.add(items.get(i).getTime());
 			} else {
-				able.add("null");
+				able.add(null);
 			}
 			
 			if(wantBool) {
 				want.add(items.get(i).getTime());
 			} else {
-				want.add("null");
+				want.add(null);
 			}
 		}
 		
-		for (int i = 0; i < items.size(); i++) {
+		for (int i = 0; i < able.size(); i++) {
 			System.out.println(able.get(i));
 		}
 		
-		for (int i = 0; i < items.size(); i++) {
+		for (int i = 0; i < want.size(); i++) {
 			System.out.println(want.get(i));
 		}
 		// It WAS MWF - store as such
