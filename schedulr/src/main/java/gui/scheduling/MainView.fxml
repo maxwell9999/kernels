@@ -15,15 +15,16 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="1000.0" prefWidth="1400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<VBox prefHeight="1000.0" prefWidth="1400.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
   <children>
     <MenuBar fx:id="menuBar" VBox.vgrow="NEVER">
       <menus>
         <Menu mnemonicParsing="false" text="File">
                <items>
-                  <MenuItem fx:id="createMenuItem" mnemonicParsing="false" onAction="#createMenuItemClicked" text="Create..." />
-                  <MenuItem fx:id="openMenuItem" mnemonicParsing="false" onAction="#openMenuItemClicked" text="Open..." />
-                  <MenuItem fx:id="saveMenuItem" mnemonicParsing="false" onAction="#saveMenuItemClicked" text="Save..." />
+                  <MenuItem fx:id="createMenuItem" mnemonicParsing="false" onAction="#createMenuItemClicked" text="Create Schedule" />
+                  <MenuItem fx:id="openMenuItem" mnemonicParsing="false" onAction="#openMenuItemClicked" text="Open Schedule" />
+                  <MenuItem fx:id="saveMenuItem" mnemonicParsing="false" onAction="#saveMenuItemClicked" text="Save Schedule" />
+                  <MenuItem mnemonicParsing="false" onAction="#publishMenuItemClicked" text="Publish Schedule" />
                </items></Menu>
         <Menu mnemonicParsing="false" text="Window">
           <items>

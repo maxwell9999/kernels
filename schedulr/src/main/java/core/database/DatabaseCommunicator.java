@@ -129,9 +129,9 @@ public class DatabaseCommunicator
     }
 	
 	
-	public static boolean saveSchedule(int year, String term) throws SQLException {
-		String tableName = "DRAFT_" + year + "_" + term.toUpperCase(); 
-		if (scheduleExists("draft", year, term)) {
+	public static boolean saveSchedule(String status, int year, String term) throws SQLException {
+		String tableName = status.toUpperCase() + "_" + year + "_" + term.toUpperCase(); 
+		if (scheduleExists(status, year, term)) {
 			// wipe the draft table
 			String action = "DELETE FROM " + tableName + ";"; 
 			databaseAction(action); 

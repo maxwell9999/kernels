@@ -164,10 +164,6 @@ public class MainViewController extends VBox {
         calendarPane.getChildren().add(calendarView);
     }
     
-    public void setSchedule(Schedule schedule) {
-    	this.schedule = schedule; 
-    }
-    
     private void selectSchedule() throws IOException {
     	Stage stage = new Stage();
 		Pane myPane = null;
@@ -198,7 +194,7 @@ public class MainViewController extends VBox {
     @FXML
 	private void openMenuItemClicked(ActionEvent event) throws IOException {
     	
-Stage stage = new Stage();
+		Stage stage = new Stage();
 		Pane myPane = null;
 		FXMLLoader loader = null;
 		ScheduleSelectionController controller = new ScheduleSelectionController();
@@ -210,6 +206,19 @@ Stage stage = new Stage();
 		
 	}
     
+    @FXML private void publishMenuItemClicked(ActionEvent event) throws IOException {
+
+    	Stage stage = new Stage();
+		Pane myPane = null;
+		FXMLLoader loader = null;
+		PublishScheduleController controller = new PublishScheduleController();
+		loader = new FXMLLoader(controller.getClass().getResource("SchedulePublishView.fxml"));
+		myPane = (Pane) loader.load(); 
+		Scene scene = new Scene(myPane);
+		stage.setScene(scene);
+		stage.show();
+    }
+    
     @FXML
 	private void saveMenuItemClicked(ActionEvent event) throws IOException {
     	try {
@@ -217,7 +226,7 @@ Stage stage = new Stage();
     		Pane myPane = null; 
     		FXMLLoader loader = null; 
     		
-			if (!DatabaseCommunicator.saveSchedule(schedule.getYear(), schedule.getTerm())) {
+			if (!DatabaseCommunicator.saveSchedule("DRAFT", schedule.getYear(), schedule.getTerm())) {
 				// error
 				loader = new FXMLLoader(this.getClass().getResource("ScheduleSavingError.fxml"));
 			}
@@ -308,5 +317,13 @@ Stage stage = new Stage();
     
     public static User getUser() {
     	return user; 
+    }
+
+    public void setSchedule(Schedule schedule) {
+    	this.schedule = schedule; 
+    }
+    
+    public Schedule getSchedule() {
+    	return this.schedule; 
     }
 }

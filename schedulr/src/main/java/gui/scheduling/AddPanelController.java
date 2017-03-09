@@ -411,6 +411,7 @@ public class AddPanelController extends VBox {
         	Section labSection = createLabSection(newSection);
         	labSection.addToDatabase();
         }
+        daysOfWeek = ""; 
          return retval;
 	}
 	
