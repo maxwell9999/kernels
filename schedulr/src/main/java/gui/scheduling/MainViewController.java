@@ -12,6 +12,7 @@ import core.resources.ResourceManager;
 import core.resources.Schedule;
 import de.ks.fxcontrols.weekview.WeekView;
 import de.ks.fxcontrols.weekview.WeekViewAppointment;
+import gui.accountsUI.LoginViewController;
 import gui.feedback.StudentFeedbackController;
 import gui.preferences.PreferencesController;
 import gui.resourcesUI.ResourceController;
@@ -19,6 +20,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.SplitPane;
@@ -300,9 +302,18 @@ public class MainViewController extends VBox {
     }  
        
     @FXML
-	private void editAccountMenuItemClicked(ActionEvent event) throws IOException {
+	private void logoutMenuItemClicked(ActionEvent event) throws IOException {
     	
-    	//TODO(Sarah): Implement this	
+    	//TODO(Sarah): Implement this
+    	Stage stage = new Stage();
+    	LoginViewController controller = new LoginViewController();
+    	Parent root = FXMLLoader.load(controller.getClass().getResource("LoginView.fxml"));
+		Scene scene = new Scene(root, 600, 500);
+        stage.setScene(scene);
+        stage.show();
+        
+        Stage currentStage = (Stage) addPanelButton.getScene().getWindow();
+        currentStage.close();
 	}
     
     @FXML

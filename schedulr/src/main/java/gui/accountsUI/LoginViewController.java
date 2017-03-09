@@ -66,6 +66,17 @@ public class LoginViewController {
         }
         else
         {
+        	
+        	currentUser = AccountManager.getUser(userName);
+    		Stage currentStage = (Stage) facultyLoginButton.getScene().getWindow();
+            currentStage.close();
+			MainWindow controller = new MainWindow();
+			controller.setUser(currentUser);
+			controller.start(new Stage());
+        	errorLabel.setText("");
+        	System.out.println("User: " + login.get(0).get("login"));
+        	System.out.println("Reset: " + login.get(0).get("reset_password"));
+        	
         	//RESET PASSWORD
         	if ((Integer) login.get(0).get("reset_password") == 1)
         	{
@@ -81,15 +92,6 @@ public class LoginViewController {
         		stage.setScene(scene);
         		stage.show();
         	}
-        	currentUser = AccountManager.getUser(userName);
-    		Stage currentStage = (Stage) facultyLoginButton.getScene().getWindow();
-            currentStage.close();
-			MainWindow controller = new MainWindow();
-			controller.setUser(currentUser);
-			controller.start(new Stage());
-        	errorLabel.setText("");
-        	System.out.println("User: " + login.get(0).get("login"));
-        	System.out.println("Reset: " + login.get(0).get("reset_password"));
         }
     }
         

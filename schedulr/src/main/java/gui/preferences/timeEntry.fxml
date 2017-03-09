@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.Pane?>
+
+<Pane prefHeight="38.0" prefWidth="706.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label fx:id="Login" layoutX="16.0" layoutY="11.0" prefHeight="17.0" prefWidth="73.0" text="Login" />
+      <Label fx:id="MWFAble" layoutX="116.0" layoutY="11.0" prefHeight="17.0" prefWidth="98.0" text="MWF Able" />
+      <Label fx:id="MWFPref" layoutX="258.0" layoutY="11.0" prefHeight="17.0" prefWidth="114.0" text="MWF Preferred" />
+      <Label fx:id="TRAble" layoutX="428.0" layoutY="11.0" prefHeight="17.0" prefWidth="98.0" text="TR Able" />
+      <Label fx:id="TRPref" layoutX="561.0" layoutY="11.0" prefHeight="17.0" prefWidth="98.0" text="TR Preferred" />
+   </children>
+</Pane>

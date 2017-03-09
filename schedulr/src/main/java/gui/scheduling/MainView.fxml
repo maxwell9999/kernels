@@ -36,7 +36,7 @@
         </Menu>
         <Menu mnemonicParsing="false" text="Settings">
           <items>
-            <MenuItem fx:id="editMenuItem" mnemonicParsing="false" onAction="#editAccountMenuItemClicked" text="Edit Account" />
+            <MenuItem fx:id="logOut" mnemonicParsing="false" onAction="#logoutMenuItemClicked" text="Logout" />
                   <MenuItem fx:id="aboutMenuItem" mnemonicParsing="false" onAction="#aboutMenuItemClicked" text="About Schedulr" />
           </items>
         </Menu>
