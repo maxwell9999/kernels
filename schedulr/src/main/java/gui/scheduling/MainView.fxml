@@ -15,7 +15,7 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="1000.0" prefWidth="1400.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+<VBox prefHeight="1000.0" prefWidth="1400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
   <children>
     <MenuBar fx:id="menuBar" VBox.vgrow="NEVER">
       <menus>
@@ -69,19 +69,23 @@
 		            <AnchorPane fx:id="calendarPane" minHeight="-1.0" minWidth="-1.0" prefHeight="545.0" prefWidth="430.0">
 		              <children>
 		              </children>
-	            </AnchorPane>
+	            	</AnchorPane>
 	            </children>
             </VBox>
           </content>
         </ScrollPane>
-        <AnchorPane>
-          <children>
-          	<VBox fx:id="addPane">
-          		<children>
-            	</children>
-            </VBox>
- 		  </children>
-        </AnchorPane>
+      	<ScrollPane>
+          <content>
+	        <AnchorPane>
+	          	<children>
+	          			<VBox fx:id="addPane">
+	          				<children>
+	            			</children>
+	            		</VBox>
+	 		  		</children>
+	        	</AnchorPane>
+        	</content>
+     	</ScrollPane>
       </items>
     </SplitPane>
     <HBox id="HBox" alignment="CENTER_LEFT" spacing="5.0" VBox.vgrow="NEVER">

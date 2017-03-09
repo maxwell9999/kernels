@@ -4,13 +4,12 @@ import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.function.BiPredicate;
-
-import javax.xml.crypto.Data;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -88,6 +87,8 @@ public class AddPanelController extends VBox {
 	CheckBox s = new CheckBox();
 	@FXML
 	CheckBox x = new CheckBox();
+	@FXML
+	Button closeButton = new Button();
 
 	private WeekView<Object> weekView = null;
     private LocalDate begin, end = null;
@@ -122,15 +123,27 @@ public class AddPanelController extends VBox {
         //Automatically generate a course number
         selectDepartment.setOnAction(new selectDepartmentHandler());
 
+        SpinnerValueFactory<Integer> hSValFac = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 23, 0, 1);
+        hourStepper.setValueFactory(hSValFac);
+        hourStepper.setEditable(true);
+
+        SpinnerValueFactory<Integer> mSValFac = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 59, 0, 1);
+        minStepper.setValueFactory(mSValFac);
+        minStepper.setEditable(true);
+
+    	SpinnerValueFactory<Integer> lengthValFac = new SpinnerValueFactory.IntegerSpinnerValueFactory(50, 360, 50, 30);
+        length.setValueFactory(lengthValFac);
+
     }
 
-	public void initData(String panelTitle, WeekView<Object> weekView, LocalDate begin, LocalDate end, LinkedList<WeekViewAppointment<Object>> retval) {
+	public void initData(String panelTitle, WeekView<Object> weekView, LocalDate begin, LocalDate end, LinkedList<WeekViewAppointment<Object>> retval, Button closeButton) {
 		this.panelTitle.setText(panelTitle);
 		this.panelTitle.setTextAlignment(TextAlignment.CENTER);
 		this.weekView = weekView;
 		this.begin = begin;
 		this.end = end;
 		this.retval = retval;
+		this.closeButton = closeButton;
 	}
 	
 	/**
@@ -232,7 +245,7 @@ public class AddPanelController extends VBox {
 	private long getSectionNumber(String department, int number) {
 		long sectionNumber; 
 		List<HashMap<String, Object>> rows = DatabaseCommunicator.queryDatabase(
-				"SELECT COUNT(*) FROM TEMP_SCHEDULE WHERE department='" + department + "' AND course_number=" + number + " AND schedule_id=" + 1 + ";"); 
+				"SELECT COUNT(*) FROM TEMP_SCHEDULE WHERE department='" + department + "' AND course_number=" + number + " AND schedule_id=" + schedule.getScheduleId() + ";"); 
 		if (rows.size() == 0)
 		{
 			return 1;
@@ -258,12 +271,37 @@ public class AddPanelController extends VBox {
 		Course course = ResourceManager.getCourse(selectDepartment.getValue(), Integer.parseInt(selectNumber.getValue()));
 		FacultyMember instructor = (FacultyMember) AccountManager.getUser(selectFaculty.getValue()); 
 		String[] roomCombo = selectRoom.getValue().split("-"); 
-		Room room = ResourceManager.getRoom(Integer.parseInt(roomCombo[0]), Integer.parseInt(roomCombo[1])); 
+		int building = Integer.parseInt(roomCombo[0]); 
+		int roomNumber = Integer.parseInt(roomCombo[1]);
+		Room room = ResourceManager.getRoom(building, roomNumber); 
 		String startTime = LocalTime.of(hourStepper.getValue(), minStepper.getValue()).toString();; 
 		int duration = length.getValue(); 
 
 		Section section = new Section(schedule, course, instructor, room, startTime, duration, daysOfWeek); 
+		Section labSection; 
+		if (course.getLabHours() > 0) {
+			labSection = new Section(schedule, course, instructor, room, startTime+duration, duration, daysOfWeek);
+		}
 		return section;
+	}
+	
+	/**
+	 * Method to create a lab section immediately after the specified lecture section
+	 * NOTE: the start time of the lecture section will be changed after execution of this method
+	 * @param lectSection the lecture section the lab is to be scheduled for
+	 * @return the lab section with an updated start time
+	 */
+	public static Section createLabSection(Section lectSection) {
+
+		int duration = lectSection.getDuration(); 
+    	DateTimeFormatter df = DateTimeFormatter.ofPattern("HH:mm:ss"); 
+    	LocalTime lt = LocalTime.parse(lectSection.getStartTime()); 
+    	String labStartTime = df.format(lt.plusMinutes(duration + 10)); 
+
+		Section labSection = lectSection; 
+    	labSection.setStartTime(labStartTime);
+
+    	return labSection; 
 	}
 	
 	/**
@@ -367,7 +405,15 @@ public class AddPanelController extends VBox {
 
 	        retval.add(timedAppointment);
         }
-        return retval;
+        Section newSection = createSection(); 
+        System.out.println("INITIAL LECTURE SECTION TIME: " + newSection.getStartTime());
+        newSection.addToDatabase();
+        if (newSection.getLabHours() > 0) {
+        	Section labSection = createLabSection(newSection);
+        	labSection.addToDatabase();
+			System.out.println("POST LECTURE SECTION TIME: " + newSection.getStartTime());
+        }
+         return retval;
 	}
 	
 	/**
@@ -461,6 +507,7 @@ public class AddPanelController extends VBox {
 	        retval.add(timedAppointment);
         }
         return retval;
+<<<<<<< HEAD
 	}
 
 	private LinkedList<WeekViewAppointment<Object>> rmAppt(LocalDate begin, LocalDate end, LinkedList<WeekViewAppointment<Object>> retval) {
@@ -563,11 +610,11 @@ public class AddPanelController extends VBox {
 		}
 	}
 
-	//Automatically generate a coulrse number
+	//Automatically generate a course number
 	class selectDepartmentHandler implements EventHandler<ActionEvent> {
 		
 		public void handle(ActionEvent event) {
 			populateCourseNumbers(selectDepartment.getValue()); 
 		}
-	}
+	} 
 }

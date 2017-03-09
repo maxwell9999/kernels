@@ -444,9 +444,23 @@ public class WeekView<T> extends GridPane {
             startAppointmentDragInternal(appointment);
             event.consume();
           });
+
+          //appointment.setFocused(node.isFocused());
           node.focusedProperty().addListener((p, o, n) -> {
-            if (n) {
+        	System.out.println(appointment.toString() + "is " + node.isFocused());
+
+        	if (n) {
+              for(WeekViewAppointment<T> tempAppt : change.getList()) {
+            	System.out.println("setting false " + tempAppt);
+            	tempAppt.setFocused(false);
+              }
               node.toFront();
+              appointment.setFocused(true);
+
+            } else if (o) {
+              System.out.println("o not " + "n: " + n);
+            } else {
+              System.out.println("not");
             }
           });
 

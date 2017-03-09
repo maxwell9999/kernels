@@ -21,7 +21,7 @@ import javafx.stage.Stage;
 import de.ks.fxcontrols.weekview.WeekView;
 import de.ks.fxcontrols.weekview.WeekViewAppointment;
 
-public class MainWindow extends Application{
+public class MainWindow extends Application {
 	private static final Logger log = LoggerFactory.getLogger(MainWindow.class);
 
     private LocalDate begin, end;

@@ -6,8 +6,8 @@ import java.time.LocalDate;
 import java.util.LinkedList;
 
 import core.accounts.User;
-import core.resources.Schedule;
 import core.resources.ResourceManager;
+import core.resources.Schedule;
 import de.ks.fxcontrols.weekview.WeekView;
 import de.ks.fxcontrols.weekview.WeekViewAppointment;
 import gui.feedback.StudentFeedbackController;
@@ -27,15 +27,10 @@ import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-import gui.resourcesUI.*;
-import gui.feedback.*;
-import gui.preferences.PreferencesController;
-
 public class MainViewController extends VBox {
 
-	//TODO Remove the change weeks buttons (if possible), prevent drag and drop features
-    @FXML //  fx:id="addPanelButton"
-    private Button addPanelButton; // Value injected by FXMLLoader
+    @FXML
+    private Button addPanelButton;
     @FXML
     private Button editPanelButton;
     @FXML
@@ -79,19 +74,33 @@ public class MainViewController extends VBox {
         addPanelButton.setOnAction(new EventHandler<ActionEvent>() {
         	public void handle(ActionEvent event) {
         		titleString = "Add a Class";
+        		editPanelButton.setDisable(true);
+        		rmPanelButton.setDisable(true);
         		handleClassButtonPress(event);
         	}
         });
         editPanelButton.setOnAction(new EventHandler<ActionEvent>() {
         	public void handle(ActionEvent event) {
         		titleString = "Edit a Class";
-        		handleClassButtonPress(event);
+
+        		WeekViewAppointment<Object> selected = getFocusedNode();
+
+        		if (selected != null) {
+	        		addPanelButton.setDisable(true);
+	        		rmPanelButton.setDisable(true);
+	        		handleClassButtonPress(event);
+        		} else {
+        			System.out.println("Please select a class to edit.");
+        		}
         	}
         });
         rmPanelButton.setOnAction(new EventHandler<ActionEvent>() {
         	public void handle(ActionEvent event) {
-        		titleString = "Remove a Class";
-        		handleClassButtonPress(event);
+        		WeekViewAppointment<Object> selected = getFocusedNode();
+        		if (selected != null) {
+        			retval.remove(selected);
+        			weekView.recreateEntries(retval);
+        		}
         	}
         });
 
@@ -99,33 +108,51 @@ public class MainViewController extends VBox {
 
             public void handle(ActionEvent event) {
 	           	if (open) {
-		    		//addPanelButton.setText("Add Q Class");
 		    		addPane.getChildren().remove(0);
 		    		addPane.getChildren().remove(0);
 		    		splitPane.setDividerPositions(0.1005567928730512, 0.9905567928730512);
 		    		open = false;
+	        		addPanelButton.setDisable(open);
+	        		editPanelButton.setDisable(open);
+	        		rmPanelButton.setDisable(open);
 	           	}
             }
         });
 
+//        MouseEvent e;
+//        Object content = e.getDragboard().getContent(WeekView.getDataFormat());
+//        System.out.println(content);
+    }
+
+
+    public WeekViewAppointment<Object> getFocusedNode() {
+    	for (WeekViewAppointment<Object> appointment : retval) {
+    		if (appointment.getFocused()) {
+    			System.out.println("focused " + appointment.toString());
+    			return appointment;
+    		}
+    	}
+    	return null;
     }
 
 	public void handleClassButtonPress(ActionEvent event) {
-        try {
+        if (open == false) {
+        	try {
 
-        	FXMLLoader loader = new FXMLLoader(getClass().getResource("AddPanel.fxml"));
-        	Pane addClassPanel = (Pane) loader.load();
-    	    AddPanelController addPanelCtrl = loader.<AddPanelController>getController();
-    	    addPanelCtrl.initData(titleString, weekView, begin, end, retval);
-    	    addPanelCtrl.setSchedule(schedule);
+	        	FXMLLoader loader = new FXMLLoader(getClass().getResource("AddPanel.fxml"));
+	        	Pane addClassPanel = (Pane) loader.load();
+	    	    AddPanelController addPanelCtrl = loader.<AddPanelController>getController();
+	    	    addPanelCtrl.initData(titleString, weekView, begin, end, retval, closeAddPanelButton);
+	    	    addPanelCtrl.setSchedule(schedule);
 
-    	    addPane.getChildren().add(closeAddPanelButton);
-    		closeAddPanelButton.setText("Close");
-            addPane.getChildren().add(addClassPanel);
-            open = true;
+	    	    addPane.getChildren().add(closeAddPanelButton);
+	    		closeAddPanelButton.setText("Close");
+	            addPane.getChildren().add(addClassPanel);
+	            open = true;
 
-        } catch (IOException e) {
-            e.printStackTrace();
+	        } catch (IOException e) {
+	            e.printStackTrace();
+	        }
         }
     }
 
