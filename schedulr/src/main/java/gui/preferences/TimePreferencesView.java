@@ -2,7 +2,10 @@ package gui.preferences;
 
 import java.util.*;
 
+import core.accounts.AccountManager;
 import core.database.DatabaseCommunicator;
+import core.preferences.Preferences;
+import gui.scheduling.MainViewController;
 import javafx.application.*;
 import javafx.beans.Observable;
 import javafx.beans.property.BooleanProperty;
@@ -102,7 +105,43 @@ public class TimePreferencesView extends Application{
     button.setOnAction(new EventHandler<ActionEvent>() {
 
     public void handle(ActionEvent event) {
-    	saveData();
+    	String value = (String) choiceBox.getValue();
+	  	String currentUser = MainViewController.getUser().getLogin();
+	  	Preferences preference = new Preferences();
+  	
+  		ArrayList<String> want = new ArrayList<>();
+		ArrayList<String> able = new ArrayList<>();
+		
+		for (int i = 0; i < items.size(); i++) {
+			boolean ableBool = items.get(i).isAbleToChecked();
+			boolean wantBool = items.get(i).isWantToChecked();
+			
+			if(ableBool){
+				able.add(items.get(i).getTime());
+			} else {
+				able.add("null");
+			}
+			
+			if(wantBool) {
+				want.add(items.get(i).getTime());
+			} else {
+				want.add("null");
+			}
+		}
+		
+		for (int i = 0; i < items.size(); i++) {
+			System.out.println(able.get(i));
+		}
+		
+		for (int i = 0; i < items.size(); i++) {
+			System.out.println(want.get(i));
+		}
+		// It WAS MWF - store as such
+	  	if (value.equals("MWF")) {
+	  		preference.setMWFPreferences(currentUser, able, want);
+	  	} else {
+	  		preference.setTRPreferences(currentUser, able, want);
+	  	}
       }
     });
 
@@ -176,6 +215,8 @@ public class TimePreferencesView extends Application{
   
   public void saveData() {
 	  	String value = (String) choiceBox.getValue();
+	  	String currentUser = MainViewController.getUser().getLogin();
+	  	Preferences preference = new Preferences();
   	
   		ArrayList<String> want = new ArrayList<>();
 		ArrayList<String> able = new ArrayList<>();
@@ -198,9 +239,9 @@ public class TimePreferencesView extends Application{
 		}
   	// It WAS MWF - store as such
   	if (value.equals("TR")) {
-  		//TODO(Sarah): Store in TR table
+  		preference.setMWFPreferences(currentUser, able, want);
   	} else {
-  		//TODO(Sarah): Store in MWF table
+  		preference.setTRPreferences(currentUser, able, want);
   	}
   }
 
