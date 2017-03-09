@@ -72,6 +72,10 @@ public class PreferencesTest {
 		assertEquals("Testing preference block...", expected, map.get("pref").toString());
 		expected = "13:00-15:00, 15:00-15:30, 16:00-17:00";
 		assertEquals("Testing can block...", expected, map.get("can").toString());
+		
+		DatabaseCommunicator.deleteDatabase("TR_Preferences", "login='test'");
+		DatabaseCommunicator.deleteDatabase("MWF_Preferences", "login='test'");
+
 	}
 
 }
