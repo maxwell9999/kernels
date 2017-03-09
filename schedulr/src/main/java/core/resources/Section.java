@@ -94,6 +94,10 @@ public class Section extends Course implements DatabaseObject {
 				schedule.getScheduleId() ;
 	}
 	
+	public void addToDatabase() {
+        DatabaseCommunicator.replaceDatabase(this);
+	}
+	
 	public String getTable(Schedule schedule, String status)
 	{
 		String tableName = status.toUpperCase() + "_" + schedule.getYear() + "_" + schedule.getTerm().toUpperCase(); 
