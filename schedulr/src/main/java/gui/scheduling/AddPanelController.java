@@ -406,12 +406,10 @@ public class AddPanelController extends VBox {
 	        retval.add(timedAppointment);
         }
         Section newSection = createSection(); 
-        System.out.println("INITIAL LECTURE SECTION TIME: " + newSection.getStartTime());
         newSection.addToDatabase();
         if (newSection.getLabHours() > 0) {
         	Section labSection = createLabSection(newSection);
         	labSection.addToDatabase();
-			System.out.println("POST LECTURE SECTION TIME: " + newSection.getStartTime());
         }
          return retval;
 	}

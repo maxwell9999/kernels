@@ -1,6 +1,7 @@
 package core.resources;
 
 import core.accounts.FacultyMember;
+import core.database.DatabaseCommunicator;
 import core.database.DatabaseObject;
 
 public class Section extends Course implements DatabaseObject {
@@ -97,6 +98,10 @@ public class Section extends Course implements DatabaseObject {
 	{
 		String tableName = status.toUpperCase() + "_" + schedule.getYear() + "_" + schedule.getTerm().toUpperCase(); 
 		return tableName;  
+	}
+	
+	public void addToDatabase() {
+		DatabaseCommunicator.replaceDatabase(this);
 	}
 	
 	@Override
