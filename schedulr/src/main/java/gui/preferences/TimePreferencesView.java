@@ -103,7 +103,6 @@ public class TimePreferencesView extends Application{
 
     public void handle(ActionEvent event) {
     	saveData();
-        System.out.println("Note section says: " + textString);
       }
     });
 
