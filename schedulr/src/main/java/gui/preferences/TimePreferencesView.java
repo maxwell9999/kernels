@@ -24,11 +24,11 @@ import javafx.stage.Stage;
 import javafx.util.*;
 
 /**
- * UI for allowing Faculty Member's to pick their preferences.
+ * UI for allowing Faculty Member's to pick their time preferences.
  * @author sarahpadlipsky
- * @version February 1, 2017
+ * @version March 8, 2017
  */
-public class TimePreferencesView extends Application{
+public class TimePreferencesView extends Application {
 
   // TableView aka Spreadsheet for the view.
   private TableView<Time> tableView;
@@ -156,7 +156,10 @@ public class TimePreferencesView extends Application{
 	choiceBox.setOnAction(new EventHandler<ActionEvent>() {
 
 	    public void handle(ActionEvent event) {
+	    	// Saves data to database
 	        saveData();
+	        // Clears currently checked boxes
+	        clearData();
 	    }
 	});
 
@@ -179,6 +182,9 @@ public class TimePreferencesView extends Application{
 
   }
   
+  /**
+   * Initializes hard coded item in table.
+   */
   public void initializeItemList() {
 	  items = new ArrayList<Time>();
 	  items.add(new Time("7:00"));
@@ -213,6 +219,9 @@ public class TimePreferencesView extends Application{
 	  items.add(new Time("21:30"));
   }
   
+  /**
+   * Saves data to database when choice box is changed
+   */
   public void saveData() {
 	  	String value = (String) choiceBox.getValue();
 	  	String currentUser = MainViewController.getUser().getLogin();
@@ -237,6 +246,14 @@ public class TimePreferencesView extends Application{
 				want.add(null);
 			}
 		}
+		
+		for (int i = 0; i < able.size(); i++) {
+			System.out.println(able.get(i));
+		}
+		
+		for (int i = 0; i < want.size(); i++) {
+			System.out.println(want.get(i));
+		}
   	// It WAS MWF - store as such
   	if (value.equals("TR")) {
   		preference.setMWFPreferences(currentUser, able, want);
@@ -244,7 +261,23 @@ public class TimePreferencesView extends Application{
   		preference.setTRPreferences(currentUser, able, want);
   	}
   }
+  
+  /**
+   * Puts all checkboxes back to false
+   */
+  public void clearData() {
+	  for (int i = 0; i < items.size(); i++) {
+		  Time item = items.get(i);
+		  item.setAbleToChecked(false);
+		  item.setWantToChecked(false);
+	  }
+  }
 
+  /**
+   * Internal class for storing information in table
+   * @author SarahPadlipsky
+   *
+   */
   public static class Time {
     private StringProperty time;
     private StringProperty timeID;
