@@ -108,7 +108,7 @@ public class TimePreferencesViewer {
 			}
 		
             // Populates GUI.
-            timeContainer.getChildren().add(newPane);
+			timeContainer.getChildren().add(newPane);
             Label loginLabel = (Label) newPane.lookup("#Login");
             Label wantLabelMWF = (Label) newPane.lookup("#MWFPref");
             Label ableLabelMWF = (Label) newPane.lookup("#MWFAble");

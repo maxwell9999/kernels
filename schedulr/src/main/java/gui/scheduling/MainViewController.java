@@ -13,6 +13,7 @@ import core.resources.Schedule;
 import de.ks.fxcontrols.weekview.WeekView;
 import de.ks.fxcontrols.weekview.WeekViewAppointment;
 import gui.accountsUI.LoginViewController;
+import gui.feedback.FeedbackViewer;
 import gui.feedback.StudentFeedbackController;
 import gui.preferences.PreferencesController;
 import gui.resourcesUI.ResourceController;
@@ -290,15 +291,30 @@ public class MainViewController extends VBox {
     @FXML
 	private void feedbackMenuItemClicked(ActionEvent event) throws IOException {
     	
-    	Stage stage = new Stage();
-		Pane myPane = null;
-		FXMLLoader loader = null;
-		StudentFeedbackController controller = new StudentFeedbackController();
-		loader = new FXMLLoader(controller.getClass().getResource("StudentFeedback.fxml"));
-		myPane = (Pane) loader.load();
-		Scene scene = new Scene(myPane);
-		stage.setScene(scene);
-		stage.show();
+    	
+    	if (user.getRole() == User.FACULTY_MEMBER) {
+        	Stage stage = new Stage();
+    		Pane myPane = null;
+    		FXMLLoader loader = null;
+    		StudentFeedbackController controller = new StudentFeedbackController();
+    		loader = new FXMLLoader(controller.getClass().getResource("StudentFeedback.fxml"));
+    		myPane = (Pane) loader.load();
+    		Scene scene = new Scene(myPane);
+    		stage.setScene(scene);
+    		stage.show();
+    	} else if (user.getRole() == User.SCHEDULER) {
+    		
+    		Stage stage = new Stage();
+    		Pane myPane = null;
+    		FXMLLoader loader = null;
+    		FeedbackViewer controller = new FeedbackViewer();
+    		loader = new FXMLLoader(controller.getClass().getResource("feedbackViewer.fxml"));
+    		myPane = (Pane) loader.load();
+    		Scene scene = new Scene(myPane);
+    		stage.setScene(scene);
+    		stage.show();
+    		
+    	}
     }  
        
     @FXML
