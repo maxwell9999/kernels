@@ -61,7 +61,6 @@ public class ResourceManagerTest extends TestCase{
 				"ABC", temp.getDepartment());
 		assertEquals(123, temp.getNumber()); 
 		
-		//TODO add test for edit
 		temp.setNotes("This is a happy note");
 		temp.updateCourse();
 		
@@ -95,8 +94,6 @@ public class ResourceManagerTest extends TestCase{
 		assertEquals("Testing first room building...", 0, list.get(0).getBuilding());
 		assertEquals("Testing first room number...", 9904, list.get(0).getNumber());
 		
-		//TODO Modify this test. Need to select a subset of rooms to sort
-		//NOTE this test will fail once the database is populated
 		assertEquals("Testing building sort...", 9904, list.get(list.size() - 2).getNumber());
 		assertEquals("Testing room sort...", 9905, list.get(list.size() - 1).getNumber());
 		
@@ -144,7 +141,8 @@ public class ResourceManagerTest extends TestCase{
 		out.write("ZZZ 999, Computer Science for Dummies, 2 activity, 4 unit, 3 lect, 2 unit, 2 lab, 5 unit, banana");
 		out.close();
 		ResourceManager.importCourses(temp);
-		assertTrue("Testing proper import... ", DatabaseCommunicator.resourceExists("courses", "department='ZZZ' AND number=999"));
+		Course course = new Course("ZZZ", 999, "String", 1.0, 3, "Notes", 3, 4);
+		assertTrue("Testing proper import... ", DatabaseCommunicator.resourceExists(course));
 		String name = DatabaseCommunicator.queryDatabase("SELECT name FROM courses WHERE department='ZZZ' AND number=999;").get(0).get("name").toString();
 		assertEquals("Testing proper name...", "Computer Science for Dummies", name);
 		
@@ -154,12 +152,13 @@ public class ResourceManagerTest extends TestCase{
 		out.write("ZZZ 999, Computer Science for Smarties, 2 activity, 4 unit, 3 lect, 2 unit, 2 lab, 5 unit, banana");
 		out.close();
 		ResourceManager.importCourses(temp2);
-		assertTrue(DatabaseCommunicator.resourceExists("courses", "department='ZZZ' AND number=999"));
+		course = new Course("ZZZ", 999, "String", 1.0, 3, "Notes", 3, 4);
+		assertTrue(DatabaseCommunicator.resourceExists(course));
 		name = DatabaseCommunicator.queryDatabase("SELECT name FROM courses WHERE department='ZZZ' AND number=999;").get(0).get("name").toString();
 		assertEquals("Testing name change...", "Computer Science for Smarties", name);
 		
 		ResourceManager.removeCourse("ZZZ", 999);
-		assertFalse(DatabaseCommunicator.resourceExists("courses", "department='ZZZ' AND number=999"));
+		assertFalse(DatabaseCommunicator.resourceExists(course));
 	}
 	
 	@After

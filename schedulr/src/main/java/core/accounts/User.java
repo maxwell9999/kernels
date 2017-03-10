@@ -112,9 +112,13 @@ public abstract class User implements DatabaseObject {
 		DatabaseCommunicator.editDatabase(this, "reset_password=0");
 	}
 	
-	//TODO fill in this empty function
+	/**
+	 * When a user forgets their password, it can be reset to their empl_id
+	 */
 	public void forgotPassword() {
-		
+		String hashed = BCrypt.hashpw(this.getEmplId() + "", BCrypt.gensalt());
+		DatabaseCommunicator.editDatabase(this, "pass_hash='" + hashed + "'");
+		DatabaseCommunicator.editDatabase(this, "reset_password=1");
 	}
 
 	public String getKeyIdentifier()

@@ -11,7 +11,7 @@ public class UserTest {
 
 	@Test
 	public void testSets() {
-		AccountManager.addUser("Test_User", 99999, "Joe", "Bobby", "flowerprincess123@yahoo.com", "Hell", User.FACULTY_MEMBER);
+		AccountManager.addUser("Test_User", 99999, "Joe", "Bobby", "flowerprincess123@yahoo.com", "Hell", User.FACULTY_MEMBER, 0, 0);
 		User user = AccountManager.getUser("Test_User");
 		assertEquals("Test_User", user.getLogin());
 		assertEquals(99999, user.getEmplId());

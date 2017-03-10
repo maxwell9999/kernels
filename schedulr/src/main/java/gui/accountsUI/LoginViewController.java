@@ -15,6 +15,8 @@ import javafx.stage.Stage;
 import core.accounts.AccountManager;
 import core.accounts.User;
 import core.accounts.UserAuthenticator;
+import gui.scheduling.MainViewController;
+import gui.scheduling.MainWindow;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,6 +37,7 @@ public class LoginViewController {
     @FXML private Label errorLabel;
     
     private UserAuthenticator auth;
+    private User currentUser;
     
     
     public LoginViewController()
@@ -63,11 +66,20 @@ public class LoginViewController {
         }
         else
         {
+        	
+        	currentUser = AccountManager.getUser(userName);
+    		Stage currentStage = (Stage) facultyLoginButton.getScene().getWindow();
+            currentStage.close();
+			MainWindow controller = new MainWindow();
+			controller.setUser(currentUser);
+			controller.start(new Stage());
+        	errorLabel.setText("");
+        	System.out.println("User: " + login.get(0).get("login"));
+        	System.out.println("Reset: " + login.get(0).get("reset_password"));
+        	
         	//RESET PASSWORD
         	if ((Integer) login.get(0).get("reset_password") == 1)
         	{
-        		Stage currentStage = (Stage) facultyLoginButton.getScene().getWindow();
-                currentStage.close();
         		String fxmlFile = "ResetPasswordView.fxml";
         		Stage stage = new Stage();
         		Pane myPane = null;
@@ -80,9 +92,6 @@ public class LoginViewController {
         		stage.setScene(scene);
         		stage.show();
         	}
-        	errorLabel.setText("");
-        	System.out.println("User: " + login.get(0).get("login"));
-        	System.out.println("Reset: " + login.get(0).get("reset_password"));
         }
     }
         

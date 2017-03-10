@@ -1,7 +1,9 @@
 package core.resources;
 
+import java.sql.ResultSet;
 import java.util.HashMap;
 import java.util.List;
+import java.sql.DatabaseMetaData;
 
 import core.database.DatabaseCommunicator;
 import core.database.DatabaseObject;
@@ -59,6 +61,14 @@ public class Schedule implements DatabaseObject {
 	public String getTable()
 	{
 		return "schedules";
+	}
+	
+	public String getTableName(String status) {
+		return status.toUpperCase() + "_" + this.year + "_" + this.term.toUpperCase(); 
+	}
+	
+	public String getWtuTableName() {
+		return "wtus_for_" + this.year + "_" + this.term;
 	}
 	
 	public void addToDatabase() {

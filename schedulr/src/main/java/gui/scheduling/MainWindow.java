@@ -10,9 +10,11 @@ import org.apache.log4j.BasicConfigurator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import core.accounts.User;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
@@ -21,25 +23,30 @@ import javafx.stage.Stage;
 import de.ks.fxcontrols.weekview.WeekView;
 import de.ks.fxcontrols.weekview.WeekViewAppointment;
 
-public class MainWindow extends Application{
+public class MainWindow extends Application {
 	private static final Logger log = LoggerFactory.getLogger(MainWindow.class);
 
-    LocalDate begin, end;
-    LinkedList<WeekViewAppointment<Object>> retval;
+    private LocalDate begin, end;
+    private LinkedList<WeekViewAppointment<Object>> retval;
+    private WeekView<Object> weekView;
+    private static MainViewController mainViewCtrl;
+
+    private User user;
 
     public void start(Stage primaryStage) throws IOException {
         BasicConfigurator.configure();
 
         primaryStage.setTitle("Schedulr");
 
-        WeekView<Object> weekView = new WeekView<>("Today");
+        weekView = new WeekView<>("Today");
         weekView.setAppointmentResolver(this::getNextEntries);
-        //weekView.setOnAppointmentCreation((date, time) -> log.info("Creating new ddappointment beginning at {} {}", date, time));
+        //weekView.setOnAppointmentCreation((date, time) -> log.info("Creating new appointment beginning at {} {}", date, time));
 
-        MainViewController mainViewCtrl = new MainViewController(weekView, begin, end, retval);
+        mainViewCtrl = new MainViewController(weekView, begin, end, retval);
 
     	FXMLLoader loader = new FXMLLoader(getClass().getResource("MainView.fxml"));
     	loader.setController(mainViewCtrl);
+    	mainViewCtrl.setUser(user);
     	Pane root = (Pane) loader.load();
 
         mainViewCtrl.addCalendar(weekView);
@@ -47,6 +54,7 @@ public class MainWindow extends Application{
         primaryStage.setScene(createScene(root, mainViewCtrl));
 
         primaryStage.show();
+        selectSchedule();
     }
 
     private Scene createScene(Pane mainPane, MainViewController mainViewCtrl) {
@@ -61,6 +69,18 @@ public class MainWindow extends Application{
       return scene;
     }
 
+    private void selectSchedule() throws IOException {
+    	Stage stage = new Stage();
+		Pane myPane = null;
+		FXMLLoader loader = null;
+		ScheduleMenuController controller = new ScheduleMenuController();
+		loader = new FXMLLoader(controller.getClass().getResource("ScheduleMenuView.fxml"));
+		myPane = (Pane) loader.load();
+		Scene scene = new Scene(myPane);
+		stage.setScene(scene);
+		stage.show();
+    }
+
     private void getNextEntries(LocalDate begin, LocalDate end, Consumer<List<WeekViewAppointment<Object>>> consumer) {
 
     	this.begin = begin;
@@ -70,7 +90,7 @@ public class MainWindow extends Application{
 
         consumer.accept(retval);
         this.retval = retval;
-      }
+    }
 
 	/**
 	 * @param args
@@ -78,6 +98,14 @@ public class MainWindow extends Application{
 	public static void main(String[] args) {
 		launch(args);
 
+	}
+
+	public static MainViewController getController() {
+		return mainViewCtrl;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 }

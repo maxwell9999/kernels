@@ -1,9 +1,7 @@
 package core.resources;
 
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-
 import core.accounts.FacultyMember;
+import core.database.DatabaseCommunicator;
 import core.database.DatabaseObject;
 
 public class Section extends Course implements DatabaseObject {
@@ -23,6 +21,7 @@ public class Section extends Course implements DatabaseObject {
 	public Section(Schedule schedule, Course course, FacultyMember instructor, Room room, String startTime, int duration, String daysOfWeek) {
 		super(course.getDepartment(), course.getNumber(), course.getName(), course.getWtu(), course.getLectHours(), 
 				course.getNotes(), course.getLabHours(), course.getActHours()); 
+		this.schedule = schedule;
 		this.instructor = instructor; 
 		this.room = room;
 		this.startTime = startTime; 
@@ -30,6 +29,14 @@ public class Section extends Course implements DatabaseObject {
 		this.daysOfWeek = daysOfWeek; 
 	}
 
+	public Schedule getSchedule() {
+		return schedule;
+	}
+
+	public void setSchedule(Schedule schedule) {
+		this.schedule = schedule;
+	}
+	
 	public FacultyMember getInstructor() {
 		return instructor;
 	}
@@ -74,18 +81,40 @@ public class Section extends Course implements DatabaseObject {
 		return "department, course_number, building, room_number, instructor, start_hour, days_of_week, schedule_id";
 	}
 
-	//TODO fix formatting of start time to match database
-	//TODO null in test
 	public String getValues() {
-		return "'" + this.getDepartment() + "', " + this.getNumber() + ", " + room.getBuilding() + ", " + room.getNumber() + ", '" + 
+		System.out.println("'" + this.getDepartment() + "', " + this.getNumber() + ", " + room.getBuilding() + ", " + room.getNumber() + ", '" + 
 				instructor.getLogin() + "', '" + 
 				(this.getStartTime()+":00") + "', '" + 
+				this.daysOfWeek + "', " + 
+				schedule.getScheduleId()) ;
+		return "'" + this.getDepartment() + "', " + this.getNumber() + ", " + room.getBuilding() + ", " + room.getNumber() + ", '" + 
+				instructor.getLogin() + "', '" + 
+				this.getStartTime() + "', '" + 
 				this.daysOfWeek + "', " + 
 				schedule.getScheduleId() ;
 	}
 	
+	public void addToDatabase() {
+        DatabaseCommunicator.replaceDatabase(this);
+	}
+	
+	public String getTable(Schedule schedule, String status)
+	{
+		String tableName = status.toUpperCase() + "_" + schedule.getYear() + "_" + schedule.getTerm().toUpperCase(); 
+		return tableName;  
+	}
+	
+	@Override
+	public String getKeyIdentifier()
+	{
+		return "department='" + this.getDepartment() + "' AND course_number=" + this.getNumber() + " AND instructor='" + instructor.getLogin() + 
+				"' AND start_hour='" + this.getStartTime() + "'";
+	}
+	
+	@Override
 	public String getTable()
 	{
-		return "sections";
+		return "TEMP_SCHEDULE";
 	}
+	
 }

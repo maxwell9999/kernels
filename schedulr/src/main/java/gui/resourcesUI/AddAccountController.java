@@ -4,6 +4,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import core.accounts.AccountManager;
+import core.accounts.DepartmentScheduler;
+import core.accounts.FacultyMember;
 import core.accounts.User;
 import core.database.DatabaseCommunicator;
 import javafx.event.ActionEvent;
@@ -31,6 +33,8 @@ public class AddAccountController {
     @FXML private TextField lastName;
     @FXML private TextField email;
     @FXML private TextField office;
+    @FXML private TextField maxWtuText;
+    @FXML private TextField minWtuText;
     @FXML private CheckBox checkbox;
     @FXML private Label errorMessage;
     
@@ -57,6 +61,9 @@ public class AddAccountController {
     	String emailString = email.getText();
     	String officeString = office.getText();
     	Boolean scheduler = checkbox.isSelected();
+    	double maxWtu = Double.parseDouble(maxWtuText.getText());
+    	double minWtu = Double.parseDouble(minWtuText.getText());
+    	User user;
     	
     	if (userNameString.equals("") || employeeIDString.equals("") || 
     			emailString.equals("") || firstNameString.equals("") || lastNameString.equals("")) {
@@ -66,15 +73,31 @@ public class AddAccountController {
     	if (!error) {
     		// Saves account in database.
     		errorMessage.setText("");
+    		if (scheduler)
+    		{
+    			user = new DepartmentScheduler(userNameString, Integer.parseInt(employeeIDString), 
+	            		firstNameString, lastNameString, emailString, officeString);
+    		}
+    		else
+    		{
+    			user = new FacultyMember(userNameString, Integer.parseInt(employeeIDString), 
+	            		firstNameString, lastNameString, emailString, officeString, minWtu, maxWtu);
+    		}
             int role = scheduler ? User.SCHEDULER : User.FACULTY_MEMBER;
-            
-            if (DatabaseCommunicator.resourceExists("users", "login='" + userNameString + "'")) {
+           
+            if (DatabaseCommunicator.resourceExists(user)) {
             	errorMessage.setText("Login already exists");
             	errorMessage.setAlignment(Pos.CENTER);
             }
             else {
-	            AccountManager.addUser(userNameString, Integer.parseInt(employeeIDString), 
-	            		firstNameString, lastNameString, emailString, officeString, role);
+                if (role == User.SCHEDULER)
+                {
+                	minWtu = 0;
+                	maxWtu = 0;
+                }
+                System.out.println("MAX WTU RIGHT BEFORE " + maxWtu);
+                	AccountManager.addUser(userNameString, Integer.parseInt(employeeIDString), 
+	            		firstNameString, lastNameString, emailString, officeString, role, minWtu, maxWtu);
 	            resourceController.populateFaculty();
 	            Stage currentStage = (Stage) checkbox.getScene().getWindow();
                 currentStage.close();

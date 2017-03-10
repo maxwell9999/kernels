@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="284.0" prefWidth="421.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.preferences.PreferencesController">
+   <children>
+      <Label layoutX="87.0" layoutY="51.0" text="Preferences">
+         <font>
+            <Font name="Optima Regular" size="50.0" />
+         </font>
+      </Label>
+      <Button fx:id="classPreferenceButton" layoutX="53.0" layoutY="142.0" mnemonicParsing="false" onAction="#classPreferenceAction" prefHeight="46.0" prefWidth="138.0" text="Class Preferences" />
+      <Button fx:id="timePreferenceButton" layoutX="247.0" layoutY="142.0" mnemonicParsing="false" onAction="#timePreferenceAction" prefHeight="46.0" prefWidth="132.0" text="Time Preferences" />
+   </children>
+</Pane>

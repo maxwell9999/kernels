@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.mindrot.jbcrypt.BCrypt;
 
@@ -13,11 +14,15 @@ import junit.framework.TestCase;
 
 public class AccountManagerTest extends TestCase{
 
+	@Before
+	public void removeTestUsers() {
+		DatabaseCommunicator.deleteDatabase("users", "empl_id=99999;");
+	}
 	@Test
 	public void testUserAddEditRemove()
 	{
-		AccountManager.addUser("Test_User", 99999, "Test", "User", "testUser@gmail.com", "", User.SCHEDULER);
-		AccountManager.addUser("Test_User12", 99999, "AAA", "User", "testUser@gmail.com", "", User.FACULTY_MEMBER);
+		AccountManager.addUser("Test_User", 99999, "Test", "User", "testUser@gmail.com", "", User.SCHEDULER, 0, 0);
+		AccountManager.addUser("Test_User12", 99999, "AAA", "User", "testUser@gmail.com", "", User.FACULTY_MEMBER, 3.0, 4.0);
 		List<HashMap<String, Object>> list;
 
 		list = DatabaseCommunicator.queryDatabase("SELECT empl_id FROM users WHERE login='Test_User';");
@@ -47,7 +52,7 @@ public class AccountManagerTest extends TestCase{
 	@Test
 	public void testResetPassword()
 	{
-		AccountManager.addUser("Test_User", 99999, "Test", "User", "testUser@gmail.com", "", 1);
+		AccountManager.addUser("Test_User", 99999, "Test", "User", "testUser@gmail.com", "", 1, 0, 0);
 		List<HashMap<String, Object>> list = DatabaseCommunicator.queryDatabase("SELECT pass_hash,reset_password FROM users WHERE login='Test_User';");
 		assertTrue("Testing empl_id password", BCrypt.checkpw("99999", list.get(0).get("pass_hash").toString()));
 		assertEquals("Testing Reset Password = 1", 1, Integer.parseInt(list.get(0).get("reset_password").toString()));
@@ -57,6 +62,12 @@ public class AccountManagerTest extends TestCase{
 		list = DatabaseCommunicator.queryDatabase("SELECT pass_hash,reset_password FROM users WHERE login='Test_User';");
 		assertTrue("Testing reset password", BCrypt.checkpw("potato", list.get(0).get("pass_hash").toString()));
 		assertEquals("Testing Reset Password = 0", 0, Integer.parseInt(list.get(0).get("reset_password").toString()));
+		
+		AccountManager.getUser("Test_User").forgotPassword();
+		
+		list = DatabaseCommunicator.queryDatabase("SELECT pass_hash,reset_password FROM users WHERE login='Test_User';");
+		assertTrue("Testing reset password", BCrypt.checkpw("99999", list.get(0).get("pass_hash").toString()));
+		assertEquals("Testing Reset Password = 1", 1, Integer.parseInt(list.get(0).get("reset_password").toString()));
 		
 		AccountManager.removeUser("Test_User");
 		list = DatabaseCommunicator.queryDatabase("SELECT empl_id FROM users WHERE login='Test_User';");
@@ -71,9 +82,9 @@ public class AccountManagerTest extends TestCase{
 		assertNotNull("Testing that list exists", userList);
 		
 		
-		AccountManager.addUser("Test_User1", 99999, "Test", "AAAAA", "testUser@gmail.com", "", 1);
-		AccountManager.addUser("Test_User2", 99999, "Test", "ZZZZZ", "testUser@gmail.com", "", 1);
-		AccountManager.addUser("Test_User3", 99999, "AAA", "AAAAA", "testUser@gmail.com", "", 1);
+		AccountManager.addUser("Test_User1", 99999, "Test", "AAAAA", "testUser@gmail.com", "", 1, 0, 0);
+		AccountManager.addUser("Test_User2", 99999, "Test", "ZZZZZ", "testUser@gmail.com", "", 1, 0, 0);
+		AccountManager.addUser("Test_User3", 99999, "AAA", "AAAAA", "testUser@gmail.com", "", 1, 0, 0);
 		userList = AccountManager.getUserList();
 		assertEquals("Testing number of users", numUsers + 3, userList.size());
 		assertEquals("Testing first user sorted", "Test_User3", userList.get(0).getLogin());
@@ -96,7 +107,7 @@ public class AccountManagerTest extends TestCase{
 	}
 	
 	public void testGetUser() {
-		AccountManager.addUser("Test_User1", 99999, "Test", "AAAAA", "testUser@gmail.com", "", User.SCHEDULER);
+		AccountManager.addUser("Test_User1", 99999, "Test", "AAAAA", "testUser@gmail.com", "", User.SCHEDULER, 0, 0);
 		User test = AccountManager.getUser("Test_User1");
 		assertTrue(test instanceof DepartmentScheduler);
 		assertEquals(User.SCHEDULER, test.getRole());
@@ -110,6 +121,6 @@ public class AccountManagerTest extends TestCase{
 	@After
 	public void cleanUp()
 	{
-		DatabaseCommunicator.deleteDatabase("users", "empl_id=99999");
+		DatabaseCommunicator.deleteDatabase("users", "empl_id=99999;");
 	}
 }

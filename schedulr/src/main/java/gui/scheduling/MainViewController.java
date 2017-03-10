@@ -1,22 +1,37 @@
 package gui.scheduling;
 
+import java.io.File;
 import java.io.IOException;
-import java.net.URL;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.LinkedList;
-import java.util.ResourceBundle;
 
-import javafx.event.*;
+import core.accounts.User;
+import core.database.DatabaseCommunicator;
+import core.resources.ResourceManager;
+import core.resources.Schedule;
+import de.ks.fxcontrols.weekview.WeekView;
+import de.ks.fxcontrols.weekview.WeekViewAppointment;
+import gui.accountsUI.LoginViewController;
+import gui.feedback.FeedbackViewer;
+import gui.feedback.StudentFeedbackController;
+import gui.preferences.PreferencesController;
+import gui.resourcesUI.ResourceController;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
-import javafx.scene.layout.*;
-import de.ks.fxcontrols.*;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
-import javafx.scene.input.MouseEvent;
-import de.ks.fxcontrols.weekview.*;
-import de.ks.fxcontrols.cell.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.SplitPane;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
 public class MainViewController extends VBox {
 
@@ -38,11 +53,14 @@ public class MainViewController extends VBox {
     private ScrollPane rightScrollPane;
 
     private boolean open;
+    private Schedule schedule;
 
     private WeekView<Object> weekView;
     private LocalDate begin, end;
     private LinkedList<WeekViewAppointment<Object>> retval;
     private String titleString;
+
+    private static User user;
 
 	public MainViewController(WeekView<Object> weekView, LocalDate begin, LocalDate end, LinkedList<WeekViewAppointment<Object>> retval) {
 		this.weekView = weekView;
@@ -113,6 +131,7 @@ public class MainViewController extends VBox {
 //        System.out.println(content);
     }
 
+
     public WeekViewAppointment<Object> getFocusedNode() {
     	for (WeekViewAppointment<Object> appointment : retval) {
     		if (appointment.getFocused()) {
@@ -131,6 +150,7 @@ public class MainViewController extends VBox {
 	        	Pane addClassPanel = (Pane) loader.load();
 	    	    AddPanelController addPanelCtrl = loader.<AddPanelController>getController();
 	    	    addPanelCtrl.initData(titleString, weekView, begin, end, retval, closeAddPanelButton);
+	    	    addPanelCtrl.setSchedule(schedule);
 
 	    	    addPane.getChildren().add(closeAddPanelButton);
 	    		closeAddPanelButton.setText("Close");
@@ -155,5 +175,190 @@ public class MainViewController extends VBox {
         calendarPane.getChildren().add(calendarView);
     }
 
+    private void selectSchedule() throws IOException {
+    	Stage stage = new Stage();
+		Pane myPane = null;
+		FXMLLoader loader = null;
+		ScheduleSelectionController controller = new ScheduleSelectionController();
+		loader = new FXMLLoader(controller.getClass().getResource("ScheduleSelectionView.fxml"));
+		myPane = (Pane) loader.load();
+		Scene scene = new Scene(myPane);
+		stage.setScene(scene);
+		stage.show();
+    }
 
+    @FXML
+	private void createMenuItemClicked(ActionEvent event) throws IOException {
+
+    	Stage stage = new Stage();
+		Pane myPane = null;
+		FXMLLoader loader = null;
+		AddScheduleController controller = new AddScheduleController();
+		loader = new FXMLLoader(controller.getClass().getResource("AddScheduleView.fxml"));
+		myPane = (Pane) loader.load();
+		Scene scene = new Scene(myPane);
+		stage.setScene(scene);
+		stage.show();
+
+	}
+
+    @FXML
+	private void openMenuItemClicked(ActionEvent event) throws IOException {
+
+		Stage stage = new Stage();
+		Pane myPane = null;
+		FXMLLoader loader = null;
+		ScheduleSelectionController controller = new ScheduleSelectionController();
+		loader = new FXMLLoader(controller.getClass().getResource("ScheduleSelectionView.fxml"));
+		myPane = (Pane) loader.load();
+		Scene scene = new Scene(myPane);
+		stage.setScene(scene);
+		stage.show();
+
+	}
+
+    @FXML private void publishMenuItemClicked(ActionEvent event) throws IOException {
+
+    	Stage stage = new Stage();
+		Pane myPane = null;
+		FXMLLoader loader = null;
+		PublishScheduleController controller = new PublishScheduleController();
+		loader = new FXMLLoader(controller.getClass().getResource("SchedulePublishView.fxml"));
+		myPane = (Pane) loader.load();
+		Scene scene = new Scene(myPane);
+		stage.setScene(scene);
+		stage.show();
+    }
+
+    @FXML
+	private void saveMenuItemClicked(ActionEvent event) throws IOException {
+    	try {
+    		Stage stage = new Stage();
+    		Pane myPane = null;
+    		FXMLLoader loader = null;
+
+			if (!DatabaseCommunicator.saveSchedule("DRAFT", schedule.getYear(), schedule.getTerm())) {
+				// error
+				loader = new FXMLLoader(this.getClass().getResource("ScheduleSavingError.fxml"));
+			}
+			else {
+				// confirmation
+				loader = new FXMLLoader(this.getClass().getResource("ScheduleSavingConfirmation.fxml"));
+			}
+
+			myPane = (Pane) loader.load();
+			Scene scene = new Scene(myPane);
+			stage.setScene(scene);
+			stage.show();
+    	}
+    	catch (SQLException e) {
+    		e.printStackTrace();
+    	}
+    }
+
+    @FXML
+	private void resourceMenuItemClicked(ActionEvent event) throws IOException {
+
+    	Stage stage = new Stage();
+		Pane myPane = null;
+		FXMLLoader loader = null;
+		ResourceController controller = new ResourceController();
+		loader = new FXMLLoader(controller.getClass().getResource("resources.fxml"));
+		myPane = (Pane) loader.load();
+		Scene scene = new Scene(myPane);
+		stage.setScene(scene);
+		stage.show();
+
+	}
+
+    @FXML
+	private void preferenceMenuItemClicked(ActionEvent event) throws IOException {
+
+    	Stage stage = new Stage();
+		Pane myPane = null;
+		FXMLLoader loader = null;
+		PreferencesController controller = new PreferencesController();
+		loader = new FXMLLoader(controller.getClass().getResource("PreferencesChoiceView.fxml"));
+		controller.setCurrentUser(user);
+		myPane = (Pane) loader.load();
+		Scene scene = new Scene(myPane);
+		stage.setScene(scene);
+		stage.show();
+	}
+
+    @FXML
+	private void importMenuItemClicked(ActionEvent event) throws IOException {
+
+    	FileChooser chooser = new FileChooser();
+    	chooser.setTitle("Open Resource File");
+    	File file = chooser.showOpenDialog(new Stage());
+    	if (file != null)
+    		ResourceManager.importCourses(file);
+	}
+
+    @FXML
+	private void feedbackMenuItemClicked(ActionEvent event) throws IOException {
+
+
+    	if (user.getRole() == User.FACULTY_MEMBER) {
+        	Stage stage = new Stage();
+    		Pane myPane = null;
+    		FXMLLoader loader = null;
+    		StudentFeedbackController controller = new StudentFeedbackController();
+    		loader = new FXMLLoader(controller.getClass().getResource("StudentFeedback.fxml"));
+    		myPane = (Pane) loader.load();
+    		Scene scene = new Scene(myPane);
+    		stage.setScene(scene);
+    		stage.show();
+    	} else if (user.getRole() == User.SCHEDULER) {
+
+    		Stage stage = new Stage();
+    		Pane myPane = null;
+    		FXMLLoader loader = null;
+    		FeedbackViewer controller = new FeedbackViewer();
+    		loader = new FXMLLoader(controller.getClass().getResource("feedbackViewer.fxml"));
+    		myPane = (Pane) loader.load();
+    		Scene scene = new Scene(myPane);
+    		stage.setScene(scene);
+    		stage.show();
+
+    	}
+    }
+
+    @FXML
+	private void logoutMenuItemClicked(ActionEvent event) throws IOException {
+
+    	//TODO(Sarah): Implement this
+    	Stage stage = new Stage();
+    	LoginViewController controller = new LoginViewController();
+    	Parent root = FXMLLoader.load(controller.getClass().getResource("LoginView.fxml"));
+		Scene scene = new Scene(root, 600, 500);
+        stage.setScene(scene);
+        stage.show();
+
+        Stage currentStage = (Stage) addPanelButton.getScene().getWindow();
+        currentStage.close();
+	}
+
+    @FXML
+	private void aboutMenuItemClicked(ActionEvent event) throws IOException {
+
+    	//TODO(Sarah): Implement this
+	}
+
+    public void setUser(User user) {
+    	this.user = user;
+    }
+
+    public static User getUser() {
+    	return user;
+    }
+
+    public void setSchedule(Schedule schedule) {
+    	this.schedule = schedule;
+    }
+
+    public Schedule getSchedule() {
+    	return this.schedule;
+    }
 }

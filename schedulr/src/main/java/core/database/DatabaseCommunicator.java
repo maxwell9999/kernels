@@ -1,7 +1,9 @@
 package core.database;
 
+import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -9,6 +11,8 @@ import java.util.List;
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.ResultSetMetaData;
 import com.mysql.jdbc.Statement;
+
+import core.resources.Schedule;
 
 public class DatabaseCommunicator 
 {
@@ -43,10 +47,30 @@ public class DatabaseCommunicator
 				connection.close();
 				
 			} catch (Exception e) {
+				System.out.println(query);
 				e.printStackTrace();
 			}
 		}
 		return result;
+	}
+
+	private static void databaseAction(String action)
+	{
+		Connection connection = null;
+		Statement stmt = null;
+		
+		connection = connect();
+		if(connection != null)
+		{
+			try {
+			stmt = (Statement) connection.createStatement();
+			stmt.executeUpdate(action);
+			stmt.close();
+			connection.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 	}
 	
 
@@ -81,31 +105,67 @@ public class DatabaseCommunicator
 		databaseAction(update);
 	}
 	
-	public static boolean resourceExists(String tableName, String uniqueIdentifier) {
-		List<HashMap<String, Object>> list = queryDatabase("SELECT count(*) FROM " + tableName + " WHERE " + uniqueIdentifier + ";");
+	public static boolean resourceExists(DatabaseObject object) {
+		List<HashMap<String, Object>> list = queryDatabase("SELECT count(*) FROM " + object.getTable() + " WHERE " + object.getKeyIdentifier() + ";");
 		if (list.size() == 0)
 			return false;
 		return Integer.parseInt(list.get(0).get("count(*)").toString()) == 1; 
 	}
 	
-	
-	private static void databaseAction(String action)
-	{
-		Connection connection = null;
-		Statement stmt = null;
+	/**
+     * Method to add a new table to the database to hold sections for the specified schedule
+     * Table names are in the format status_year_term in all caps
+     * @param status must either be DRAFT or PREREG or POSTREG
+     * @param year the year the schedule is for
+     * @param term the term the schedule is for; must be F, W, SP, or SU
+     */
+	public static void createNewSchedule(String status, int year, String term) {
 		
-		connection = connect();
-		if(connection != null)
-		{
-			try {
-			stmt = (Statement) connection.createStatement();
-			stmt.executeUpdate(action);
-			stmt.close();
-			connection.close();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+		createNewScheduleTable(status, year, term);
+
+    	// add schedule to table of schedules
+    	Schedule newSchedule = new Schedule(term, year);
+    	newSchedule.addToDatabase();
+    }
+	
+	
+	public static boolean saveSchedule(String status, int year, String term) throws SQLException {
+		String tableName = status.toUpperCase() + "_" + year + "_" + term.toUpperCase(); 
+		if (scheduleExists(status, year, term)) {
+			// wipe the draft table
+			String action = "DELETE FROM " + tableName + ";"; 
+			databaseAction(action); 
+
+			// clone the TEMP_SCHEDULE table
+			action = "INSERT " + tableName + " SELECT * FROM TEMP_SCHEDULE;";
+			databaseAction(action); 
+			return true; 
 		}
+		else {
+			System.err.println("SCHEDULE DOES NOT EXIST.");
+			return false; 
+		}
+
+	}
+	
+	public static void createNewScheduleTable(String status, int year, String term) {
+    	String tableName = status.toUpperCase() + "_" + year + "_" + term.toUpperCase(); 
+    	String statement = "CREATE TABLE " + tableName + " LIKE TEMP_SCHEDULE;"; 
+    	databaseAction(statement);		
+	}
+	
+	public static void deleteScheduleTable(String status, int year, String term) {
+    	String tableName = status.toUpperCase() + "_" + year + "_" + term.toUpperCase(); 
+    	String statement = "DROP TABLE " + tableName + ";"; 
+    	databaseAction(statement);		
+	}
+	
+	public static boolean scheduleExists(String status, int year, String term) throws SQLException {
+		String tableName = status.toUpperCase() + "_" + year + "_" + term.toUpperCase(); 
+		Connection connection = connect(); 
+		DatabaseMetaData dmd = connection.getMetaData(); 
+		ResultSet rs = dmd.getTables(null, null, tableName, null); 
+		return rs.next(); 
 	}
 	
 	private static Connection connect()

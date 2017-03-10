@@ -10,7 +10,7 @@ public class FacultyMemberTest extends TestCase {
 		
 	@Test
 	public void testNonEmptyConstructor() {
-		FacultyMember facultyMember = new FacultyMember("Test_User", 99999, "Test", "User", "testUser@gmail.com", "99-999"); 
+		FacultyMember facultyMember = new FacultyMember("Test_User", 99999, "Test", "User", "testUser@gmail.com", "99-999", 10, 5); 
 		
 		assertTrue("Testing non-empty constructor...", 
 				facultyMember instanceof FacultyMember); 
@@ -27,6 +27,16 @@ public class FacultyMemberTest extends TestCase {
 				"testUser@gmail.com", facultyMember.getEmail());
 		assertEquals("Testing login...",
 				"99-999", facultyMember.getOfficeLocation());
+		assertEquals("Testing max wtu...", 5.0, facultyMember.getMaxWtu());
+		assertEquals("Testing min wtu...", 10.0, facultyMember.getMinWtu());
+		
+		facultyMember.setMaxWtu(11);
+		assertEquals("Testing max wtu...", 11.0, facultyMember.getMaxWtu());
+		assertEquals("Testing min wtu...", 10.0, facultyMember.getMinWtu());
+		
+		facultyMember.setMinWtu(6);
+		assertEquals("Testing max wtu...", 11.0, facultyMember.getMaxWtu());
+		assertEquals("Testing min wtu...", 6.0, facultyMember.getMinWtu());
 		
 	}
 	

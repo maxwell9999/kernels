@@ -1,6 +1,8 @@
-package gui.accountsUI;
+package gui.preferences;
 
 import java.util.*;
+
+import core.database.DatabaseCommunicator;
 import javafx.application.*;
 import javafx.beans.Observable;
 import javafx.beans.property.BooleanProperty;
@@ -23,7 +25,7 @@ import javafx.util.*;
  * @author sarahpadlipsky
  * @version February 1, 2017
  */
-public class ClassPreferencesView extends Application{
+public class ClassPreferencesViewer extends Application{
 
   // TableView aka Spreadsheet for the view.
   private TableView<Course> tableView;
@@ -55,18 +57,13 @@ public class ClassPreferencesView extends Application{
     ableToTeachCol.prefWidthProperty().bind(tableView.widthProperty().multiply(0.245));
     wantToTeachCol.prefWidthProperty().bind(tableView.widthProperty().multiply(0.245));
 
-    // TODO: Populate from database.
-    final List<Course> items=Arrays.asList(
-      new Course("CPE 101", "3"), 
-      new Course("CPE 102", "4"), 
-      new Course("CPE 103", "5"), 
-      new Course("CPE 225", "6"), 
-      new Course("CPE 300", "7"),
-      new Course("CPE 307", "3"), 
-      new Course("CPE 308", "4"), 
-      new Course("CPE 309", "5"), 
-      new Course("CPE 349", "6"), 
-      new Course("CPE 357", "7"));
+    List<Course> items = new ArrayList<Course>();
+    List<HashMap<String, Object>> courseList = DatabaseCommunicator.queryDatabase("select * from courses;");
+    
+    for (int courseIndex = 0; courseIndex < courseList.size(); courseIndex++)
+    {
+    	items.add(new Course(courseList.get(courseIndex).get("department") + " "  + courseList.get(courseIndex).get("number"), (courseIndex + 1) + ""));
+    }
 
     // Makes data observable.
     this.CourseData = FXCollections.observableArrayList(new Callback<Course, Observable[]>() {
@@ -118,27 +115,50 @@ public class ClassPreferencesView extends Application{
       }
     });
 
+    ChoiceBox choiceBox = new ChoiceBox();
+    
+    List<HashMap<String, Object>> rows = DatabaseCommunicator.queryDatabase("SELECT first_name, last_name FROM users WHERE login!='admin';"); 
+	List<String> faculty = new ArrayList<String>(); 
+	for (HashMap<String, Object> row : rows) {
+		faculty.add(row.get("first_name").toString() + row.get("last_name".toString())); 
+	}
+	choiceBox.setItems(FXCollections.observableArrayList(faculty)); 
+    
+	choiceBox.setOnAction(new EventHandler<ActionEvent>() {
+
+	    public void handle(ActionEvent event) {
+	        
+	    	String facultyName = (String) choiceBox.getValue();
+	    	
+	    	//TODO(Sarah): Will display preferences and notes based off of what's stored in database
+	    	
+	    }
+	});
+
     final BorderPane border = new BorderPane();
     border.setTop(label);
-    border.setCenter(tableView);
+    
+    final BorderPane addedForView = new BorderPane();
+    border.setCenter(addedForView);
+    addedForView.setTop(choiceBox);
+    tableView.setEditable(false);
+    addedForView.setCenter(tableView);
 
     final BorderPane borderBottom = new BorderPane();
     borderBottom.setCenter(textArea);
     borderBottom.setTop(noteSection);
+    textArea.setEditable(false);
 
     final BorderPane buttonPane = new BorderPane();
-    buttonPane.setRight(button);
-
     borderBottom.setBottom(buttonPane);
     border.setBottom(borderBottom);
-
+    
     Scene scene = new Scene(border, 500, 500);
     primaryStage.setScene(scene);
     primaryStage.show();
 
   }
 
-  // TODO: This will interact with Course made by back-end folks.
   public static class Course {
     private StringProperty Course;
     private StringProperty CourseID;
