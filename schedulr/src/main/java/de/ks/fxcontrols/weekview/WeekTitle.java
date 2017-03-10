@@ -37,6 +37,7 @@ public class WeekTitle extends GridPane {
   protected final Label week = new Label();
   protected final Label month = new Label();
   protected final Label year = new Label();
+  protected final Label quarter = new Label();
   protected final Button today = new Button("today");
 
   protected SimpleIntegerProperty weekOfYearProperty;
@@ -49,6 +50,7 @@ public class WeekTitle extends GridPane {
     week.getStyleClass().add("week-week");
     month.getStyleClass().add("week-month");
     year.getStyleClass().add("week-year");
+    quarter.setText("Winter 2017");
 
     weekOfYearProperty.addListener((p, o, n) -> recomputeMonth());
     yearProperty.addListener((p, o, n) -> recomputeMonth());
@@ -77,33 +79,35 @@ public class WeekTitle extends GridPane {
     getColumnConstraints().add(yearColumn.get());
     getColumnConstraints().add(buttonColumn.get());
 
-    int column = 1;
+    add(quarter, 4, 0);
 
-
-    Button button = new Button("⇦");
-    button.setOnAction(e -> weekOfYearProperty.set(weekOfYearProperty.getValue() - 1));
-    add(button, column++, 0);
-    add(week, column++, 0);
-    button = new Button("⇨");
-    button.setOnAction(e -> weekOfYearProperty.set(weekOfYearProperty.getValue() + 1));
-    add(button, column++, 0);
-
-    add(month, column++, 0);
-
-    this.today.setOnAction(e -> {
-      weekOfYearProperty.set(helper.getWeek(LocalDate.now()));
-      yearProperty.set(LocalDate.now().getYear());
-    });
-    add(this.today, column++, 0);
-
-    button = new Button("⇦");
-    button.setOnAction(e -> yearProperty.set(yearProperty.getValue() - 1));
-    add(button, column++, 0);
-    add(year, column++, 0);
-    button = new Button("⇨");
-    button.setOnAction(e -> yearProperty.set(yearProperty.getValue() + 1));
-    add(button, column++, 0);
-
+//    int column = 1;
+//
+//
+//    Button button = new Button("⇦");
+//    button.setOnAction(e -> weekOfYearProperty.set(weekOfYearProperty.getValue() - 1));
+//    add(button, column++, 0);
+//    add(week, column++, 0);
+//    button = new Button("⇨");
+//    button.setOnAction(e -> weekOfYearProperty.set(weekOfYearProperty.getValue() + 1));
+//    add(button, column++, 0);
+//
+//    add(month, column++, 0);
+//
+//    this.today.setOnAction(e -> {
+//      weekOfYearProperty.set(helper.getWeek(LocalDate.now()));
+//      yearProperty.set(LocalDate.now().getYear());
+//    });
+//    add(this.today, column++, 0);
+//
+//    button = new Button("⇦");
+//    button.setOnAction(e -> yearProperty.set(yearProperty.getValue() - 1));
+//    add(button, column++, 0);
+//    add(year, column++, 0);
+//    button = new Button("⇨");
+//    button.setOnAction(e -> yearProperty.set(yearProperty.getValue() + 1));
+//    add(button, column++, 0);
+//
     add(new Separator(Orientation.HORIZONTAL), 0, 1, Integer.MAX_VALUE, 1);
   }
 

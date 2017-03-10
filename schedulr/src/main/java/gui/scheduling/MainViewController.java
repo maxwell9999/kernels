@@ -34,6 +34,8 @@ public class MainViewController extends VBox {
     private AnchorPane calendarPane;
     @FXML
     private SplitPane splitPane;
+    @FXML
+    private ScrollPane rightScrollPane;
 
     private boolean open;
 
@@ -58,12 +60,12 @@ public class MainViewController extends VBox {
         // initialize your logic here: all @FXML variables will have been injected
 
         open = false;
+        editRmButtonsEnabled(false);
 
         addPanelButton.setOnAction(new EventHandler<ActionEvent>() {
         	public void handle(ActionEvent event) {
         		titleString = "Add a Class";
-        		editPanelButton.setDisable(true);
-        		rmPanelButton.setDisable(true);
+        		editRmButtonsEnabled(false);
         		handleClassButtonPress(event);
         	}
         });
@@ -89,6 +91,7 @@ public class MainViewController extends VBox {
         			retval.remove(selected);
         			weekView.recreateEntries(retval);
         		}
+        		editRmButtonsEnabled(false);
         	}
         });
 
@@ -98,11 +101,9 @@ public class MainViewController extends VBox {
 	           	if (open) {
 		    		addPane.getChildren().remove(0);
 		    		addPane.getChildren().remove(0);
-		    		splitPane.setDividerPositions(0.1005567928730512, 0.9905567928730512);
+		    		splitPane.setDividerPositions(0.1505567928730512, 0.9905567928730512);
 		    		open = false;
 	        		addPanelButton.setDisable(open);
-	        		editPanelButton.setDisable(open);
-	        		rmPanelButton.setDisable(open);
 	           	}
             }
         });
@@ -134,6 +135,7 @@ public class MainViewController extends VBox {
 	    	    addPane.getChildren().add(closeAddPanelButton);
 	    		closeAddPanelButton.setText("Close");
 	            addPane.getChildren().add(addClassPanel);
+	            splitPane.setDividerPositions(0.1505567928730512, 0.7305567928730512);
 	            open = true;
 
 	        } catch (IOException e) {
@@ -141,6 +143,11 @@ public class MainViewController extends VBox {
 	        }
         }
     }
+
+	public void editRmButtonsEnabled(Boolean status){
+        editPanelButton.setDisable(!status);
+        rmPanelButton.setDisable(!status);
+	}
 
     public void addCalendar(WeekView<Object> calendar) {
         GridPane calendarView = (GridPane) calendar;

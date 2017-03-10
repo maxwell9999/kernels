@@ -176,7 +176,7 @@ public class WeekView<T> extends GridPane {
     splitPane.setOrientation(Orientation.VERTICAL);
 
     splitPane.getItems().add(contentScollPane);
-    splitPane.getItems().add(wholeDayPane);
+    //splitPane.getItems().add(wholeDayPane);
 
     add(splitPane, 0, 2, GridPane.REMAINING, 1);
     contentScollPane.setContent(contentPane);
@@ -377,45 +377,45 @@ public class WeekView<T> extends GridPane {
         }
         return false;
       };
-      cell.setOnDragOver(e -> {
-        if (filter.test(e)) {
-          e.acceptTransferModes(TransferMode.MOVE);
-          e.consume();
-        }
-      });
-      cell.setOnDragEntered(e -> {
-        if (filter.test(e)) {
-          cell.getStyleClass().add("week-cell-drag");
-          e.consume();
-        }
-      });
-      cell.setOnDragExited(e -> {
-        if (filter.test(e)) {
-          cell.getStyleClass().remove("week-cell-drag");
-          e.consume();
-        }
-      });
-      cell.setOnDragDropped(e -> {
-        if (filter.test(e)) {
-          String title = (String) e.getDragboard().getContent(getDataFormat());
-          Optional<WeekViewAppointment<T>> first = entries.stream().filter(entry -> entry.getTitle().equals(title)).findFirst();
-          if (first.isPresent()) {
-            WeekViewAppointment weekViewAppointment = first.get();
-            weekViewAppointment.getControl().setVisible(true);
-
-            double percentagePos = 100D / hourHeight.get() * e.getY();
-            int minute = (int) (60D / 100D * percentagePos);
-            int grid = (int) (15F / (hourHeight.get() / 60));
-            minute -= minute % grid;
-
-            LocalDateTime newTime = getNewAppointmentTime(weekViewAppointment, day, hour, minute);
-            weekViewAppointment.setStart(newTime.toLocalDate(), newTime.toLocalTime());
-            ArrayList<WeekViewAppointment<T>> copyOfEntries = new ArrayList<>(entries);
-            recreateEntries(copyOfEntries);
-          }
-          e.consume();
-        }
-      });
+//      cell.setOnDragOver(e -> {
+//        if (filter.test(e)) {
+//          e.acceptTransferModes(TransferMode.MOVE);
+//          e.consume();
+//        }
+//      });
+//      cell.setOnDragEntered(e -> {
+//        if (filter.test(e)) {
+//          cell.getStyleClass().add("week-cell-drag");
+//          e.consume();
+//        }
+//      });
+//      cell.setOnDragExited(e -> {
+//        if (filter.test(e)) {
+//          cell.getStyleClass().remove("week-cell-drag");
+//          e.consume();
+//        }
+//      });
+//      cell.setOnDragDropped(e -> {
+//        if (filter.test(e)) {
+//          String title = (String) e.getDragboard().getContent(getDataFormat());
+//          Optional<WeekViewAppointment<T>> first = entries.stream().filter(entry -> entry.getTitle().equals(title)).findFirst();
+//          if (first.isPresent()) {
+//            WeekViewAppointment weekViewAppointment = first.get();
+//            weekViewAppointment.getControl().setVisible(true);
+//
+//            double percentagePos = 100D / hourHeight.get() * e.getY();
+//            int minute = (int) (60D / 100D * percentagePos);
+//            int grid = (int) (15F / (hourHeight.get() / 60));
+//            minute -= minute % grid;
+//
+//            LocalDateTime newTime = getNewAppointmentTime(weekViewAppointment, day, hour, minute);
+//            weekViewAppointment.setStart(newTime.toLocalDate(), newTime.toLocalTime());
+//            ArrayList<WeekViewAppointment<T>> copyOfEntries = new ArrayList<>(entries);
+//            recreateEntries(copyOfEntries);
+//          }
+//          e.consume();
+//        }
+//      });
     }
 
     return cell;
@@ -629,7 +629,7 @@ public class WeekView<T> extends GridPane {
       Label label = weekDayLabels.get(i);
 
       DayOfWeek dayOfWeek = currentDay.getDayOfWeek();
-      label.setText(dayOfWeek.getDisplayName(TextStyle.SHORT, Locale.getDefault()) + ". " + currentDay.getDayOfMonth());
+      label.setText(dayOfWeek.getDisplayName(TextStyle.FULL, Locale.getDefault())/* + ". " + currentDay.getDayOfMonth()*/);
 
       for (int hours = 0; hours < 24; hours++) {
         ObservableList<String> styleClass = cells.get(hours, i + 1).getStyleClass();

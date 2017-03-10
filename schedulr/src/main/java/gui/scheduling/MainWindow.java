@@ -11,8 +11,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import de.ks.fxcontrols.weekview.WeekView;
@@ -41,13 +44,20 @@ public class MainWindow extends Application{
 
         mainViewCtrl.addCalendar(weekView);
 
-        primaryStage.setScene(createScene(root));
+        primaryStage.setScene(createScene(root, mainViewCtrl));
 
         primaryStage.show();
     }
 
-    private Scene createScene(Pane mainPane) {
+    private Scene createScene(Pane mainPane, MainViewController mainViewCtrl) {
         Scene scene = new Scene(mainPane);
+        scene.addEventFilter(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+            public void handle(MouseEvent event) {
+            	if (mainViewCtrl.getFocusedNode() != null) {
+            		mainViewCtrl.editRmButtonsEnabled(true);
+            	}
+            }
+        });
       return scene;
     }
 
