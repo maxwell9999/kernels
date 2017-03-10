@@ -1,1 +1,16 @@
-/* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
+.root {
+    -fx-font-family: "Raleway Medium";
+    -fx-font-size: 15;
+}
+ 
+.tab:selected  {
+    -fx-background-color: #1C4879;
+}
+ 
+.tab:selected .tab-label {
+    -fx-font-weight: bold;
+}
+ 
+.tab-pane .tab-header-area .tab-header-background {
+    -fx-background-color: #002147;
+}/* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
