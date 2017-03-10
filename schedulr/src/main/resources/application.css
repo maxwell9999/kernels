@@ -1,0 +1,49 @@
+.root {
+    -fx-font-family: "Raleway Medium";
+    -fx-font-size: 15;
+}
+
+.tab {
+	-fx-background-color: #C4C4C4;
+}
+ 
+.tab:selected  {
+    -fx-background-color: #FFFFFF;
+}
+ 
+.tab:selected .tab-label {
+    -fx-font-weight: bold;
+}
+ 
+.tab-pane .tab-header-area .tab-header-background {
+    -fx-background-color: #1C4879;
+}/* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
+
+.button {
+    -fx-background-color: 
+        #000000,
+        linear-gradient(#1C4879, #002147),
+        linear-gradient(#1C4879, #002147),
+        linear-gradient(#1C4879, #002147);
+    -fx-background-insets: 0,1,2,3;
+    -fx-background-radius: 3,2,2,2;
+    -fx-padding: 5 10 5 10;
+    -fx-text-fill: white;
+    -fx-font-size: 15px;
+}
+
+.button Text {
+    -fx-effect: dropshadow( one-pass-box , rgba(0,0,0,0.8) , 0, 0.0 , 0 , 1);
+}
+
+.label {
+	-fx-font-family: "Raleway Medium";
+    -fx-font-size: 15;
+    -fx-font-color
+}
+
+#headerlabel {
+	-fx-font-family: "Raleway Medium";
+    -fx-font-size: 24;
+    -fx-font-weight: bold;
+}
