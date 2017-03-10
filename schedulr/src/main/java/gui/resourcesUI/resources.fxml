@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" stylesheets="@../../../resources/application.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.resourcesUI.ResourceController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" stylesheets="@../../../classes/application.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.resourcesUI.ResourceController">
   <children>  
     <TabPane layoutY="98.0" prefHeight="604.0" prefWidth="1000.0" tabClosingPolicy="UNAVAILABLE">
       <tabs>
@@ -68,7 +68,7 @@
     </TabPane>
       <ImageView fitHeight="150.0" fitWidth="1000.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../../resources/header.png" />
+            <Image url="@../../../classes/header.png" />
          </image>
       </ImageView>
   </children>

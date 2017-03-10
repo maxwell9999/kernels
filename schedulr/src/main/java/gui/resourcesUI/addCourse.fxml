@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<TitledPane animated="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="467.0" prefWidth="274.0" stylesheets="@../../../resources/application.css" text="Add Course" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.resourcesUI.AddCourseController">
+<TitledPane animated="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="467.0" prefWidth="274.0" stylesheets="@../../../classes/application.css" text="Add Course" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.resourcesUI.AddCourseController">
   <content>
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="448.0" prefWidth="272.0">
       <children>
