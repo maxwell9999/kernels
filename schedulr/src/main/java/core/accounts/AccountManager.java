@@ -49,7 +49,7 @@ public class AccountManager
      */
 	public static void removeUser(String username)
 	{
-		DatabaseCommunicator.deleteDatabase("users", "login='" + username + "'");
+		DatabaseCommunicator.deleteDatabase("users", "login='" + username + "';");
 	}
 	
 	/**

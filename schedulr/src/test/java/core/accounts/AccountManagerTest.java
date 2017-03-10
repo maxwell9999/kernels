@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.mindrot.jbcrypt.BCrypt;
 
@@ -13,6 +14,10 @@ import junit.framework.TestCase;
 
 public class AccountManagerTest extends TestCase{
 
+	@Before
+	public void removeTestUsers() {
+		DatabaseCommunicator.deleteDatabase("users", "empl_id=99999;");
+	}
 	@Test
 	public void testUserAddEditRemove()
 	{
@@ -116,6 +121,6 @@ public class AccountManagerTest extends TestCase{
 	@After
 	public void cleanUp()
 	{
-		DatabaseCommunicator.deleteDatabase("users", "empl_id=99999");
+		DatabaseCommunicator.deleteDatabase("users", "empl_id=99999;");
 	}
 }
