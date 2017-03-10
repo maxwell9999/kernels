@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import core.accounts.User;
 import gui.scheduling.MainViewController;
+import gui.scheduling.ScheduleMenuController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -54,8 +55,12 @@ public class PreferencesController {
 			Stage stage = new Stage();
 			Pane myPane = null;
 			FXMLLoader loader = null;
-			TimePreferencesView controller = new TimePreferencesView();
-			controller.start(stage);
+			TimePreferencesViewer controller = new TimePreferencesViewer();
+			loader = new FXMLLoader(controller.getClass().getResource("timePreferences.fxml"));
+			myPane = (Pane) loader.load();
+			Scene scene = new Scene(myPane);
+			stage.setScene(scene);
+			stage.show();
 		}
 		
 		

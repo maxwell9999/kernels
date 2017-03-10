@@ -61,7 +61,7 @@ public class CourseEntryController {
 	
 	/**
 	 * Sets current course.
-	 * @param resourceController current couse.
+	 * @param resourceController current course.
 	 */
 	public void setCourse(Course course) {
 		this.course = course;

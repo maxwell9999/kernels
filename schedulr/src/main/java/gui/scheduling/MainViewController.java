@@ -12,6 +12,8 @@ import core.resources.ResourceManager;
 import core.resources.Schedule;
 import de.ks.fxcontrols.weekview.WeekView;
 import de.ks.fxcontrols.weekview.WeekViewAppointment;
+import gui.accountsUI.LoginViewController;
+import gui.feedback.FeedbackViewer;
 import gui.feedback.StudentFeedbackController;
 import gui.preferences.PreferencesController;
 import gui.resourcesUI.ResourceController;
@@ -19,6 +21,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.SplitPane;
@@ -288,21 +291,45 @@ public class MainViewController extends VBox {
     @FXML
 	private void feedbackMenuItemClicked(ActionEvent event) throws IOException {
     	
-    	Stage stage = new Stage();
-		Pane myPane = null;
-		FXMLLoader loader = null;
-		StudentFeedbackController controller = new StudentFeedbackController();
-		loader = new FXMLLoader(controller.getClass().getResource("StudentFeedback.fxml"));
-		myPane = (Pane) loader.load();
-		Scene scene = new Scene(myPane);
-		stage.setScene(scene);
-		stage.show();
+    	
+    	if (user.getRole() == User.FACULTY_MEMBER) {
+        	Stage stage = new Stage();
+    		Pane myPane = null;
+    		FXMLLoader loader = null;
+    		StudentFeedbackController controller = new StudentFeedbackController();
+    		loader = new FXMLLoader(controller.getClass().getResource("StudentFeedback.fxml"));
+    		myPane = (Pane) loader.load();
+    		Scene scene = new Scene(myPane);
+    		stage.setScene(scene);
+    		stage.show();
+    	} else if (user.getRole() == User.SCHEDULER) {
+    		
+    		Stage stage = new Stage();
+    		Pane myPane = null;
+    		FXMLLoader loader = null;
+    		FeedbackViewer controller = new FeedbackViewer();
+    		loader = new FXMLLoader(controller.getClass().getResource("feedbackViewer.fxml"));
+    		myPane = (Pane) loader.load();
+    		Scene scene = new Scene(myPane);
+    		stage.setScene(scene);
+    		stage.show();
+    		
+    	}
     }  
        
     @FXML
-	private void editAccountMenuItemClicked(ActionEvent event) throws IOException {
+	private void logoutMenuItemClicked(ActionEvent event) throws IOException {
     	
-    	//TODO(Sarah): Implement this	
+    	//TODO(Sarah): Implement this
+    	Stage stage = new Stage();
+    	LoginViewController controller = new LoginViewController();
+    	Parent root = FXMLLoader.load(controller.getClass().getResource("LoginView.fxml"));
+		Scene scene = new Scene(root, 600, 500);
+        stage.setScene(scene);
+        stage.show();
+        
+        Stage currentStage = (Stage) addPanelButton.getScene().getWindow();
+        currentStage.close();
 	}
     
     @FXML

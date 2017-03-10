@@ -71,7 +71,7 @@ public class RoomEntryController {
 	
 	/**
      * Access to ResourceController.
-     * @param ResourceController to set ResourceController
+     * @param TimePreferencesViewer to set ResourceController
      */
 	public void setResourceController(ResourceController resourceController) {
 		this.resourceController = resourceController;
