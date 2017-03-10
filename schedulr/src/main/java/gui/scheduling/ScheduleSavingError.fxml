@@ -3,9 +3,8 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Text?>
 
-
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="186.0" prefWidth="309.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="186.0" prefWidth="309.0" stylesheets="@../../../resources/application.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Text layoutX="93.0" layoutY="81.0" strokeType="OUTSIDE" strokeWidth="0.0" text="There was an error. Your schedule was not saved." textAlignment="CENTER" wrappingWidth="123.06201171875" />
+      <Text layoutX="93.0" layoutY="69.0" strokeType="OUTSIDE" strokeWidth="0.0" text="There was an error. Your schedule was not saved." textAlignment="CENTER" wrappingWidth="123.06201171875" />
    </children>
 </Pane>
