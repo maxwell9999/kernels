@@ -78,7 +78,7 @@ public class Section extends Course implements DatabaseObject {
 	}
 	
 	public String getKeys() {
-		return "department, course_number, building, room_number, instructor, start_hour, days_of_week, schedule_id";
+		return "department, course_number, building, room_number, instructor, start_hour, duration, days_of_week, schedule_id";
 	}
 
 	public String getValues() {
@@ -90,6 +90,7 @@ public class Section extends Course implements DatabaseObject {
 		return "'" + this.getDepartment() + "', " + this.getNumber() + ", " + room.getBuilding() + ", " + room.getNumber() + ", '" + 
 				instructor.getLogin() + "', '" + 
 				this.getStartTime() + "', '" + 
+				this.getDuration() + ", " + 
 				this.daysOfWeek + "', " + 
 				schedule.getScheduleId() ;
 	}
