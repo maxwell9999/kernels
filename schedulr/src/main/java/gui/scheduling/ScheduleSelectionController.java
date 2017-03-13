@@ -29,6 +29,10 @@ import javafx.stage.Stage;
 
 public class ScheduleSelectionController {
 	private static final Logger log = LoggerFactory.getLogger(LoginViewController.class);
+	private static final String DRAFT_STATUS = "Draft"; 
+	private static final String PREREG_STATUS = "Pre-Registration"; 
+	private static final String POSTREG_STATUS = "Post-Registration"; 
+	
     
     @FXML private ChoiceBox yearBox;
     @FXML private ChoiceBox termBox;
@@ -40,7 +44,7 @@ public class ScheduleSelectionController {
     	populateYears(); 
     	yearBox.setOnAction(new selectYearHandler());
     	
-    	List<String> types = new ArrayList<String>(Arrays.asList("Draft", "Pre-Registration", "Post-Registration"));
+    	List<String> types = new ArrayList<String>(Arrays.asList(DRAFT_STATUS, PREREG_STATUS, POSTREG_STATUS));
     	typeBox.setItems(FXCollections.observableArrayList(types));
     }
     
@@ -65,7 +69,7 @@ public class ScheduleSelectionController {
     private void openScheduleButton(ActionEvent event) throws IOException {
     	int year = Integer.parseInt(yearBox.getValue().toString()); 
     	String term = termBox.getValue().toString(); 
-    	String status = typeBox.getValue().toString(); 
+    	String status = getPrefix(); 
     	//TODO add a typeBox for draft, prereg published or postreg published
     	Schedule schedule = new Schedule(term, year); 
     	
@@ -78,6 +82,25 @@ public class ScheduleSelectionController {
 
     }
     
+    private String getPrefix() {
+    	String statusValue = typeBox.getValue().toString(); 
+    	String status = ""; 
+
+    	switch (statusValue) {
+    		case PREREG_STATUS: 
+				status = "PREREG"; 
+				break;
+			case POSTREG_STATUS: 
+				status = "POSTREG"; 
+				break; 
+			case DRAFT_STATUS: 
+				status = "DRAFT"; 
+				break;  
+    	}
+
+    	return status; 
+    }
+
     private List<Section> loadSchedule(String status, int year, String term, Schedule schedule) {
     	List<Section> sections = new ArrayList<Section>(); 
 
