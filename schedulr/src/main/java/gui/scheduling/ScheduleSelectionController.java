@@ -70,7 +70,6 @@ public class ScheduleSelectionController {
     	int year = Integer.parseInt(yearBox.getValue().toString()); 
     	String term = termBox.getValue().toString(); 
     	String status = getPrefix(); 
-    	//TODO add a typeBox for draft, prereg published or postreg published
     	Schedule schedule = new Schedule(term, year); 
     	
     	loadSchedule(status, year, term, schedule); 

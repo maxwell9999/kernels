@@ -89,7 +89,7 @@ public class Section extends Course implements DatabaseObject {
 				schedule.getScheduleId()) ;
 		return "'" + this.getDepartment() + "', " + this.getNumber() + ", " + room.getBuilding() + ", " + room.getNumber() + ", '" + 
 				instructor.getLogin() + "', '" + 
-				this.getStartTime() + "', '" + 
+				this.getStartTime() + "', " + 
 				this.getDuration() + ", " + 
 				this.daysOfWeek + "', " + 
 				schedule.getScheduleId() ;
