@@ -8,9 +8,9 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@../../../resources/application.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.scheduling.ScheduleSelectionController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@../../../classes/application.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.scheduling.ScheduleSelectionController">
    <children>
-      <Label id="headerlabel" layoutX="154.0" layoutY="141.0" stylesheets="@../../../resources/application.css" text="Edit An Existing Schedule">
+      <Label id="headerlabel" layoutX="154.0" layoutY="141.0" stylesheets="@../../../classes/application.css" text="Edit An Existing Schedule">
          <font>
             <Font name="Optima Regular" size="23.0" />
          </font>
@@ -22,7 +22,7 @@
       <ChoiceBox fx:id="yearBox" layoutX="109.0" layoutY="200.0" prefWidth="150.0" />
       <ImageView fitHeight="150.0" fitWidth="600.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../../resources/headersmall.png" />
+            <Image url="@../../../classes/headersmall.png" />
          </image>
       </ImageView>
    </children>

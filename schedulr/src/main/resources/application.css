@@ -39,7 +39,7 @@
 .label {
 	-fx-font-family: "Raleway Medium";
     -fx-font-size: 15;
-    -fx-font-color
+    -fx-font-color: black;
 }
 
 #headerlabel {

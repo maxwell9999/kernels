@@ -26,7 +26,7 @@
       <Label fx:id="errorLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="50.0" layoutY="328.0" prefHeight="17.0" prefWidth="500.0" textAlignment="CENTER" textFill="#f51313" />
       <ImageView fitHeight="150.0" fitWidth="600.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../../resources/headersmall.png" />
+            <Image url="@../../../classes/headersmall.png" />
          </image>
       </ImageView>
    </children>
