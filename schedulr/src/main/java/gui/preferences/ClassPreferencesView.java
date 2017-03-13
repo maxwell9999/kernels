@@ -1,5 +1,6 @@
 package gui.preferences;
 
+import java.io.File;
 import java.util.*;
 
 import core.database.DatabaseCommunicator;
@@ -34,6 +35,8 @@ public class ClassPreferencesView extends Application{
   
   @Override
   public void start(Stage primaryStage) {
+	  
+	
 
     this.tableView = new TableView<Course>();
 
@@ -132,6 +135,9 @@ public class ClassPreferencesView extends Application{
     Scene scene = new Scene(border, 500, 500);
     primaryStage.setScene(scene);
     primaryStage.show();
+    
+    File f = new File("target/classes/application.css");
+	primaryStage.getScene().getStylesheets().add("file:///" + f.getAbsolutePath().replace("\\", "/"));
 
   }
 

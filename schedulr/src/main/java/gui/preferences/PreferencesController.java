@@ -41,7 +41,6 @@ public class PreferencesController {
 	
 	@FXML
     private void timePreferenceAction(ActionEvent event) throws IOException {
-		// TODO(Sarah): Implement this
 		user = MainViewController.getUser();
 		if (user.getRole() == User.FACULTY_MEMBER) {
 			Stage stage = new Stage();
@@ -51,7 +50,6 @@ public class PreferencesController {
 			controller.start(stage);
 
 		} else if (user.getRole() == User.SCHEDULER) {
-			// TODO(Sarah): Implement this
 			Stage stage = new Stage();
 			Pane myPane = null;
 			FXMLLoader loader = null;
