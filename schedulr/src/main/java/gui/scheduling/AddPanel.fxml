@@ -45,7 +45,7 @@
       <CheckBox fx:id="f" contentDisplay="RIGHT" layoutX="307.0" layoutY="456.0" mnemonicParsing="false" text="F" />
       <CheckBox fx:id="r" contentDisplay="RIGHT" layoutX="262.0" layoutY="456.0" mnemonicParsing="false" text="R" />
       <CheckBox fx:id="w" contentDisplay="RIGHT" layoutX="217.0" layoutY="456.0" mnemonicParsing="false" text="W" />
-      <CheckBox contentDisplay="RIGHT" layoutX="172.0" layoutY="482.0" mnemonicParsing="false" text="X" fx:id="x" />
+      <CheckBox contentDisplay="RIGHT" layoutX="172.0" layoutY="482.0" mnemonicParsing="false" text="SUN" fx:id="x" />
       <CheckBox fx:id="s" contentDisplay="RIGHT" layoutX="127.0" layoutY="482.0" mnemonicParsing="false" text="S" />
       <Text boundsType="VISUAL" layoutX="27.0" layoutY="476.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Days" textOrigin="CENTER" />
       <TextField fx:id="wtu" layoutX="126.0" layoutY="348.0" prefHeight="27.0" prefWidth="60.0" />
@@ -55,6 +55,7 @@
       <Text fx:id="panelTitle" boundsType="VISUAL" layoutX="187.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="" textOrigin="CENTER">
          <font>
             <Font size="16.0" />
-         </font></Text>
+         </font>
+      </Text>
    </children>
 </Pane>

@@ -154,6 +154,12 @@ public class DatabaseCommunicator
     	databaseAction(statement);		
 	}
 	
+	public static void deleteScheduleTable(String status, int year, String term) {
+    	String tableName = status.toUpperCase() + "_" + year + "_" + term.toUpperCase(); 
+    	String statement = "DROP TABLE " + tableName + ";"; 
+    	databaseAction(statement);		
+	}
+	
 	public static boolean scheduleExists(String status, int year, String term) throws SQLException {
 		String tableName = status.toUpperCase() + "_" + year + "_" + term.toUpperCase(); 
 		Connection connection = connect(); 

@@ -13,9 +13,11 @@ import org.slf4j.LoggerFactory;
 import core.accounts.User;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import de.ks.fxcontrols.weekview.WeekView;
@@ -28,7 +30,7 @@ public class MainWindow extends Application {
     private LinkedList<WeekViewAppointment<Object>> retval;
     private WeekView<Object> weekView;
     private static MainViewController mainViewCtrl;
-    
+
     private User user;
 
     public void start(Stage primaryStage) throws IOException {
@@ -49,17 +51,24 @@ public class MainWindow extends Application {
 
         mainViewCtrl.addCalendar(weekView);
 
-        primaryStage.setScene(createScene(root));
+        primaryStage.setScene(createScene(root, mainViewCtrl));
 
         primaryStage.show();
-        selectSchedule(); 
+        selectSchedule();
     }
 
-    private Scene createScene(Pane mainPane) {
+    private Scene createScene(Pane mainPane, MainViewController mainViewCtrl) {
         Scene scene = new Scene(mainPane);
+        scene.addEventFilter(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+            public void handle(MouseEvent event) {
+            	if (mainViewCtrl.getFocusedNode() != null) {
+            		mainViewCtrl.editRmButtonsEnabled(true);
+            	}
+            }
+        });
       return scene;
     }
-    
+
     private void selectSchedule() throws IOException {
     	Stage stage = new Stage();
 		Pane myPane = null;
@@ -90,11 +99,11 @@ public class MainWindow extends Application {
 		launch(args);
 
 	}
-	
+
 	public static MainViewController getController() {
 		return mainViewCtrl;
 	}
-	
+
 	public void setUser(User user) {
 		this.user = user;
 	}

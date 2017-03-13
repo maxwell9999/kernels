@@ -355,13 +355,12 @@ public class AddPanelController extends VBox {
     	return temp;
     }
 
-    //TODO This java comment
     /**
-     * 
-     * @param begin 
-     * @param end 
-     * @param retval 
-     * @return
+     * Adds an appointment at the specified time
+     * @param begin Beginning time for the appointment
+     * @param end End time for the appointment
+     * @param retval Pointer to weekview object to add the appointment to
+     * @return retval
      */
 	private LinkedList<WeekViewAppointment<Object>> addAppt(LocalDate begin, LocalDate end, LinkedList<WeekViewAppointment<Object>> retval) {
 

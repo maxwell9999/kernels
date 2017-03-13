@@ -24,6 +24,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SplitPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
@@ -48,15 +49,17 @@ public class MainViewController extends VBox {
     private AnchorPane calendarPane;
     @FXML
     private SplitPane splitPane;
+    @FXML
+    private ScrollPane rightScrollPane;
 
     private boolean open;
-    private Schedule schedule; 
+    private Schedule schedule;
 
     private WeekView<Object> weekView;
     private LocalDate begin, end;
     private LinkedList<WeekViewAppointment<Object>> retval;
     private String titleString;
-    
+
     private static User user;
 
 	public MainViewController(WeekView<Object> weekView, LocalDate begin, LocalDate end, LinkedList<WeekViewAppointment<Object>> retval) {
@@ -75,12 +78,12 @@ public class MainViewController extends VBox {
         // initialize your logic here: all @FXML variables will have been injected
 
         open = false;
+        editRmButtonsEnabled(false);
 
         addPanelButton.setOnAction(new EventHandler<ActionEvent>() {
         	public void handle(ActionEvent event) {
         		titleString = "Add a Class";
-        		editPanelButton.setDisable(true);
-        		rmPanelButton.setDisable(true);
+        		editRmButtonsEnabled(false);
         		handleClassButtonPress(event);
         	}
         });
@@ -106,6 +109,7 @@ public class MainViewController extends VBox {
         			retval.remove(selected);
         			weekView.recreateEntries(retval);
         		}
+        		editRmButtonsEnabled(false);
         	}
         });
 
@@ -115,11 +119,9 @@ public class MainViewController extends VBox {
 	           	if (open) {
 		    		addPane.getChildren().remove(0);
 		    		addPane.getChildren().remove(0);
-		    		splitPane.setDividerPositions(0.1005567928730512, 0.9905567928730512);
+		    		splitPane.setDividerPositions(0.1505567928730512, 0.9905567928730512);
 		    		open = false;
 	        		addPanelButton.setDisable(open);
-	        		editPanelButton.setDisable(open);
-	        		rmPanelButton.setDisable(open);
 	           	}
             }
         });
@@ -150,6 +152,7 @@ public class MainViewController extends VBox {
 	    	    addPane.getChildren().add(closeAddPanelButton);
 	    		closeAddPanelButton.setText("Close");
 	            addPane.getChildren().add(addClassPanel);
+	            splitPane.setDividerPositions(0.1505567928730512, 0.7305567928730512);
 	            open = true;
 
 	        } catch (IOException e) {
@@ -158,12 +161,17 @@ public class MainViewController extends VBox {
         }
     }
 
+	public void editRmButtonsEnabled(Boolean status){
+        editPanelButton.setDisable(!status);
+        rmPanelButton.setDisable(!status);
+	}
+
     public void addCalendar(WeekView<Object> calendar) {
         GridPane calendarView = (GridPane) calendar;
         calendarPane.setPrefSize(800, 600);
         calendarPane.getChildren().add(calendarView);
     }
-    
+
     private void selectSchedule() throws IOException {
     	Stage stage = new Stage();
 		Pane myPane = null;
@@ -178,7 +186,7 @@ public class MainViewController extends VBox {
 
     @FXML
 	private void createMenuItemClicked(ActionEvent event) throws IOException {
-    	
+
     	Stage stage = new Stage();
 		Pane myPane = null;
 		FXMLLoader loader = null;
@@ -188,24 +196,24 @@ public class MainViewController extends VBox {
 		Scene scene = new Scene(myPane);
 		stage.setScene(scene);
 		stage.show();
-		
+
 	}
-    
+
     @FXML
 	private void openMenuItemClicked(ActionEvent event) throws IOException {
-    	
+
 		Stage stage = new Stage();
 		Pane myPane = null;
 		FXMLLoader loader = null;
 		ScheduleSelectionController controller = new ScheduleSelectionController();
 		loader = new FXMLLoader(controller.getClass().getResource("ScheduleSelectionView.fxml"));
-		myPane = (Pane) loader.load(); 
+		myPane = (Pane) loader.load();
 		Scene scene = new Scene(myPane);
 		stage.setScene(scene);
 		stage.show();
-		
+
 	}
-    
+
     @FXML private void publishMenuItemClicked(ActionEvent event) throws IOException {
 
     	Stage stage = new Stage();
@@ -213,19 +221,19 @@ public class MainViewController extends VBox {
 		FXMLLoader loader = null;
 		PublishScheduleController controller = new PublishScheduleController();
 		loader = new FXMLLoader(controller.getClass().getResource("SchedulePublishView.fxml"));
-		myPane = (Pane) loader.load(); 
+		myPane = (Pane) loader.load();
 		Scene scene = new Scene(myPane);
 		stage.setScene(scene);
 		stage.show();
     }
-    
+
     @FXML
 	private void saveMenuItemClicked(ActionEvent event) throws IOException {
     	try {
-    		Stage stage = new Stage(); 
-    		Pane myPane = null; 
-    		FXMLLoader loader = null; 
-    		
+    		Stage stage = new Stage();
+    		Pane myPane = null;
+    		FXMLLoader loader = null;
+
 			if (!DatabaseCommunicator.saveSchedule("DRAFT", schedule.getYear(), schedule.getTerm())) {
 				// error
 				loader = new FXMLLoader(this.getClass().getResource("ScheduleSavingError.fxml"));
@@ -235,7 +243,7 @@ public class MainViewController extends VBox {
 				loader = new FXMLLoader(this.getClass().getResource("ScheduleSavingConfirmation.fxml"));
 			}
 
-			myPane = (Pane) loader.load(); 
+			myPane = (Pane) loader.load();
 			Scene scene = new Scene(myPane);
 			stage.setScene(scene);
 			stage.show();
@@ -247,7 +255,7 @@ public class MainViewController extends VBox {
 
     @FXML
 	private void resourceMenuItemClicked(ActionEvent event) throws IOException {
-    	
+
     	Stage stage = new Stage();
 		Pane myPane = null;
 		FXMLLoader loader = null;
@@ -257,12 +265,12 @@ public class MainViewController extends VBox {
 		Scene scene = new Scene(myPane);
 		stage.setScene(scene);
 		stage.show();
-		
+
 	}
-    
+
     @FXML
 	private void preferenceMenuItemClicked(ActionEvent event) throws IOException {
-    	
+
     	Stage stage = new Stage();
 		Pane myPane = null;
 		FXMLLoader loader = null;
@@ -272,23 +280,23 @@ public class MainViewController extends VBox {
 		myPane = (Pane) loader.load();
 		Scene scene = new Scene(myPane);
 		stage.setScene(scene);
-		stage.show();	
+		stage.show();
 	}
-    
+
     @FXML
 	private void importMenuItemClicked(ActionEvent event) throws IOException {
-    	
+
     	FileChooser chooser = new FileChooser();
     	chooser.setTitle("Open Resource File");
     	File file = chooser.showOpenDialog(new Stage());
     	if (file != null)
-    		ResourceManager.importCourses(file);		
+    		ResourceManager.importCourses(file);
 	}
-    
+
     @FXML
 	private void feedbackMenuItemClicked(ActionEvent event) throws IOException {
-    	
-    	
+
+
     	if (user.getRole() == User.FACULTY_MEMBER) {
         	Stage stage = new Stage();
     		Pane myPane = null;
@@ -300,7 +308,7 @@ public class MainViewController extends VBox {
     		stage.setScene(scene);
     		stage.show();
     	} else if (user.getRole() == User.SCHEDULER) {
-    		
+
     		Stage stage = new Stage();
     		Pane myPane = null;
     		FXMLLoader loader = null;
@@ -310,37 +318,36 @@ public class MainViewController extends VBox {
     		Scene scene = new Scene(myPane);
     		stage.setScene(scene);
     		stage.show();
-    		
+
     	}
-    }  
-       
+    }
+
     @FXML
 	private void logoutMenuItemClicked(ActionEvent event) throws IOException {
-    	
     	Stage stage = new Stage();
     	LoginViewController controller = new LoginViewController();
     	Parent root = FXMLLoader.load(controller.getClass().getResource("LoginView.fxml"));
 		Scene scene = new Scene(root, 600, 500);
         stage.setScene(scene);
         stage.show();
-        
+
         Stage currentStage = (Stage) addPanelButton.getScene().getWindow();
         currentStage.close();
 	}
-    
+
     public void setUser(User user) {
     	this.user = user;
     }
-    
+
     public static User getUser() {
-    	return user; 
+    	return user;
     }
 
     public void setSchedule(Schedule schedule) {
-    	this.schedule = schedule; 
+    	this.schedule = schedule;
     }
-    
+
     public Schedule getSchedule() {
-    	return this.schedule; 
+    	return this.schedule;
     }
 }
