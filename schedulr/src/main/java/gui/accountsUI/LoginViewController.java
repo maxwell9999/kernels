@@ -39,11 +39,11 @@ public class LoginViewController {
     private UserAuthenticator auth;
     private User currentUser;
     
-    
     public LoginViewController()
     {
     	auth = new UserAuthenticator();
     }
+    
     /**
      * onAction button for faculty login.
      * @param event Necessary field for onAction events.
@@ -94,8 +94,6 @@ public class LoginViewController {
         	}
         }
     }
-        
-    
     
     /**
      * Continue button for student login.
