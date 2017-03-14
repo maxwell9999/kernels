@@ -9,9 +9,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" stylesheets="@../../../classes/application.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.resourcesUI.ResourceController">
+<AnchorPane id="greypane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" stylesheets="@../../../classes/application.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.resourcesUI.ResourceController">
   <children>  
-    <TabPane layoutY="98.0" prefHeight="604.0" prefWidth="1000.0" tabClosingPolicy="UNAVAILABLE">
+    <TabPane layoutX="150.0" layoutY="98.0" prefHeight="604.0" prefWidth="900.0" tabClosingPolicy="UNAVAILABLE">
       <tabs>
         <Tab text="Courses">
           <content>
@@ -36,7 +36,7 @@
               <children>
                 <ScrollPane hbarPolicy="NEVER" prefHeight="500.0" prefWidth="1000.0">
                   <content>
-                    <VBox fx:id="roomContainer" prefHeight="499.0" prefWidth="1000.0" >
+                    <VBox fx:id="roomContainer" prefHeight="499.0" prefWidth="1000.0">
                       <children>
                       </children>
                     </VBox>
@@ -66,7 +66,7 @@
         </Tab>
       </tabs>
     </TabPane>
-      <ImageView fitHeight="150.0" fitWidth="1000.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="150.0" fitWidth="1200.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../../classes/header.png" />
          </image>

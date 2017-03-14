@@ -47,3 +47,7 @@
     -fx-font-size: 24;
     -fx-font-weight: bold;
 }
+
+#greypane {
+	-fx-background-color: #1C4879;
+}
