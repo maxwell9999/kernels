@@ -11,7 +11,7 @@
       <Button fx:id="editScheduleButton" layoutX="222.0" layoutY="200.0" mnemonicParsing="false" onAction="#editScheduleButton" text="Edit Existing Schedule" />
       <ImageView fitHeight="150.0" fitWidth="600.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../../resources/headersmall.png" />
+            <Image url="@../../../classes/headersmall.png" />
          </image>
       </ImageView>
    </children>

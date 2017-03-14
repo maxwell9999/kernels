@@ -9,9 +9,9 @@
    <children>
       <Button fx:id="createScheduleButton" layoutX="223.0" layoutY="255.0" mnemonicParsing="false" text="Create New Schedule" />
       <Button fx:id="editScheduleButton" layoutX="222.0" layoutY="200.0" mnemonicParsing="false" text="Edit Existing Schedule" />
-      <ImageView fitHeight="150.0" fitWidth="600.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="150.0" fitWidth="1000.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../../classes/headersmall.png" />
+            <Image url="@../../../classes/header.png" />
          </image>
       </ImageView>
    </children>
