@@ -1,5 +1,6 @@
 package gui.preferences;
 
+import java.io.File;
 import java.util.*;
 
 import core.database.DatabaseCommunicator;
@@ -120,7 +121,7 @@ public class ClassPreferencesViewer extends Application{
     List<HashMap<String, Object>> rows = DatabaseCommunicator.queryDatabase("SELECT first_name, last_name FROM users WHERE login!='admin';"); 
 	List<String> faculty = new ArrayList<String>(); 
 	for (HashMap<String, Object> row : rows) {
-		faculty.add(row.get("first_name").toString() + row.get("last_name".toString())); 
+		faculty.add(row.get("first_name").toString() + row.get("last_name".toString()));
 	}
 	choiceBox.setItems(FXCollections.observableArrayList(faculty)); 
     
@@ -156,6 +157,9 @@ public class ClassPreferencesViewer extends Application{
     Scene scene = new Scene(border, 500, 500);
     primaryStage.setScene(scene);
     primaryStage.show();
+    
+    File f = new File("target/classes/application.css");
+    primaryStage.getScene().getStylesheets().add("file:///" + f.getAbsolutePath().replace("\\", "/"));
 
   }
 

@@ -1,5 +1,6 @@
 package gui.preferences;
 
+import java.io.File;
 import java.util.*;
 
 import core.accounts.AccountManager;
@@ -179,6 +180,9 @@ public class TimePreferencesView extends Application {
     Scene scene = new Scene(border, 500, 500);
     primaryStage.setScene(scene);
     primaryStage.show();
+    
+    File f = new File("target/classes/application.css");
+	primaryStage.getScene().getStylesheets().add("file:///" + f.getAbsolutePath().replace("\\", "/"));
 
   }
   

@@ -9,16 +9,16 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.feedback.StudentFeedbackController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@../../../classes/application.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.feedback.StudentFeedbackController">
    <children>
       <Label layoutX="332.0" layoutY="16.0" text="Username">
          <font>
             <Font name="Optima Regular" size="18.0" />
          </font>
       </Label>
-      <TextField fx:id="usernameField" layoutX="419.0" layoutY="14.0" />
-      <TextArea fx:id="noteField" layoutX="13.0" layoutY="126.0" prefHeight="240.0" prefWidth="574.0" />
-      <Button layoutX="538.0" layoutY="369.0" mnemonicParsing="false" onAction="#onActionSave" prefHeight="27.0" prefWidth="48.0" text="Save" />
+      <TextField fx:id="usernameField" layoutX="419.0" layoutY="14.0" prefHeight="31.0" prefWidth="169.0" />
+      <TextArea fx:id="noteField" layoutX="13.0" layoutY="126.0" prefHeight="214.0" prefWidth="574.0" />
+      <Button layoutX="491.0" layoutY="351.0" mnemonicParsing="false" onAction="#onActionSave" prefHeight="41.0" prefWidth="92.0" text="Save" />
       <RadioButton fx:id="button1" layoutX="82.0" layoutY="85.0" mnemonicParsing="false" text="1" />
       <RadioButton fx:id="button2" layoutX="189.0" layoutY="85.0" mnemonicParsing="false" text="2" />
       <Label layoutX="13.0" layoutY="54.0" text="How happy are you with this schedule? (1 is low, 5 is high)">

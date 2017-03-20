@@ -102,6 +102,7 @@ public class DatabaseCommunicator
 	{
 		String update = ("REPLACE INTO " + object.getTable() + " (" + object.getKeys() + ") "
 				+ "VALUES (" + object.getValues() + ");");
+		System.out.println(update);
 		databaseAction(update);
 	}
 	

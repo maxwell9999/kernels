@@ -137,9 +137,6 @@ public class MainViewController extends VBox {
             }
         });
 
-//        MouseEvent e;
-//        Object content = e.getDragboard().getContent(WeekView.getDataFormat());
-//        System.out.println(content);
     }
 
 
@@ -338,8 +335,6 @@ public class MainViewController extends VBox {
 
     @FXML
 	private void logoutMenuItemClicked(ActionEvent event) throws IOException {
-
-    	//TODO(Sarah): Implement this
     	Stage stage = new Stage();
     	LoginViewController controller = new LoginViewController();
     	Parent root = FXMLLoader.load(controller.getClass().getResource("LoginView.fxml"));
@@ -349,12 +344,6 @@ public class MainViewController extends VBox {
 
         Stage currentStage = (Stage) addPanelButton.getScene().getWindow();
         currentStage.close();
-	}
-
-    @FXML
-	private void aboutMenuItemClicked(ActionEvent event) throws IOException {
-
-    	//TODO(Sarah): Implement this
 	}
 
     public void setUser(User user) {
