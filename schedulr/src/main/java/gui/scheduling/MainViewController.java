@@ -3,13 +3,22 @@ package gui.scheduling;
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.time.Duration;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.LinkedList;
+import java.util.List;
+import java.util.function.BiPredicate;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import core.accounts.User;
 import core.database.DatabaseCommunicator;
 import core.resources.ResourceManager;
 import core.resources.Schedule;
+import core.resources.Section;
 import de.ks.fxcontrols.weekview.WeekView;
 import de.ks.fxcontrols.weekview.WeekViewAppointment;
 import gui.accountsUI.LoginViewController;
@@ -34,6 +43,8 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 public class MainViewController extends VBox {
+
+	private static final Logger log = LoggerFactory.getLogger(MainViewController.class);
 
     @FXML
     private Button addPanelButton;
@@ -361,4 +372,101 @@ public class MainViewController extends VBox {
     public Schedule getSchedule() {
     	return this.schedule;
     }
+
+    /**
+	 * Selects the days of the week
+	 * @return The days selected
+	 */
+    private int[] selectedDaysFromString(String str) {
+
+    	int[] temp = new int[7];
+
+		if (str.contains("M")) {
+			temp[0] = 1;
+		}
+		if (str.contains("T")) {
+			temp[1] = 2;
+		}
+		if (str.contains("W")) {
+			temp[2] = 3;
+		}
+		if (str.contains("R")) {
+			temp[3] = 4;
+		}
+		if (str.contains("F")) {
+			temp[4] = 5;
+		}
+		if (str.contains("S")) {
+			temp[5] = 6;
+		}
+		if (str.contains("X")) {
+			temp[6] = 7;
+		}
+
+		for(int i : temp) {System.out.print(i);}
+		System.out.println();
+
+    	return temp;
+    }
+
+    /**
+     * Adds a ui element for a section at the specified time
+     * @param begin Beginning time for the appointment
+     * @param end End time for the appointment
+     * @param retval Pointer to weekview object to add the appointment to
+     * @return retval
+     */
+	public void addApptFromSection(LocalDate begin, Section section, LinkedList<WeekViewAppointment<Object>> retval) {
+
+        LocalDate firstDayOfWeek = begin;
+    	Duration duration = Duration.ofMinutes(section.getDuration());
+    	LocalTime time = LocalTime.parse(section.getStartTime());
+
+        int[] days = selectedDaysFromString(section.getDaysOfWeek());
+        int j = 1;
+
+	    for (int i : days) {
+	    	if (i < 1 || i > 7) {
+	    		j++;
+	    		if (j == 7) {
+	    			System.out.println("No days selected.");
+	    		}
+	    		continue;
+	    	}
+	    	i--;
+	    	LocalDate current = firstDayOfWeek.plusDays(i);
+			LocalDateTime localDateTime = LocalDateTime.of(current, time);
+
+	        BiPredicate<LocalDate, LocalTime> newTimePossiblePredicate = (newDate, newTime) -> {
+	            if (newTime == null) {
+	              return true;
+	            }
+	            if (newTime.getHour() >= 0 && newTime.getHour() <= 24) {
+	              return true;
+	            } else {
+	              log.info("Wrong time {}", newTime);
+	              return false;
+	            }
+	          };
+
+	        WeekViewAppointment<Object> timedAppointment = new WeekViewAppointment<>(section.getName() + " " + i + " " + section.getDuration() + "m", localDateTime, duration);
+	        log.info("Creating new appointment beginning at {} {}", current, time);
+	        timedAppointment.setChangeStartCallback((newDate, newTime) -> {
+	          log.info("{} now starts on {} {}", timedAppointment.getTitle(), newDate, newTime);
+	        });
+	        timedAppointment.setNewTimePossiblePredicate(newTimePossiblePredicate);
+
+	        retval.add(timedAppointment);
+	    }
+	}
+
+	public void displaySections(List<Section> sections) {
+		for (Section section : sections) {
+			if (weekView.titleString.length() < 1) {
+				weekView.titleString = (section.getSchedule().getTerm() + " " + section.getSchedule().getYear());
+			}
+			addApptFromSection(begin, section, retval);
+		}
+		weekView.recreateEntries(retval);
+	}
 }

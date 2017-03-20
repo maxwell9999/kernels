@@ -55,6 +55,7 @@ public class WeekView<T> extends GridPane {
   public static final double PERCENT_WIDTH_DAY_COLUMN = 13;
   public static final double PERCENT_WIDTH_TIME_COLUMN = 7;
   public static final double INSETS_WHOLEDAY = 2.5;
+  public String titleString = "";
 
   protected final ObservableList<WeekViewAppointment<T>> entries = FXCollections.observableArrayList();
   protected final SimpleIntegerProperty weekOfYear = new SimpleIntegerProperty();
@@ -80,9 +81,9 @@ public class WeekView<T> extends GridPane {
   protected final SimpleDoubleProperty hourHeight = new SimpleDoubleProperty(HEIGHT_OF_HOUR);
 
   public WeekView(String today) {
-    title = new WeekTitle(today, weekOfYear, year);
+    title = new WeekTitle(today, weekOfYear, year, titleString);
     sceneProperty().addListener((p, o, n) -> {
-    	
+
       /*String styleSheetPath = WeekView.class.getResource("weekview.css").toExternalForm();
       System.out.println(WeekView.class.getResource("weekview.css").toExternalForm());
       if (n != null) {

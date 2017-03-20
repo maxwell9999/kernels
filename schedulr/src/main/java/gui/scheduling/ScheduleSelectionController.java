@@ -29,108 +29,108 @@ import javafx.stage.Stage;
 
 public class ScheduleSelectionController {
 	private static final Logger log = LoggerFactory.getLogger(LoginViewController.class);
-	private static final String DRAFT_STATUS = "Draft"; 
-	private static final String PREREG_STATUS = "Pre-Registration"; 
-	private static final String POSTREG_STATUS = "Post-Registration"; 
-	
-    
+
+	private static final String DRAFT_STATUS = "Draft";
+	private static final String PREREG_STATUS = "Pre-Registration";
+	private static final String POSTREG_STATUS = "Post-Registration";
+
     @FXML private ChoiceBox yearBox;
     @FXML private ChoiceBox termBox;
-    @FXML private ChoiceBox typeBox;  
-    @FXML private Button openButton; 
-    
+    @FXML private ChoiceBox typeBox;
+    @FXML private Button openButton;
+
     @FXML
     public void initialize() {
-    	populateYears(); 
+    	populateYears();
     	yearBox.setOnAction(new selectYearHandler());
-    	
     	List<String> types = new ArrayList<String>(Arrays.asList(DRAFT_STATUS, PREREG_STATUS, POSTREG_STATUS));
     	typeBox.setItems(FXCollections.observableArrayList(types));
     }
-    
-    
+
+
     private void populateYears() {
-		List<HashMap<String, Object>> rows = DatabaseCommunicator.queryDatabase("SELECT DISTINCT year FROM schedules;"); 
-		List<String> years = new ArrayList<String>(); 
+		List<HashMap<String, Object>> rows = DatabaseCommunicator.queryDatabase("SELECT DISTINCT year FROM schedules;");
+		List<String> years = new ArrayList<String>();
 		for (HashMap<String, Object> row : rows) {
-			years.add(row.get("year").toString()); 
+			years.add(row.get("year").toString());
 		}
-		yearBox.setItems(FXCollections.observableArrayList(years)); 
+		yearBox.setItems(FXCollections.observableArrayList(years));
     }
     private void populateTerms(int year) {
-    	List<HashMap<String, Object>> rows = DatabaseCommunicator.queryDatabase("SELECT DISTINCT term FROM schedules WHERE year=" + year + ";"); 
-		List<String> terms = new ArrayList<String>(); 
+    	List<HashMap<String, Object>> rows = DatabaseCommunicator.queryDatabase("SELECT DISTINCT term FROM schedules WHERE year=" + year + ";");
+		List<String> terms = new ArrayList<String>();
 		for (HashMap<String, Object> row : rows) {
-			terms.add(row.get("term").toString()); 
+			terms.add(row.get("term").toString());
 		}
-		termBox.setItems(FXCollections.observableArrayList(terms)); 
+		termBox.setItems(FXCollections.observableArrayList(terms));
     }
     @FXML
     private void openScheduleButton(ActionEvent event) throws IOException {
-    	int year = Integer.parseInt(yearBox.getValue().toString()); 
-    	String term = termBox.getValue().toString(); 
-    	String status = getPrefix(); 
-    	Schedule schedule = new Schedule(term, year); 
-    	
-    	loadSchedule(status, year, term, schedule); 
-    	
+    	int year = Integer.parseInt(yearBox.getValue().toString());
+    	String term = termBox.getValue().toString();
+    	String status = getPrefix();
+    	Schedule schedule = new Schedule(term, year);
+
+    	List<Section> sections = loadSchedule(status, year, term, schedule);
+
     	FXMLLoader loader = new FXMLLoader(getClass().getResource("MainView.fxml"));
     	MainWindow.getController().setSchedule(schedule);
-    	Stage currentStage = (Stage) openButton.getScene().getWindow(); 
-    	currentStage.close(); 
+    	MainWindow.getController().displaySections(sections);
+    	Stage currentStage = (Stage) openButton.getScene().getWindow();
+    	currentStage.close();
 
     }
-    
+
     private String getPrefix() {
-    	String statusValue = typeBox.getValue().toString(); 
-    	String status = ""; 
+    	String statusValue = typeBox.getValue().toString();
+    	String status = "";
 
     	switch (statusValue) {
-    		case PREREG_STATUS: 
-				status = "PREREG"; 
+    		case PREREG_STATUS:
+				status = "PREREG";
 				break;
-			case POSTREG_STATUS: 
-				status = "POSTREG"; 
-				break; 
-			case DRAFT_STATUS: 
-				status = "DRAFT"; 
-				break;  
+			case POSTREG_STATUS:
+				status = "POSTREG";
+				break;
+			case DRAFT_STATUS:
+				status = "DRAFT";
+				break;
     	}
 
-    	return status; 
+    	return status;
     }
 
     private List<Section> loadSchedule(String status, int year, String term, Schedule schedule) {
-    	List<Section> sections = new ArrayList<Section>(); 
+    	List<Section> sections = new ArrayList<Section>();
 
-    	String tableName = status + "_" + year + "_" + term; 
-    	List<HashMap<String, Object>> rows = DatabaseCommunicator.queryDatabase("SELECT * from " + tableName + ";"); 
+    	String tableName = status + "_" + year + "_" + term;
+    	List<HashMap<String, Object>> rows = DatabaseCommunicator.queryDatabase("SELECT * from " + tableName + ";");
     	for (HashMap<String, Object> row : rows) {
-    		String department = row.get("department").toString(); 
-    		int courseNumber = Integer.parseInt(row.get("course_number").toString()); 
-    		Course course = ResourceManager.getCourse(department, courseNumber); 
-    		
-    		FacultyMember instructor = (FacultyMember) AccountManager.getUser(row.get("instructor").toString()); 
-    		
+    		String department = row.get("department").toString();
+    		int courseNumber = Integer.parseInt(row.get("course_number").toString());
+    		Course course = ResourceManager.getCourse(department, courseNumber);
+
+    		FacultyMember instructor = (FacultyMember) AccountManager.getUser(row.get("instructor").toString());
+
     		int building = Integer.parseInt(row.get("building").toString());
     		int roomNumber = Integer.parseInt(row.get("building").toString());
-    		Room room = ResourceManager.getRoom(building, roomNumber); 
-    		
-    		String startTime = row.get("start_hour").toString(); 
+    		Room room = ResourceManager.getRoom(building, roomNumber);
+
+    		String startTime = row.get("start_hour").toString();
     		int duration = Integer.parseInt(row.get("duration").toString());
-    		String daysOfWeek = row.get("days_of_week").toString(); 
-    		Section section = new Section(schedule, course, instructor, room, startTime, duration, daysOfWeek); 
+    		String daysOfWeek = row.get("days_of_week").toString();
+    		Section section = new Section(schedule, course, instructor, room, startTime, duration, daysOfWeek);
     		sections.add(section);
     	}
 
-    	return sections; 
+    	return sections;
     }
-    
+
 	//Show the list of rooms when the person clicks the room drop down
 	class selectYearHandler implements EventHandler<ActionEvent> {
-		
+
 		public void handle(ActionEvent event) {
-			populateTerms(Integer.parseInt(yearBox.getValue().toString())); 
+			populateTerms(Integer.parseInt(yearBox.getValue().toString()));
 		}
 	}
 }

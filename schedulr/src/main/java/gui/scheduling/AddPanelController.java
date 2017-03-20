@@ -48,7 +48,7 @@ public class AddPanelController extends VBox {
 	@FXML
 	ComboBox<String> selectDepartment;
 	@FXML
-	ComboBox<String> selectNumber; 
+	ComboBox<String> selectNumber;
 	@FXML
 	ComboBox<String> selectFaculty;
 	@FXML
@@ -59,8 +59,8 @@ public class AddPanelController extends VBox {
 	TextField section;
 	@FXML
 	TextField name;
-	@FXML 
-	TextField capacity; 
+	@FXML
+	TextField capacity;
 	@FXML
 	TextField wtu;
 	@FXML
@@ -92,8 +92,8 @@ public class AddPanelController extends VBox {
 
 	private WeekView<Object> weekView = null;
     private LocalDate begin, end = null;
-    private Schedule schedule; 
-    private String daysOfWeek = ""; 
+    private Schedule schedule;
+    private String daysOfWeek = "";
     LinkedList<WeekViewAppointment<Object>> retval;
 
     public AddPanelController() {}
@@ -103,17 +103,17 @@ public class AddPanelController extends VBox {
      * Initializes the scene, runs at the beginning of initialization
      */
     public void initialize() {
-    	
+
     	//Populate all of the fields
-    	populateDepartments(); 
-    	populateFaculty(); 
-    	populateRoomTypes(); 
-  
+    	populateDepartments();
+    	populateFaculty();
+    	populateRoomTypes();
+
     	initializeSpinners();
 
         addToCalendar.setOnAction(new addToCalendarHandler());
         selectNumber.setOnAction(new selectNumberHandler());
-        
+
         //Show the list of rooms when the person clicks the room drop down
         selectRoomType.setOnAction(new selectRoomTypeHandler());
 
@@ -145,49 +145,49 @@ public class AddPanelController extends VBox {
 		this.retval = retval;
 		this.closeButton = closeButton;
 	}
-	
+
 	/**
 	 * Generates a list of the departments and put it into a dropdown
 	 */
 	private void populateDepartments() {
-		List<HashMap<String, Object>> rows = DatabaseCommunicator.queryDatabase("SELECT DISTINCT department FROM courses;"); 
-		List<String> departments = new ArrayList<String>(); 
+		List<HashMap<String, Object>> rows = DatabaseCommunicator.queryDatabase("SELECT DISTINCT department FROM courses;");
+		List<String> departments = new ArrayList<String>();
 		for (HashMap<String, Object> row : rows) {
-			departments.add(row.get("department").toString()); 
+			departments.add(row.get("department").toString());
 		}
-		selectDepartment.setItems(FXCollections.observableArrayList(departments)); 
+		selectDepartment.setItems(FXCollections.observableArrayList(departments));
 	}
-	
+
 	/**
-	 * Generates a course number based on the depratment
+	 * Generates a course number based on the department
 	 * @param department Department where the course is being added
 	 */
 	private void populateCourseNumbers(String department) {
-		List<HashMap<String, Object>> rows = DatabaseCommunicator.queryDatabase("SELECT number FROM courses WHERE department='" + department + "';"); 
-		List<String> numbers = new ArrayList<String>(); 
+		List<HashMap<String, Object>> rows = DatabaseCommunicator.queryDatabase("SELECT number FROM courses WHERE department='" + department + "';");
+		List<String> numbers = new ArrayList<String>();
 		for (HashMap<String, Object> row : rows) {
-			numbers.add(row.get("number").toString()); 
+			numbers.add(row.get("number").toString());
 		}
-		selectNumber.setItems(FXCollections.observableArrayList(numbers)); 
+		selectNumber.setItems(FXCollections.observableArrayList(numbers));
 	}
 
 	/**
 	 * Fills the dropdown with all of the faulty member logins
 	 */
 	private void populateFaculty() {
-		List<HashMap<String, Object>> rows = DatabaseCommunicator.queryDatabase("SELECT login FROM users WHERE login!='admin';"); 
-		List<String> faculty = new ArrayList<String>(); 
+		List<HashMap<String, Object>> rows = DatabaseCommunicator.queryDatabase("SELECT login FROM users WHERE login!='admin';");
+		List<String> faculty = new ArrayList<String>();
 		for (HashMap<String, Object> row : rows) {
-			faculty.add(row.get("login").toString()); 
+			faculty.add(row.get("login").toString());
 		}
-		selectFaculty.setItems(FXCollections.observableArrayList(faculty)); 
+		selectFaculty.setItems(FXCollections.observableArrayList(faculty));
 	}
-	
+
 	/**
 	 * Sets up the spinners with correct data
 	 */
 	private void initializeSpinners() {
-    	
+
     	//set up GUI steppers
     	hourStepper.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 23, 0, 1));
         hourStepper.setEditable(true);
@@ -197,94 +197,94 @@ public class AddPanelController extends VBox {
 
         length.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(50, 360, 50, 30));
 	}
-	
+
 	/**
 	 * Gets all of the possible room types from the database and populates them all into a dropdown menu.
 	 */
 	private void populateRoomTypes() {
-		List<HashMap<String, Object>> rows = DatabaseCommunicator.queryDatabase("SELECT DISTINCT type FROM rooms;"); 
-		List<String> roomTypes = new ArrayList<String>(); 
+		List<HashMap<String, Object>> rows = DatabaseCommunicator.queryDatabase("SELECT DISTINCT type FROM rooms;");
+		List<String> roomTypes = new ArrayList<String>();
 		for (HashMap<String, Object> row : rows) {
-			roomTypes.add(row.get("type").toString()); 
+			roomTypes.add(row.get("type").toString());
 		}
-		selectRoomType.setItems(FXCollections.observableArrayList(roomTypes)); 
+		selectRoomType.setItems(FXCollections.observableArrayList(roomTypes));
 	}
-	
+
 	/**
 	 * Checks the type of the room denoted by the scheduler and returns a list of rooms that match that room type
 	 * @param type The type of classroom (ie. smart room)
 	 */
 	private void populateRoomNumbers(String type) {
-		List<HashMap<String, Object>> rows = DatabaseCommunicator.queryDatabase("SELECT building, number FROM rooms WHERE type='" + type + "';"); 
-		List<String> roomNumbers = new ArrayList<String>(); 
+		List<HashMap<String, Object>> rows = DatabaseCommunicator.queryDatabase("SELECT building, number FROM rooms WHERE type='" + type + "';");
+		List<String> roomNumbers = new ArrayList<String>();
 		for (HashMap<String, Object> row : rows) {
-			roomNumbers.add(row.get("building").toString() + "-" + row.get("number").toString()); 
+			roomNumbers.add(row.get("building").toString() + "-" + row.get("number").toString());
 		}
-		selectRoom.setItems(FXCollections.observableArrayList(roomNumbers)); 
+		selectRoom.setItems(FXCollections.observableArrayList(roomNumbers));
 	}
-	
+
 	/**
-	 * Method to get auto-fill data (section number, name, and wtu) for a course 
+	 * Method to get auto-fill data (section number, name, and wtu) for a course
 	 * @param department the department the course in contained in
-	 * @param number the number describing the course 
+	 * @param number the number describing the course
 	 * @return String in format of "sectionNumber, name, wtu"
 	 */
 	//TODO(Courtney) make sure this works and write tests
 	private String getCourseData(String department, int number) {
 		String name;
-		double wtu; 
+		double wtu;
 		List<HashMap<String, Object>> rows = DatabaseCommunicator.queryDatabase(
 				"SELECT name, wtu FROM courses WHERE department='" + department + "' AND number=" + number + ";");
-		name = (String) rows.get(0).get("name"); 
-		wtu = (Double) rows.get(0).get("wtu"); 
-		long sectionNumber = getSectionNumber(department, number); 
-		return sectionNumber + ", " + name + ", " + wtu; 
+		name = (String) rows.get(0).get("name");
+		wtu = (Double) rows.get(0).get("wtu");
+		long sectionNumber = getSectionNumber(department, number);
+		return sectionNumber + ", " + name + ", " + wtu;
 	}
 
-	//TODO(Courtney) Write tests 
+	//TODO(Courtney) Write tests
 	private long getSectionNumber(String department, int number) {
-		long sectionNumber; 
+		long sectionNumber;
 		List<HashMap<String, Object>> rows = DatabaseCommunicator.queryDatabase(
-				"SELECT COUNT(*) FROM TEMP_SCHEDULE WHERE department='" + department + "' AND course_number=" + number + " AND schedule_id=" + schedule.getScheduleId() + ";"); 
+				"SELECT COUNT(*) FROM TEMP_SCHEDULE WHERE department='" + department + "' AND course_number=" + number + " AND schedule_id=" + schedule.getScheduleId() + ";");
 		if (rows.size() == 0)
 		{
 			return 1;
 		}
-		sectionNumber = (Long) rows.get(0).get("COUNT(*)") + 1; 
+		sectionNumber = (Long) rows.get(0).get("COUNT(*)") + 1;
 		System.out.println("Section number = " + sectionNumber);
-		return sectionNumber; 
+		return sectionNumber;
 	}
-	
+
 	private int getCapacity(int building, int number) {
-		int capacity; 
+		int capacity;
 		List<HashMap<String, Object>> rows = DatabaseCommunicator.queryDatabase(
-				"SELECT capacity FROM rooms WHERE building=" + building + " AND number=" + number + ";"); 
-		capacity = (Integer) rows.get(0).get("capacity"); 
-		return capacity; 
+				"SELECT capacity FROM rooms WHERE building=" + building + " AND number=" + number + ";");
+		capacity = (Integer) rows.get(0).get("capacity");
+		return capacity;
 	}
-	
+
 	/**
 	 * Method to add a Section to the database with fields specified in the AddPanel UI
 	 * NOTE: must be called AFTER addAppt() in order for the days of the week to be properly stored
 	 */
 	private Section createSection() {
 		Course course = ResourceManager.getCourse(selectDepartment.getValue(), Integer.parseInt(selectNumber.getValue()));
-		FacultyMember instructor = (FacultyMember) AccountManager.getUser(selectFaculty.getValue()); 
-		String[] roomCombo = selectRoom.getValue().split("-"); 
-		int building = Integer.parseInt(roomCombo[0]); 
+		FacultyMember instructor = (FacultyMember) AccountManager.getUser(selectFaculty.getValue());
+		String[] roomCombo = selectRoom.getValue().split("-");
+		int building = Integer.parseInt(roomCombo[0]);
 		int roomNumber = Integer.parseInt(roomCombo[1]);
-		Room room = ResourceManager.getRoom(building, roomNumber); 
-		String startTime = LocalTime.of(hourStepper.getValue(), minStepper.getValue()).toString();; 
-		int duration = length.getValue(); 
+		Room room = ResourceManager.getRoom(building, roomNumber);
+		String startTime = LocalTime.of(hourStepper.getValue(), minStepper.getValue()).toString();
+		int duration = length.getValue();
 
-		Section section = new Section(schedule, course, instructor, room, startTime, duration, daysOfWeek); 
-		Section labSection; 
+		Section section = new Section(schedule, course, instructor, room, startTime, duration, daysOfWeek);
+		Section labSection;
 		if (course.getLabHours() > 0) {
 			labSection = new Section(schedule, course, instructor, room, startTime+duration, duration, daysOfWeek);
 		}
 		return section;
 	}
-	
+
 	/**
 	 * Method to create a lab section immediately after the specified lecture section
 	 * NOTE: the start time of the lecture section will be changed after execution of this method
@@ -293,28 +293,28 @@ public class AddPanelController extends VBox {
 	 */
 	public static Section createLabSection(Section lectSection) {
 
-		int duration = lectSection.getDuration(); 
-    	DateTimeFormatter df = DateTimeFormatter.ofPattern("HH:mm:ss"); 
-    	LocalTime lt = LocalTime.parse(lectSection.getStartTime()); 
-    	String labStartTime = df.format(lt.plusMinutes(duration + 10)); 
+		int duration = lectSection.getDuration();
+    	DateTimeFormatter df = DateTimeFormatter.ofPattern("HH:mm:ss");
+    	LocalTime lt = LocalTime.parse(lectSection.getStartTime());
+    	String labStartTime = df.format(lt.plusMinutes(duration + 10));
 
-		Section labSection = lectSection; 
+		Section labSection = lectSection;
     	labSection.setStartTime(labStartTime);
 
-    	return labSection; 
+    	return labSection;
 	}
-	
+
 	/**
 	 * @return a new room object
 	 */
 	private Room getRoom() {
-		Room room = new Room(); 
-		return room; 
+		Room room = new Room();
+		return room;
 	}
 
 	/**
 	 * Selects the days of the week
-	 * @return The days selected 
+	 * @return The days selected
 	 */
     private int[] selectedDays() {
 
@@ -322,31 +322,31 @@ public class AddPanelController extends VBox {
 
 		if (m.isSelected()) {
 			temp[0] = 1;
-			daysOfWeek += "M"; 
+			daysOfWeek += "M";
 		}
 		if (t.isSelected()) {
 			temp[1] = 2;
-			daysOfWeek += "T"; 
+			daysOfWeek += "T";
 		}
 		if (w.isSelected()) {
 			temp[2] = 3;
-			daysOfWeek += "W"; 
+			daysOfWeek += "W";
 		}
 		if (r.isSelected()) {
 			temp[3] = 4;
-			daysOfWeek += "R"; 
+			daysOfWeek += "R";
 		}
 		if (f.isSelected()) {
 			temp[4] = 5;
-			daysOfWeek += "F"; 
+			daysOfWeek += "F";
 		}
 		if (s.isSelected()) {
 			temp[5] = 6;
-			daysOfWeek += "S"; 
+			daysOfWeek += "S";
 		}
 		if (x.isSelected()) {
 			temp[6] = 7;
-			daysOfWeek += "X"; 
+			daysOfWeek += "X";
 		}
 
 		for(int i : temp) {System.out.print(i);}
@@ -362,12 +362,23 @@ public class AddPanelController extends VBox {
      * @param retval Pointer to weekview object to add the appointment to
      * @return retval
      */
-	private LinkedList<WeekViewAppointment<Object>> addAppt(LocalDate begin, LocalDate end, LinkedList<WeekViewAppointment<Object>> retval) {
+	private Section addAppt(LocalDate begin, LocalDate end, LinkedList<WeekViewAppointment<Object>> retval) {
 
         LocalDate firstDayOfWeek = begin;
+    	Duration duration = Duration.ofMinutes(length.getValue());
+    	LocalTime time = LocalTime.of(hourStepper.getValue(), minStepper.getValue());
 
         int[] days = selectedDays();
         int j = 1;
+
+
+        Section newSection = createSection();
+        newSection.addToDatabase();
+        if (newSection.getLabHours() > 0) {
+        	Section labSection = createLabSection(newSection);
+        	labSection.addToDatabase();
+        }
+        daysOfWeek = "";
 
         for (int i : days) {
         	if (i < 1 || i > 7) {
@@ -379,8 +390,6 @@ public class AddPanelController extends VBox {
         	}
         	i--;
         	LocalDate current = firstDayOfWeek.plusDays(i);
-        	LocalTime time = LocalTime.of(hourStepper.getValue(), minStepper.getValue());
-        	Duration duration = Duration.ofMinutes(length.getValue());
 			LocalDateTime localDateTime = LocalDateTime.of(current, time);
 
 	        BiPredicate<LocalDate, LocalTime> newTimePossiblePredicate = (newDate, newTime) -> {
@@ -403,43 +412,50 @@ public class AddPanelController extends VBox {
 	        timedAppointment.setNewTimePossiblePredicate(newTimePossiblePredicate);
 
 	        retval.add(timedAppointment);
+
+	        if (newSection.getLabHours() > 0) {
+	           Duration tenMinutes = Duration.ofMinutes(10);
+        	   LocalTime labTime = time.plusNanos(duration.toNanos() + tenMinutes.toNanos());
+        	   LocalDateTime labDateTime = labTime.atDate(current);
+        	   WeekViewAppointment<Object> lab = new WeekViewAppointment<>(name.getText() + " " + i + " " + length.getValue() + "m", labDateTime, duration);
+   	           log.info("Creating new appointment beginning at {} {}", current, labTime);
+   	           lab.setChangeStartCallback((newDate, newTime) -> {
+   	           log.info("{} now starts on {} {}", lab.getTitle(), newDate, newTime);
+   	           });
+   	           lab.setNewTimePossiblePredicate(newTimePossiblePredicate);
+   	           retval.add(lab);
+	        }
         }
-        Section newSection = createSection(); 
-        newSection.addToDatabase();
-        if (newSection.getLabHours() > 0) {
-        	Section labSection = createLabSection(newSection);
-        	labSection.addToDatabase();
-        }
-        daysOfWeek = ""; 
-         return retval;
+
+        return newSection;
 	}
-	
+
 	/**
 	 * Sets the schedule ID for the class
 	 * @param scheduleId schedule ID to use
 	 */
 	public void setSchedule(Schedule schedule) {
-		this.schedule = schedule; 
+		this.schedule = schedule;
 	}
-	
+
 	/**
 	 * Given faculty member and a time, query the database to see if there are teacher conflicts with any other classes at that time
 	 * @param section Current section object to be added
 	 * @return returns true if there are no conflicts
 	 */
 	private boolean checkTeacherConflicts(Section section) {
-		
+
 		//TODO(Courtney)Check if teacher is already booked in the time slot
 		return true;
 	}
-	
+
 	private boolean checkWtu(Section section) {
 		int wtu = 0;
-		String tableName = schedule.getTableName("DRAFT"); 
+		String tableName = schedule.getTableName("DRAFT");
 		FacultyMember teacher = section.getInstructor();
 		List<HashMap<String, Object>> classList = DatabaseCommunicator.queryDatabase(
 				"SELECT SUM(C.wtu) FROM courses C INNER JOIN sections S ON C.department = S.department" +
-				"AND C.number = S.course_number WHERE S.instructor='" + teacher.getLogin() + 
+				"AND C.number = S.course_number WHERE S.instructor='" + teacher.getLogin() +
 				"' AND S.schedule_id=" + schedule.getScheduleId() + ";");
 		if (classList.size() != 0)
 		{
@@ -451,7 +467,7 @@ public class AddPanelController extends VBox {
 		}
 		return false;
 	}
-	
+
 	//TODO(Courtney) You said that you could do this with a query super easily
 	/**
 	 * Given a room and a time, query the database to see if that room is already booked at that time
@@ -560,8 +576,9 @@ public class AddPanelController extends VBox {
 		 */
 		public void handle(ActionEvent event) {
 
-			LinkedList<WeekViewAppointment<Object>> appts = addAppt(begin, end, retval);
-			Section curSection = createSection();
+			/*LinkedList<WeekViewAppointment<Object>> appts = */
+			Section curSection = addAppt(begin, end, retval);
+			//Section curSection = createSection();
 
 			if(checkTeacherConflicts(curSection) && checkRoomConflicts(curSection)) {
 				//if (checkWtu(curSection))
@@ -569,7 +586,7 @@ public class AddPanelController extends VBox {
 					//TODO Show warning
 				//}
 				//else
-					weekView.recreateEntries(appts);
+					weekView.recreateEntries(retval);
 				//TODO uncomment when we want to add to database
 				//curSection.addToDatabase();
 			}
@@ -577,12 +594,12 @@ public class AddPanelController extends VBox {
 	}
 
 	class selectNumberHandler implements EventHandler<ActionEvent> {
-		
+
 		public void handle(ActionEvent event) {
 			// courseData format: sectionNumber, name, wtu
-			String courseData = getCourseData(selectDepartment.getValue(), Integer.parseInt(selectNumber.getValue())); 
-			String[] fields = courseData.split(", "); 
-			
+			String courseData = getCourseData(selectDepartment.getValue(), Integer.parseInt(selectNumber.getValue()));
+			String[] fields = courseData.split(", ");
+
 			System.out.println(courseData);
 
 			section.setText(fields[0]);
@@ -593,26 +610,26 @@ public class AddPanelController extends VBox {
 
 	//Show the list of rooms when the person clicks the room drop down
 	class selectRoomTypeHandler implements EventHandler<ActionEvent> {
-		
+
 		public void handle(ActionEvent event) {
-			populateRoomNumbers(selectRoomType.getValue()); 
+			populateRoomNumbers(selectRoomType.getValue());
 		}
 	}
 
 	//When a room is selected, autofill the capacity
 	class selectRoomHandler implements EventHandler<ActionEvent> {
-		
+
 		public void handle(ActionEvent event) {
-			String[] room = selectRoom.getValue().split("-"); 
+			String[] room = selectRoom.getValue().split("-");
 			capacity.setText("" + getCapacity(Integer.parseInt(room[0]), Integer.parseInt(room[1])));
 		}
 	}
 
 	//Automatically generate a course number
 	class selectDepartmentHandler implements EventHandler<ActionEvent> {
-		
+
 		public void handle(ActionEvent event) {
-			populateCourseNumbers(selectDepartment.getValue()); 
+			populateCourseNumbers(selectDepartment.getValue());
 		}
-	} 
+	}
 }

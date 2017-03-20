@@ -5,28 +5,28 @@ import core.database.DatabaseCommunicator;
 import core.database.DatabaseObject;
 
 public class Section extends Course implements DatabaseObject {
-	
-	private Schedule schedule; 
-	private FacultyMember instructor; 
-	private Room room; 
-	private String startTime; 
+
+	private Schedule schedule;
+	private FacultyMember instructor;
+	private Room room;
+	private String startTime;
 	private int duration; // hours per day
-	private String daysOfWeek; 
-	
+	private String daysOfWeek;
+
 	public Section()  {
-		
+
 	}
 
 	// daysOfWeek must be one of "MWF" or "TR"
 	public Section(Schedule schedule, Course course, FacultyMember instructor, Room room, String startTime, int duration, String daysOfWeek) {
-		super(course.getDepartment(), course.getNumber(), course.getName(), course.getWtu(), course.getLectHours(), 
-				course.getNotes(), course.getLabHours(), course.getActHours()); 
+		super(course.getDepartment(), course.getNumber(), course.getName(), course.getWtu(), course.getLectHours(),
+				course.getNotes(), course.getLabHours(), course.getActHours());
 		this.schedule = schedule;
-		this.instructor = instructor; 
+		this.instructor = instructor;
 		this.room = room;
-		this.startTime = startTime; 
-		this.duration = duration; 
-		this.daysOfWeek = daysOfWeek; 
+		this.startTime = startTime;
+		this.duration = duration;
+		this.daysOfWeek = daysOfWeek;
 	}
 
 	public Schedule getSchedule() {
@@ -36,7 +36,7 @@ public class Section extends Course implements DatabaseObject {
 	public void setSchedule(Schedule schedule) {
 		this.schedule = schedule;
 	}
-	
+
 	public FacultyMember getInstructor() {
 		return instructor;
 	}
@@ -76,46 +76,46 @@ public class Section extends Course implements DatabaseObject {
 	public void setDaysOfWeek(String daysOfWeek) {
 		this.daysOfWeek = daysOfWeek;
 	}
-	
+
 	public String getKeys() {
 		return "department, course_number, building, room_number, instructor, start_hour, duration, days_of_week, schedule_id";
 	}
 
 	public String getValues() {
-		System.out.println("'" + this.getDepartment() + "', " + this.getNumber() + ", " + room.getBuilding() + ", " + room.getNumber() + ", '" + 
-				instructor.getLogin() + "', '" + 
-				(this.getStartTime()+":00") + "', '" + 
-				this.daysOfWeek + "', " + 
+		System.out.println("'" + this.getDepartment() + "', " + this.getNumber() + ", " + room.getBuilding() + ", " + room.getNumber() + ", '" +
+				instructor.getLogin() + "', '" +
+				(this.getStartTime()+":00") + "', '" +
+				this.daysOfWeek + "', " +
 				schedule.getScheduleId()) ;
-		return "'" + this.getDepartment() + "', " + this.getNumber() + ", " + room.getBuilding() + ", " + room.getNumber() + ", '" + 
-				instructor.getLogin() + "', '" + 
-				this.getStartTime() + "', " + 
-				this.getDuration() + ", '" + 
-				this.daysOfWeek + "', " + 
+		return "'" + this.getDepartment() + "', " + this.getNumber() + ", " + room.getBuilding() + ", " + room.getNumber() + ", '" +
+				instructor.getLogin() + "', '" +
+				this.getStartTime() + "', " +
+				this.getDuration() + ", '" +
+				this.daysOfWeek + "', " +
 				schedule.getScheduleId() ;
 	}
-	
+
 	public void addToDatabase() {
         DatabaseCommunicator.replaceDatabase(this);
 	}
-	
+
 	public String getTable(Schedule schedule, String status)
 	{
-		String tableName = status.toUpperCase() + "_" + schedule.getYear() + "_" + schedule.getTerm().toUpperCase(); 
-		return tableName;  
+		String tableName = status.toUpperCase() + "_" + schedule.getYear() + "_" + schedule.getTerm().toUpperCase();
+		return tableName;
 	}
-	
+
 	@Override
 	public String getKeyIdentifier()
 	{
-		return "department='" + this.getDepartment() + "' AND course_number=" + this.getNumber() + " AND instructor='" + instructor.getLogin() + 
+		return "department='" + this.getDepartment() + "' AND course_number=" + this.getNumber() + " AND instructor='" + instructor.getLogin() +
 				"' AND start_hour='" + this.getStartTime() + "'";
 	}
-	
+
 	@Override
 	public String getTable()
 	{
 		return "TEMP_SCHEDULE";
 	}
-	
+
 }
