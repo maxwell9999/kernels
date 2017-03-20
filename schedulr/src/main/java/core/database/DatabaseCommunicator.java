@@ -13,6 +13,7 @@ import com.mysql.jdbc.ResultSetMetaData;
 import com.mysql.jdbc.Statement;
 
 import core.resources.Schedule;
+import core.resources.Section;
 
 public class DatabaseCommunicator
 {
@@ -106,8 +107,8 @@ public class DatabaseCommunicator
 		databaseAction(update);
 	}
 
-	public static void deleteObjDatabase(DatabaseObject object) {
-		String delete = "DELETE FROM " + object.getTable() + " WHERE " + object.getKeyIdentifier() + ";";
+	public static void deleteSectionObjDatabase(Section section) {
+		String delete = "DELETE FROM " + section.getTable() + " WHERE " + section.getKeyIdentifierWithDays() + ";";
 		System.out.println(delete);
 		databaseAction(delete);
 	}

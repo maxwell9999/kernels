@@ -100,7 +100,7 @@ public class Section extends Course implements DatabaseObject {
 	}
 
 	public void removeFromDatabase() {
-		DatabaseCommunicator.deleteObjDatabase(this);
+		DatabaseCommunicator.deleteSectionObjDatabase(this);
 	}
 
 	public String getTable(Schedule schedule, String status)
@@ -114,6 +114,12 @@ public class Section extends Course implements DatabaseObject {
 	{
 		return "department='" + this.getDepartment() + "' AND course_number=" + this.getNumber() + " AND instructor='" + instructor.getLogin() +
 				"' AND start_hour='" + this.getStartTime() + "'";
+	}
+
+	public String getKeyIdentifierWithDays()
+	{
+		return "department='" + this.getDepartment() + "' AND course_number=" + this.getNumber() + " AND instructor='" + instructor.getLogin() +
+				"' AND start_hour='" + this.getStartTime() + "' AND days_of_week='" + this.getDaysOfWeek() + "'";
 	}
 
 	@Override

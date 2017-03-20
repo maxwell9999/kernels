@@ -266,7 +266,7 @@ public class AddPanelController extends VBox {
 		int building = Integer.parseInt(roomCombo[0]);
 		int roomNumber = Integer.parseInt(roomCombo[1]);
 		Room room = ResourceManager.getRoom(building, roomNumber);
-		String startTime = LocalTime.of(hourStepper.getValue(), minStepper.getValue()).toString();
+		String startTime = LocalTime.of(hourStepper.getValue(), minStepper.getValue(), 0).toString();
 		int duration = length.getValue();
 
 		Section section = new Section(schedule, course, instructor, room, startTime, duration, daysOfWeek);
@@ -279,15 +279,20 @@ public class AddPanelController extends VBox {
 	 * @param lectSection the lecture section the lab is to be scheduled for
 	 * @return the lab section with an updated start time
 	 */
-	public static Section createLabSection(Section lectSection) {
+	public Section createLabSection(Section lectSection) {
 
 		int duration = lectSection.getDuration();
     	DateTimeFormatter df = DateTimeFormatter.ofPattern("HH:mm:ss");
     	LocalTime lt = LocalTime.parse(lectSection.getStartTime());
     	String labStartTime = df.format(lt.plusMinutes(duration + 10));
 
-		Section labSection = lectSection;
-    	labSection.setStartTime(labStartTime);
+		Section labSection = new Section(lectSection.getSchedule(),
+				ResourceManager.getCourse(selectDepartment.getValue(), Integer.parseInt(selectNumber.getValue())),
+										 lectSection.getInstructor(),
+										 lectSection.getRoom(),
+										 labStartTime,
+										 duration,
+										 lectSection.getDaysOfWeek());
 
     	return labSection;
 	}
@@ -395,10 +400,11 @@ public class AddPanelController extends VBox {
 
 	        WeekViewAppointment<Section> timedAppointment = new WeekViewAppointment<Section>(selectDepartment.getValue() + selectNumber.getValue() + " " + name.getText(), localDateTime, duration);
 	        log.info("Creating new appointment beginning at {} {}", current, time);
-	        timedAppointment.setChangeStartCallback((newDate, newTime) -> {
-	          log.info("{} now starts on {} {}", timedAppointment.getTitle(), newDate, newTime);
-	        });
-	        timedAppointment.setNewTimePossiblePredicate(newTimePossiblePredicate);
+	        log.info("Creating new section {}", newSection.getKeyIdentifierWithDays());
+//	        timedAppointment.setChangeStartCallback((newDate, newTime) -> {
+//	          log.info("{} now starts on {} {}", timedAppointment.getTitle(), newDate, newTime);
+//	        });
+//	        timedAppointment.setNewTimePossiblePredicate(newTimePossiblePredicate);
 
 	        timedAppointment.setUserData(newSection);
 	        retval.add(timedAppointment);
@@ -409,10 +415,11 @@ public class AddPanelController extends VBox {
         	   LocalDateTime labDateTime = labTime.atDate(current);
         	   WeekViewAppointment<Section> lab = new WeekViewAppointment<Section>("Lab: " + selectDepartment.getValue() + selectNumber.getValue() + " " + name.getText(), labDateTime, duration);
    	           log.info("Creating new appointment beginning at {} {}", current, labTime);
-   	           lab.setChangeStartCallback((newDate, newTime) -> {
-   	           log.info("{} now starts on {} {}", lab.getTitle(), newDate, newTime);
-   	           });
-   	           lab.setNewTimePossiblePredicate(newTimePossiblePredicate);
+   	           log.info("Creating new section {}", labSection.getKeyIdentifierWithDays());
+//   	           lab.setChangeStartCallback((newDate, newTime) -> {
+//   	           log.info("{} now starts on {} {}", lab.getTitle(), newDate, newTime);
+//   	           });
+//   	           lab.setNewTimePossiblePredicate(newTimePossiblePredicate);
    	           lab.setUserData(labSection);
    	           retval.add(lab);
 	        }

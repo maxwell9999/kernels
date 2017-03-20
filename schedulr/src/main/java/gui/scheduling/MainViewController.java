@@ -10,6 +10,7 @@ import java.time.LocalTime;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.function.BiPredicate;
+import java.util.function.Predicate;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -96,6 +97,7 @@ public class MainViewController extends VBox {
         		titleString = "Add a Class";
         		editRmButtonsEnabled(false);
         		handleAddClassButtonPress(event);
+        		weekView.recreateEntries(retval);
         	}
         });
         editPanelButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -109,6 +111,8 @@ public class MainViewController extends VBox {
 	        		rmPanelButton.setDisable(true);
 	        		removeHelper(selected);
 	        		handleEditClassButtonPress(event, selected);
+	        		weekView.recreateEntries(retval);
+
         		} else {
         			System.out.println("Please select a class to edit.");
         		}
@@ -119,8 +123,8 @@ public class MainViewController extends VBox {
         		WeekViewAppointment<Section> selected = getFocusedNode();
         		if (selected != null) {
         			removeHelper(selected);
-        			weekView.recreateEntries(retval);
         		}
+        		weekView.recreateEntries(retval);
         		editRmButtonsEnabled(false);
         	}
         });
@@ -197,16 +201,17 @@ public class MainViewController extends VBox {
     }
 
 	private void removeHelper(WeekViewAppointment<Section> selected) {
-		DatabaseCommunicator.deleteObjDatabase(selected.getUserData());
-		LinkedList<WeekViewAppointment<Section>> remAppts = new LinkedList<>();;
+		LinkedList<WeekViewAppointment<Section>> remAppts = new LinkedList<>();
 		for (WeekViewAppointment<Section> appt : retval) {
-			if (appt.getUserData().getKeyIdentifier().equals(selected.getUserData().getKeyIdentifier())) {
-				remAppts.add(appt);
+			if (appt.getTitle().equals(selected.getTitle()) &&
+				appt.getStartTime().equals(selected.getStartTime()) &&
+				appt.getUserData().getDaysOfWeek().equals(selected.getUserData().getDaysOfWeek())) {
+				System.out.println(appt.toString());
+			   remAppts.add(appt);
 			}
 		}
-		for (WeekViewAppointment<Section> remAppt : remAppts) {
-			retval.remove(remAppt);
-		}
+		retval.removeAll(remAppts);
+		selected.getUserData().removeFromDatabase();
 	}
 
 	public void editRmButtonsEnabled(Boolean status){
@@ -477,10 +482,10 @@ public class MainViewController extends VBox {
 
 	        WeekViewAppointment<Section> timedAppointment = new WeekViewAppointment<Section>(section.getDepartment() + section.getNumber() + " " + section.getName(), localDateTime, duration);
 	        log.info("Creating new appointment beginning at {} {}", current, time);
-	        timedAppointment.setChangeStartCallback((newDate, newTime) -> {
-	          log.info("{} now starts on {} {}", timedAppointment.getTitle(), newDate, newTime);
-	        });
-	        timedAppointment.setNewTimePossiblePredicate(newTimePossiblePredicate);
+//	        timedAppointment.setChangeStartCallback((newDate, newTime) -> {
+//	          log.info("{} now starts on {} {}", timedAppointment.getTitle(), newDate, newTime);
+//	        });
+//	        timedAppointment.setNewTimePossiblePredicate(newTimePossiblePredicate);
 
 	        timedAppointment.setUserData(section);
 	        retval.add(timedAppointment);
