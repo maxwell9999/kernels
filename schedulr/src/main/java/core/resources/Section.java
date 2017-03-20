@@ -99,6 +99,10 @@ public class Section extends Course implements DatabaseObject {
         DatabaseCommunicator.replaceDatabase(this);
 	}
 
+	public void removeFromDatabase() {
+		DatabaseCommunicator.deleteObjDatabase(this);
+	}
+
 	public String getTable(Schedule schedule, String status)
 	{
 		String tableName = status.toUpperCase() + "_" + schedule.getYear() + "_" + schedule.getTerm().toUpperCase();

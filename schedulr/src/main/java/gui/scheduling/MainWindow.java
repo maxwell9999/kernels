@@ -22,13 +22,14 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import de.ks.fxcontrols.weekview.WeekView;
 import de.ks.fxcontrols.weekview.WeekViewAppointment;
+import core.resources.Section;
 
 public class MainWindow extends Application {
 	private static final Logger log = LoggerFactory.getLogger(MainWindow.class);
 
     private LocalDate begin, end;
-    private LinkedList<WeekViewAppointment<Object>> retval;
-    private WeekView<Object> weekView;
+    private LinkedList<WeekViewAppointment<Section>> retval;
+    private WeekView<Section> weekView;
     private static MainViewController mainViewCtrl;
 
     private User user;
@@ -38,7 +39,7 @@ public class MainWindow extends Application {
 
         primaryStage.setTitle("Schedulr");
 
-        weekView = new WeekView<>("Today");
+        weekView = new WeekView<Section>("Today");
         weekView.setAppointmentResolver(this::getNextEntries);
         //weekView.setOnAppointmentCreation((date, time) -> log.info("Creating new appointment beginning at {} {}", date, time));
 
@@ -81,12 +82,12 @@ public class MainWindow extends Application {
 		stage.show();
     }
 
-    private void getNextEntries(LocalDate begin, LocalDate end, Consumer<List<WeekViewAppointment<Object>>> consumer) {
+    private void getNextEntries(LocalDate begin, LocalDate end, Consumer<List<WeekViewAppointment<Section>>> consumer) {
 
     	this.begin = begin;
     	this.end = end;
 
-        LinkedList<WeekViewAppointment<Object>> retval = new LinkedList<>();
+        LinkedList<WeekViewAppointment<Section>> retval = new LinkedList<>();
 
         consumer.accept(retval);
         this.retval = retval;

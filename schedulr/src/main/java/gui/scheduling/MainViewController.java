@@ -66,14 +66,14 @@ public class MainViewController extends VBox {
     private boolean open;
     private Schedule schedule;
 
-    private WeekView<Object> weekView;
+    private WeekView<Section> weekView;
     private LocalDate begin, end;
-    private LinkedList<WeekViewAppointment<Object>> retval;
+    private LinkedList<WeekViewAppointment<Section>> retval;
     private String titleString;
 
     private static User user;
 
-	public MainViewController(WeekView<Object> weekView, LocalDate begin, LocalDate end, LinkedList<WeekViewAppointment<Object>> retval) {
+	public MainViewController(WeekView<Section> weekView, LocalDate begin, LocalDate end, LinkedList<WeekViewAppointment<Section>> retval) {
 		this.weekView = weekView;
 		this.begin = begin;
 		this.end = end;
@@ -95,19 +95,20 @@ public class MainViewController extends VBox {
         	public void handle(ActionEvent event) {
         		titleString = "Add a Class";
         		editRmButtonsEnabled(false);
-        		handleClassButtonPress(event);
+        		handleAddClassButtonPress(event);
         	}
         });
         editPanelButton.setOnAction(new EventHandler<ActionEvent>() {
         	public void handle(ActionEvent event) {
         		titleString = "Edit a Class";
 
-        		WeekViewAppointment<Object> selected = getFocusedNode();
+        		WeekViewAppointment<Section> selected = getFocusedNode();
 
         		if (selected != null) {
 	        		addPanelButton.setDisable(true);
 	        		rmPanelButton.setDisable(true);
-	        		handleClassButtonPress(event);
+	        		removeHelper(selected);
+	        		handleEditClassButtonPress(event, selected);
         		} else {
         			System.out.println("Please select a class to edit.");
         		}
@@ -115,9 +116,9 @@ public class MainViewController extends VBox {
         });
         rmPanelButton.setOnAction(new EventHandler<ActionEvent>() {
         	public void handle(ActionEvent event) {
-        		WeekViewAppointment<Object> selected = getFocusedNode();
+        		WeekViewAppointment<Section> selected = getFocusedNode();
         		if (selected != null) {
-        			retval.remove(selected);
+        			removeHelper(selected);
         			weekView.recreateEntries(retval);
         		}
         		editRmButtonsEnabled(false);
@@ -140,17 +141,17 @@ public class MainViewController extends VBox {
     }
 
 
-    public WeekViewAppointment<Object> getFocusedNode() {
-    	for (WeekViewAppointment<Object> appointment : retval) {
+
+    public WeekViewAppointment<Section> getFocusedNode() {
+    	for (WeekViewAppointment<Section> appointment : retval) {
     		if (appointment.getFocused()) {
-    			System.out.println("focused " + appointment.toString());
     			return appointment;
     		}
     	}
     	return null;
     }
 
-	public void handleClassButtonPress(ActionEvent event) {
+	public void handleAddClassButtonPress(ActionEvent event) {
         if (open == false) {
         	try {
 
@@ -172,12 +173,48 @@ public class MainViewController extends VBox {
         }
     }
 
+	public void handleEditClassButtonPress(ActionEvent event, WeekViewAppointment<Section> selected) {
+        if (open == false) {
+        	try {
+
+	        	FXMLLoader loader = new FXMLLoader(getClass().getResource("AddPanel.fxml"));
+	        	Pane addClassPanel = (Pane) loader.load();
+	    	    AddPanelController addPanelCtrl = loader.<AddPanelController>getController();
+	    	    addPanelCtrl.initData(titleString, weekView, begin, end, retval, closeAddPanelButton);
+	    	    addPanelCtrl.setSchedule(schedule);
+	    	    addPanelCtrl.fillInFields(selected);
+
+	    	    addPane.getChildren().add(closeAddPanelButton);
+	    		closeAddPanelButton.setText("Close");
+	            addPane.getChildren().add(addClassPanel);
+	            splitPane.setDividerPositions(0.1505567928730512, 0.7305567928730512);
+	            open = true;
+
+	        } catch (IOException e) {
+	            e.printStackTrace();
+	        }
+        }
+    }
+
+	private void removeHelper(WeekViewAppointment<Section> selected) {
+		DatabaseCommunicator.deleteObjDatabase(selected.getUserData());
+		LinkedList<WeekViewAppointment<Section>> remAppts = new LinkedList<>();;
+		for (WeekViewAppointment<Section> appt : retval) {
+			if (appt.getUserData().getKeyIdentifier().equals(selected.getUserData().getKeyIdentifier())) {
+				remAppts.add(appt);
+			}
+		}
+		for (WeekViewAppointment<Section> remAppt : remAppts) {
+			retval.remove(remAppt);
+		}
+	}
+
 	public void editRmButtonsEnabled(Boolean status){
         editPanelButton.setDisable(!status);
         rmPanelButton.setDisable(!status);
 	}
 
-    public void addCalendar(WeekView<Object> calendar) {
+    public void addCalendar(WeekView<Section> calendar) {
         GridPane calendarView = (GridPane) calendar;
         calendarPane.setPrefSize(800, 600);
         calendarPane.getChildren().add(calendarView);
@@ -405,7 +442,7 @@ public class MainViewController extends VBox {
      * @param retval Pointer to weekview object to add the appointment to
      * @return retval
      */
-	public void addApptFromSection(LocalDate begin, Section section, LinkedList<WeekViewAppointment<Object>> retval) {
+	public void addApptFromSection(LocalDate begin, Section section, LinkedList<WeekViewAppointment<Section>> retval) {
 
         LocalDate firstDayOfWeek = begin;
     	Duration duration = Duration.ofMinutes(section.getDuration());
@@ -438,18 +475,21 @@ public class MainViewController extends VBox {
 	            }
 	          };
 
-	        WeekViewAppointment<Object> timedAppointment = new WeekViewAppointment<>(section.getName() + " " + i + " " + section.getDuration() + "m", localDateTime, duration);
+	        WeekViewAppointment<Section> timedAppointment = new WeekViewAppointment<Section>(section.getDepartment() + section.getNumber() + " " + section.getName(), localDateTime, duration);
 	        log.info("Creating new appointment beginning at {} {}", current, time);
 	        timedAppointment.setChangeStartCallback((newDate, newTime) -> {
 	          log.info("{} now starts on {} {}", timedAppointment.getTitle(), newDate, newTime);
 	        });
 	        timedAppointment.setNewTimePossiblePredicate(newTimePossiblePredicate);
 
+	        timedAppointment.setUserData(section);
 	        retval.add(timedAppointment);
 	    }
 	}
 
 	public void displaySections(List<Section> sections) {
+		//open fresh
+		retval.clear();
 		for (Section section : sections) {
 			if (weekView.titleString.length() < 1) {
 				weekView.titleString = (section.getSchedule().getTerm() + " " + section.getSchedule().getYear());
