@@ -113,7 +113,7 @@ public class ScheduleSelectionController {
     		FacultyMember instructor = (FacultyMember) AccountManager.getUser(row.get("instructor").toString());
 
     		int building = Integer.parseInt(row.get("building").toString());
-    		int roomNumber = Integer.parseInt(row.get("building").toString());
+    		int roomNumber = Integer.parseInt(row.get("room_number").toString());
     		Room room = ResourceManager.getRoom(building, roomNumber);
 
     		String startTime = row.get("start_hour").toString();
