@@ -66,6 +66,7 @@ public class MainViewController extends VBox {
 
     private boolean open;
     private Schedule schedule;
+    public AddPanelController addPanelCtrl;
 
     private WeekView<Section> weekView;
     private LocalDate begin, end;
@@ -97,7 +98,6 @@ public class MainViewController extends VBox {
         		titleString = "Add a Class";
         		editRmButtonsEnabled(false);
         		handleAddClassButtonPress(event);
-        		weekView.recreateEntries(retval);
         	}
         });
         editPanelButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -109,7 +109,6 @@ public class MainViewController extends VBox {
         		if (selected != null) {
 	        		addPanelButton.setDisable(true);
 	        		rmPanelButton.setDisable(true);
-	        		removeHelper(selected);
 	        		handleEditClassButtonPress(event, selected);
 	        		weekView.recreateEntries(retval);
 
@@ -133,11 +132,17 @@ public class MainViewController extends VBox {
 
             public void handle(ActionEvent event) {
 	           	if (open) {
+	           		if (addPanelCtrl != null && addPanelCtrl.getEdited()) {
+	           			if (addPanelCtrl.getSelection() != null) {
+	           			   removeHelper(addPanelCtrl.getSelection());
+	           			}
+	           		}
 		    		addPane.getChildren().remove(0);
 		    		addPane.getChildren().remove(0);
 		    		splitPane.setDividerPositions(0.1505567928730512, 0.9905567928730512);
 		    		open = false;
 	        		addPanelButton.setDisable(open);
+	        		weekView.recreateEntries(retval);
 	           	}
             }
         });
@@ -161,7 +166,7 @@ public class MainViewController extends VBox {
 
 	        	FXMLLoader loader = new FXMLLoader(getClass().getResource("AddPanel.fxml"));
 	        	Pane addClassPanel = (Pane) loader.load();
-	    	    AddPanelController addPanelCtrl = loader.<AddPanelController>getController();
+	        	addPanelCtrl = loader.<AddPanelController>getController();
 	    	    addPanelCtrl.initData(titleString, weekView, begin, end, retval, closeAddPanelButton);
 	    	    addPanelCtrl.setSchedule(schedule);
 
@@ -183,7 +188,7 @@ public class MainViewController extends VBox {
 
 	        	FXMLLoader loader = new FXMLLoader(getClass().getResource("AddPanel.fxml"));
 	        	Pane addClassPanel = (Pane) loader.load();
-	    	    AddPanelController addPanelCtrl = loader.<AddPanelController>getController();
+	    	    addPanelCtrl = loader.<AddPanelController>getController();
 	    	    addPanelCtrl.initData(titleString, weekView, begin, end, retval, closeAddPanelButton);
 	    	    addPanelCtrl.setSchedule(schedule);
 	    	    addPanelCtrl.fillInFields(selected);
@@ -200,13 +205,11 @@ public class MainViewController extends VBox {
         }
     }
 
-	private void removeHelper(WeekViewAppointment<Section> selected) {
+	public void removeHelper(WeekViewAppointment<Section> selected) {
 		LinkedList<WeekViewAppointment<Section>> remAppts = new LinkedList<>();
 		for (WeekViewAppointment<Section> appt : retval) {
-			if (appt.getTitle().equals(selected.getTitle()) &&
-				appt.getStartTime().equals(selected.getStartTime()) &&
+			if (appt.equals(selected) &&
 				appt.getUserData().getDaysOfWeek().equals(selected.getUserData().getDaysOfWeek())) {
-				System.out.println(appt.toString());
 			   remAppts.add(appt);
 			}
 		}

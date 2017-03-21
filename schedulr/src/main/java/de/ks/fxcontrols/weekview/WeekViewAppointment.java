@@ -210,22 +210,24 @@ public class WeekViewAppointment<T> implements Comparable<WeekViewAppointment> {
     return dateComparison;
   }
 
+
   @Override
+  /* updated equals to use time */
   public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (!(o instanceof WeekViewAppointment)) {
-      return false;
-    }
+	    if (this == o) {
+	        return true;
+	      }
+	      if (!(o instanceof WeekViewAppointment)) {
+	        return false;
+	      }
 
-    WeekViewAppointment that = (WeekViewAppointment) o;
+	      WeekViewAppointment that = (WeekViewAppointment) o;
 
-    if (!title.equals(that.title)) {
-      return false;
-    }
+	      if (title.equals(that.title) && getStartTime() == that.getStartTime()) {
+	    		return true;
+	      }
 
-    return true;
+	      return false;
   }
 
   @Override

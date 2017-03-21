@@ -97,6 +97,9 @@ public class AddPanelController extends VBox {
     private String daysOfWeek = "";
     LinkedList<WeekViewAppointment<Section>> retval;
 
+	private Boolean isEdited;
+	private WeekViewAppointment<Section> selection;
+
     public AddPanelController() {}
 
     @FXML
@@ -104,6 +107,8 @@ public class AddPanelController extends VBox {
      * Initializes the scene, runs at the beginning of initialization
      */
     public void initialize() {
+
+    	isEdited = false;
 
     	//Populate all of the fields
     	populateDepartments();
@@ -484,6 +489,7 @@ public class AddPanelController extends VBox {
 		 */
 		public void handle(ActionEvent event) {
 
+
 			Section curSection = addAppt(begin, end, retval);
 
 			if(checkTeacherConflicts(curSection) && checkRoomConflicts(curSection)) {
@@ -559,6 +565,9 @@ public class AddPanelController extends VBox {
 
 	public void fillInFields(WeekViewAppointment<Section> selected) {
 
+		this.isEdited = true;
+		this.selection = selected;
+
 		Section temp = selected.getUserData();
 		selectDepartment.getSelectionModel().select(temp.getDepartment());
 		selectNumber.getSelectionModel().select(String.valueOf(temp.getNumber()));
@@ -577,5 +586,13 @@ public class AddPanelController extends VBox {
 
 		selectDayBoxesFromString(temp.getDaysOfWeek());
 
+	}
+
+	public Boolean getEdited() {
+		return this.isEdited;
+	}
+
+	public WeekViewAppointment<Section> getSelection() {
+		return this.selection;
 	}
 }
